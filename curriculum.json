@@ -1,0 +1,2213 @@
+{
+ "meta": {
+  "baslangic": "2026-07-01",
+  "bitis": "2026-08-31",
+  "toplamGun": 62,
+  "hazineHedefi": 10000,
+  "tabanAltin": 39,
+  "toplamGorev": 255,
+  "yapi": "8 hafta öğretim + 1 hafta tampon"
+ },
+ "gunler": [
+  {
+   "gun": 1,
+   "tarih": "2026-07-01",
+   "haftaGunu": "Çarşamba",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Büyük Doğal Sayılar + Yüzer/Biner Sayma",
+     "sayfa": 12,
+     "test": "KT-1 · KT-2",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Eş Anlamlı Kelimeler",
+     "sayfa": 14,
+     "test": "KT-1",
+     "altin": 40
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Kayaçlar",
+     "sayfa": 10,
+     "test": "KT-1",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 2,
+   "tarih": "2026-07-02",
+   "haftaGunu": "Perşembe",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Bölük, Basamak Adları ve Basamak Değerleri",
+     "sayfa": 28,
+     "test": "KT-3",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Zıt Anlamlı + Eş/Zıt Birlikte",
+     "sayfa": 16,
+     "test": "KT-1",
+     "altin": 40
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Herkesin Bir Kimliği Var",
+     "sayfa": 10,
+     "test": "KT-1",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 40
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Su Yoğunluğu",
+     "detay": "Tuzlu/tatlı suda yumurta yüzdürme.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 3,
+   "tarih": "2026-07-03",
+   "haftaGunu": "Cuma",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Doğal Sayıları Yuvarlama ve Sıralama",
+     "sayfa": 36,
+     "test": "KT-4 · KT-5",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Eş Sesli (Sesteş) Kelimeler",
+     "sayfa": 22,
+     "test": "KT-2",
+     "altin": 40
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Madenler",
+     "sayfa": 15,
+     "test": "KT-2",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 4,
+   "tarih": "2026-07-04",
+   "haftaGunu": "Cumartesi",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 40
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 5,
+   "tarih": "2026-07-05",
+   "haftaGunu": "Pazar",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 40
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Mıknatıs Avı",
+     "detay": "Evdeki eşyaları mıknatısla test et.",
+     "altin": 40
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 6,
+   "tarih": "2026-07-06",
+   "haftaGunu": "Pazartesi",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Sayı Örüntüleri",
+     "sayfa": 48,
+     "test": "KT-6",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Kelimeler Arası Anlam İlişkisi",
+     "sayfa": 26,
+     "test": "—",
+     "altin": 40
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Herkesin Bir Öyküsü Var",
+     "sayfa": 16,
+     "test": "KT-2",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 7,
+   "tarih": "2026-07-07",
+   "haftaGunu": "Salı",
+   "hafta": 1,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Doğal Sayılarla Toplama İşlemi",
+     "sayfa": 54,
+     "test": "KT-7",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Gerçek ve Mecaz Anlamlı Kelimeler",
+     "sayfa": 30,
+     "test": "KT-3",
+     "altin": 40
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Fosiller",
+     "sayfa": 21,
+     "test": "KT-3",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 40
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Gölge Saati",
+     "detay": "Güneşte çubukla gölgeyi saat saat işaretle.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Pencereden gördüğün 3 canlıyı say.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 8,
+   "tarih": "2026-07-08",
+   "haftaGunu": "Çarşamba",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Doğal Sayılarla Çıkarma + Zihinden Çıkarma",
+     "sayfa": 60,
+     "test": "KT-8 · KT-9 · Ünite 1 Değ.",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Terim Anlam + Gerçek/Mecaz/Terim",
+     "sayfa": 35,
+     "test": "KT-4",
+     "altin": 40
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Nelerden Hoşlanıyorum? Neler Yapabilirim?",
+     "sayfa": 22,
+     "test": "KT-3",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Sevdiğin şarkının bir dizesini yaz.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 9,
+   "tarih": "2026-07-09",
+   "haftaGunu": "Perşembe",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Toplama Tahmin + Zihinden Toplama İşlemi",
+     "sayfa": 74,
+     "test": "KT-10 · KT-11",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Çok Anlamlılık",
+     "sayfa": 44,
+     "test": "—",
+     "altin": 40
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Dünya'mızın Hareketleri",
+     "sayfa": 27,
+     "test": "KT-4 · Ünite 1 Değ.",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 40
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Basit Devre",
+     "detay": "Pil-kablo-ampulle ışık yak.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bilmece bul, babana sor.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 10,
+   "tarih": "2026-07-10",
+   "haftaGunu": "Cuma",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Toplama İşlemi Problemleri",
+     "sayfa": 83,
+     "test": "KT-12",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Dilimize Yerleşen Yabancı Kelimeler",
+     "sayfa": 46,
+     "test": "KT-5",
+     "altin": 40
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Onun Yerinde Olsaydım + Farklılıklara Saygı",
+     "sayfa": 27,
+     "test": "KT-4 · Ünite 1 Değ.",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bugün için küçük bir hedef belirle.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 11,
+   "tarih": "2026-07-11",
+   "haftaGunu": "Cumartesi",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 40
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 12,
+   "tarih": "2026-07-12",
+   "haftaGunu": "Pazar",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 40
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Geri Dönüşüm Sanatı",
+     "detay": "Atık kutudan oyuncak/robot yap.",
+     "altin": 40
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 13,
+   "tarih": "2026-07-13",
+   "haftaGunu": "Pazartesi",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Farkı Tahmin + Toplama ve Çıkarma Problemleri",
+     "sayfa": 89,
+     "test": "KT-13 · KT-14 · Ünite 2 Değ.",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Deyimler",
+     "sayfa": 52,
+     "test": "—",
+     "altin": 40
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Besinler ve Özellikleri",
+     "sayfa": 37,
+     "test": "KT-5",
+     "altin": 40
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 40
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 40
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 14,
+   "tarih": "2026-07-14",
+   "haftaGunu": "Salı",
+   "hafta": 2,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Doğal Sayılarla Çarpma İşlemi",
+     "sayfa": 106,
+     "test": "KT-15",
+     "altin": 40
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Atasözleri + Atasözleri ve Deyimler",
+     "sayfa": 54,
+     "test": "KT-6 · Tema 1 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Ailemin Tarihi",
+     "sayfa": 36,
+     "test": "KT-5",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Kâğıt Köprü",
+     "detay": "Tek A4 ile en güçlü köprüyü tasarla.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 15,
+   "tarih": "2026-07-15",
+   "haftaGunu": "Çarşamba",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kısa Yoldan + Zihinden Çarpma + Tahmin",
+     "sayfa": 114,
+     "test": "KT-16 · KT-17 · KT-18",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Cümle Oluşturma + Olumlu/Olumsuz Cümle",
+     "sayfa": 66,
+     "test": "KT-7",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Canlı Yaşamı ve Besin İçerikleri",
+     "sayfa": 42,
+     "test": "KT-6",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 16,
+   "tarih": "2026-07-16",
+   "haftaGunu": "Perşembe",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Çarpma İşlemi ile İlgili Problemler",
+     "sayfa": 126,
+     "test": "KT-19",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Cümlede 5N1K + Geçiş/Bağlantı İfadeleri",
+     "sayfa": 74,
+     "test": "KT-8",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Millî Kültür Ögelerimiz",
+     "sayfa": 42,
+     "test": "KT-6",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Kristal Büyütme",
+     "detay": "Tuzlu suda kristal oluşumunu gözlemle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 17,
+   "tarih": "2026-07-17",
+   "haftaGunu": "Cuma",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Bölme İşlemi Yapalım",
+     "sayfa": 134,
+     "test": "KT-20",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Cümle Konusu + Soru ve Ünlem Cümleleri",
+     "sayfa": 82,
+     "test": "KT-9",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Su-Mineraller + Besinlerin Tazeliği",
+     "sayfa": 47,
+     "test": "KT-7",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Pencereden gördüğün 3 canlıyı say.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 18,
+   "tarih": "2026-07-18",
+   "haftaGunu": "Cumartesi",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 19,
+   "tarih": "2026-07-19",
+   "haftaGunu": "Pazar",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Mancınık",
+     "detay": "Çubuk ve lastikle mini mancınık yap.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 20,
+   "tarih": "2026-07-20",
+   "haftaGunu": "Pazartesi",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Dört Basamaklı Doğal Sayılarla Bölme",
+     "sayfa": 140,
+     "test": "KT-21",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Karşılaştırma ve Benzetme Cümleleri",
+     "sayfa": 90,
+     "test": "KT-10",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Geçmişten Bugüne Çocuk Oyunları",
+     "sayfa": 48,
+     "test": "KT-7",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Sevdiğin şarkının bir dizesini yaz.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 21,
+   "tarih": "2026-07-21",
+   "haftaGunu": "Salı",
+   "hafta": 3,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Zihinden Bölme + Çarpma-Bölme İlişkisi",
+     "sayfa": 144,
+     "test": "KT-22 · KT-23",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Örneklendirme/Tanım + Cümlede Anlam Özellikleri",
+     "sayfa": 98,
+     "test": "KT-11",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "İnsan Sağlığı ve Dengeli Beslenme",
+     "sayfa": 56,
+     "test": "KT-8",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Yön Bulma",
+     "detay": "Pusula çiz, evdeki yönleri bul.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bilmece bul, babana sor.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 22,
+   "tarih": "2026-07-22",
+   "haftaGunu": "Çarşamba",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Bölme İşlemi ile İlgili Problemler",
+     "sayfa": 157,
+     "test": "KT-24",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Neden-Sonuç Cümleleri",
+     "sayfa": 108,
+     "test": "KT-12 · Tema 2 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Kahramanlık Destanı: Millî Mücadele",
+     "sayfa": 54,
+     "test": "KT-8",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bugün için küçük bir hedef belirle.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 23,
+   "tarih": "2026-07-23",
+   "haftaGunu": "Perşembe",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "İfadelerin Eşitlik Durumu",
+     "sayfa": 163,
+     "test": "KT-25 · Ünite 3 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Büyük Harfler + Sayıların Yazılışı",
+     "sayfa": 122,
+     "test": "KT-13",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Alkol ve Sigaranın Zararları",
+     "sayfa": 62,
+     "test": "KT-9 · Ünite 2 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Hava İstasyonu",
+     "detay": "3 gün hava durumunu kaydet.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 24,
+   "tarih": "2026-07-24",
+   "haftaGunu": "Cuma",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kesir Çeşitleri",
+     "sayfa": 172,
+     "test": "KT-26",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Kısaltmaların + Pekiştirmelerin Yazımı",
+     "sayfa": 129,
+     "test": "KT-14",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Millî Mücadele Cepheleri (Doğu/Güney/Batı)",
+     "sayfa": 59,
+     "test": "KT-9 · Ünite 2 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 25,
+   "tarih": "2026-07-25",
+   "haftaGunu": "Cumartesi",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 26,
+   "tarih": "2026-07-26",
+   "haftaGunu": "Pazar",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Su Yoğunluğu",
+     "detay": "Tuzlu/tatlı suda yumurta yüzdürme.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 27,
+   "tarih": "2026-07-27",
+   "haftaGunu": "Pazartesi",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kesirleri Karşılaştırma + Basit Kesir Kadarı",
+     "sayfa": 178,
+     "test": "KT-27 · KT-28",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "'Mİ' / 'DE-DE' / 'Kİ-Kİ' Yazımı",
+     "sayfa": 136,
+     "test": "KT-15",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Kuvvetin Cisimler Üzerindeki Etkileri",
+     "sayfa": 72,
+     "test": "KT-10",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 28,
+   "tarih": "2026-07-28",
+   "haftaGunu": "Salı",
+   "hafta": 4,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kesirlerle Toplama ve Çıkarma İşlemi",
+     "sayfa": 189,
+     "test": "KT-29",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Eklerin + Yazımı Karıştırılan Kelimeler",
+     "sayfa": 143,
+     "test": "KT-16 · Tema 3 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Yönlerimiz",
+     "sayfa": 74,
+     "test": "KT-10",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Mıknatıs Avı",
+     "detay": "Evdeki eşyaları mıknatısla test et.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 29,
+   "tarih": "2026-07-29",
+   "haftaGunu": "Çarşamba",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kesir Problemleri",
+     "sayfa": 195,
+     "test": "KT-30",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Noktalama İşaretleri",
+     "sayfa": 162,
+     "test": "KT-17",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Mıknatıslar: Özellikleri ve Kullanımı",
+     "sayfa": 80,
+     "test": "KT-11 · KT-12 · Ünite 3 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Pencereden gördüğün 3 canlıyı say.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 30,
+   "tarih": "2026-07-30",
+   "haftaGunu": "Perşembe",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Zaman Ölçüsü Dönüşümleri ve Problemleri",
+     "sayfa": 201,
+     "test": "KT-31 · KT-32",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Kısa Çizgi, İki Nokta, Kesme, Uzun Çizgi",
+     "sayfa": 170,
+     "test": "KT-18",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Yer Tarifi Yapalım",
+     "sayfa": 80,
+     "test": "KT-11",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Gölge Saati",
+     "detay": "Güneşte çubukla gölgeyi saat saat işaretle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Sevdiğin şarkının bir dizesini yaz.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 31,
+   "tarih": "2026-07-31",
+   "haftaGunu": "Cuma",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Sütun Grafiğini Yorumlama ve Oluşturma",
+     "sayfa": 213,
+     "test": "KT-33 · KT-34",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Eğik Çizgi, Üç Nokta, Yay Ayraç",
+     "sayfa": 178,
+     "test": "KT-19 · KT-20 · Tema 4 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Maddeyi Niteleyen + Ölçülebilir Özellikler (Kütle/Hacim)",
+     "sayfa": 98,
+     "test": "KT-13 · KT-14 · KT-15",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bilmece bul, babana sor.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 32,
+   "tarih": "2026-08-01",
+   "haftaGunu": "Cumartesi",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 33,
+   "tarih": "2026-08-02",
+   "haftaGunu": "Pazar",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Basit Devre",
+     "detay": "Pil-kablo-ampulle ışık yak.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 34,
+   "tarih": "2026-08-03",
+   "haftaGunu": "Pazartesi",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Verilerin Gösterimi + Veri Toplama/Analiz",
+     "sayfa": 224,
+     "test": "KT-35 · KT-36 · Ünite 4 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Metin Bölümleri + Oluş Sırası",
+     "sayfa": 198,
+     "test": "KT-21",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Çevremizde Neler Var? + Hava Durumu",
+     "sayfa": 84,
+     "test": "KT-12 · KT-13",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bugün için küçük bir hedef belirle.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 35,
+   "tarih": "2026-08-04",
+   "haftaGunu": "Salı",
+   "hafta": 5,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Üçgen, Kare, Dikdörtgenin Kenar/Köşeleri",
+     "sayfa": 238,
+     "test": "KT-37",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Metinde 5N1K",
+     "sayfa": 208,
+     "test": "KT-22",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Maddenin Hâlleri",
+     "sayfa": 116,
+     "test": "KT-16",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Geri Dönüşüm Sanatı",
+     "detay": "Atık kutudan oyuncak/robot yap.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 36,
+   "tarih": "2026-08-05",
+   "haftaGunu": "Çarşamba",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kare-Dikdörtgen Özellikleri + Üçgen Çeşitleri",
+     "sayfa": 243,
+     "test": "KT-38",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Metnin Konusu + Başlık Belirleme",
+     "sayfa": 214,
+     "test": "KT-23",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Yaşadığım Yer",
+     "sayfa": 94,
+     "test": "KT-14",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 37,
+   "tarih": "2026-08-06",
+   "haftaGunu": "Perşembe",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Küp ve Geometrik Cisimler",
+     "sayfa": 249,
+     "test": "KT-39",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Ana Fikir",
+     "sayfa": 224,
+     "test": "KT-24",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Maddenin Isı Etkisiyle Değişimi",
+     "sayfa": 122,
+     "test": "KT-17 · KT-18",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Kâğıt Köprü",
+     "detay": "Tek A4 ile en güçlü köprüyü tasarla.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 38,
+   "tarih": "2026-08-07",
+   "haftaGunu": "Cuma",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Düzlem + Açıların İsimlendirilmesi",
+     "sayfa": 255,
+     "test": "KT-40",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Şiirde Konu - Ana Duygu",
+     "sayfa": 230,
+     "test": "KT-25 · Tema 5 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Doğal Afetlere Hazır Olalım",
+     "sayfa": 99,
+     "test": "KT-15 · Ünite 3 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 39,
+   "tarih": "2026-08-08",
+   "haftaGunu": "Cumartesi",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 40,
+   "tarih": "2026-08-09",
+   "haftaGunu": "Pazar",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Kristal Büyütme",
+     "detay": "Tuzlu suda kristal oluşumunu gözlemle.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 41,
+   "tarih": "2026-08-10",
+   "haftaGunu": "Pazartesi",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Açı Çeşitleri + Standart Olmayan Açı Ölçme",
+     "sayfa": 260,
+     "test": "KT-41",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Hayali Unsur + Anlatım Biçimleri",
+     "sayfa": 244,
+     "test": "KT-26",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Saf Madde ve Karışım + Ayrılması",
+     "sayfa": 134,
+     "test": "KT-19 · KT-20 · KT-21 · Ünite 4 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Pencereden gördüğün 3 canlıyı say.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 42,
+   "tarih": "2026-08-11",
+   "haftaGunu": "Salı",
+   "hafta": 6,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Ölçüsü Verilen Açıyı Ölçme",
+     "sayfa": 266,
+     "test": "KT-42",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Hikâye Unsurları + Paragraf Tamamlama",
+     "sayfa": 252,
+     "test": "KT-27 · KT-28",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Teknolojik Ürünler + Geçmişten Bugüne Teknoloji",
+     "sayfa": 114,
+     "test": "KT-16 · KT-17",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Mancınık",
+     "detay": "Çubuk ve lastikle mini mancınık yap.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Sevdiğin şarkının bir dizesini yaz.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 43,
+   "tarih": "2026-08-12",
+   "haftaGunu": "Çarşamba",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Simetri",
+     "sayfa": 270,
+     "test": "KT-43",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Metinden Çıkarım Yapma",
+     "sayfa": 266,
+     "test": "KT-29",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Aydınlatma Teknolojileri + Işık Kirliliği",
+     "sayfa": 154,
+     "test": "KT-22 · KT-23 · KT-24 · KT-25",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bilmece bul, babana sor.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 44,
+   "tarih": "2026-08-13",
+   "haftaGunu": "Perşembe",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Uzunluk Ölçü Birimleri + Milimetre",
+     "sayfa": 276,
+     "test": "KT-44",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Anlam Akışını Bozan Cümle",
+     "sayfa": 272,
+     "test": "KT-30 · Tema 6 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "İcat Çıkaralım - Zarar Vermeden Kullanalım",
+     "sayfa": 122,
+     "test": "KT-18 · Ünite 4 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Yön Bulma",
+     "detay": "Pusula çiz, evdeki yönleri bul.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bugün için küçük bir hedef belirle.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 45,
+   "tarih": "2026-08-14",
+   "haftaGunu": "Cuma",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Uzunluğu Tahmin + Uzunluk Ölçme Problemleri",
+     "sayfa": 282,
+     "test": "KT-45 · Ünite 5 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "İsim Türleri",
+     "sayfa": 286,
+     "test": "KT-31",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Ses Teknolojileri + Şiddetli Ses",
+     "sayfa": 174,
+     "test": "KT-26 · KT-27",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 46,
+   "tarih": "2026-08-15",
+   "haftaGunu": "Cumartesi",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 47,
+   "tarih": "2026-08-16",
+   "haftaGunu": "Pazar",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Hava İstasyonu",
+     "detay": "3 gün hava durumunu kaydet.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 48,
+   "tarih": "2026-08-17",
+   "haftaGunu": "Pazartesi",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kare ve Dikdörtgenin Çevresi",
+     "sayfa": 294,
+     "test": "KT-46",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Ön Adlar + Adıllar",
+     "sayfa": 298,
+     "test": "KT-32",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "İstek/İhtiyaçlar + Ekonomik Faaliyetler",
+     "sayfa": 136,
+     "test": "KT-19 · KT-20",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 49,
+   "tarih": "2026-08-18",
+   "haftaGunu": "Salı",
+   "hafta": 7,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Çevre Problemleri",
+     "sayfa": 306,
+     "test": "KT-47 · KT-48",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Eylemler + Ön Ad, Adıl ve Eylem",
+     "sayfa": 308,
+     "test": "KT-33 · Tema 7 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Ses Kirliliği ve Çözümleri",
+     "sayfa": 184,
+     "test": "KT-28 · KT-29 · Ünite 5 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Su Yoğunluğu",
+     "detay": "Tuzlu/tatlı suda yumurta yüzdürme.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 50,
+   "tarih": "2026-08-19",
+   "haftaGunu": "Çarşamba",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Alan: Birimkare + Dikdörtgen/Kare Alanı",
+     "sayfa": 312,
+     "test": "KT-49 · KT-50",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Pekiştirme: Tema Değ. / Beceri Temelli Sorular",
+     "detay": "Türkçe konularını tekrar et, eksik testleri çöz.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Bilinçli Tüketici + İsrafa Hayır",
+     "sayfa": 147,
+     "test": "KT-21 · KT-22 · Ünite 5 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 51,
+   "tarih": "2026-08-20",
+   "haftaGunu": "Perşembe",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Kilogramdan Grama + Tartma",
+     "sayfa": 322,
+     "test": "KT-51 · KT-52",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Pekiştirme: Tema Değ. / Beceri Temelli Sorular",
+     "detay": "Türkçe konularını tekrar et, eksik testleri çöz.",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Bilinçli Tüketici + Geri Dönüşüm",
+     "sayfa": 198,
+     "test": "KT-30 · KT-31 · Ünite 6 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Mıknatıs Avı",
+     "detay": "Evdeki eşyaları mıknatısla test et.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Pencereden gördüğün 3 canlıyı say.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 52,
+   "tarih": "2026-08-21",
+   "haftaGunu": "Cuma",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Ton-Kg-Gram-Mg + Tartma Problemleri",
+     "sayfa": 330,
+     "test": "KT-53 · KT-54",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Pekiştirme: Tema Değ. / Beceri Temelli Sorular",
+     "detay": "Türkçe konularını tekrar et, eksik testleri çöz.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Çocuk Hakları + Sorumluluk + Özgürlük",
+     "sayfa": 164,
+     "test": "KT-23 · KT-24 · KT-25 · KT-26 · Ünite 6 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Sevdiğin şarkının bir dizesini yaz.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 53,
+   "tarih": "2026-08-22",
+   "haftaGunu": "Cumartesi",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 54,
+   "tarih": "2026-08-23",
+   "haftaGunu": "Pazar",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Gölge Saati",
+     "detay": "Güneşte çubukla gölgeyi saat saat işaretle.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 55,
+   "tarih": "2026-08-24",
+   "haftaGunu": "Pazartesi",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Mililitre + Litre-Mililitre İlişkisi",
+     "sayfa": 342,
+     "test": "KT-55",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Pekiştirme: Tema Değ. / Beceri Temelli Sorular",
+     "detay": "Türkçe konularını tekrar et, eksik testleri çöz.",
+     "altin": 39
+    },
+    {
+     "ders": "Fen Bilimleri",
+     "baslik": "Basit Elektrik Devreleri + Devre Elemanları",
+     "sayfa": 214,
+     "test": "KT-32 · KT-33 · KT-34 · Ünite 7 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Karaktere bir soru sorabilseydin ne sorardın?",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bilmece bul, babana sor.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 56,
+   "tarih": "2026-08-25",
+   "haftaGunu": "Salı",
+   "hafta": 8,
+   "gorevler": [
+    {
+     "ders": "Matematik",
+     "baslik": "Sıvı Ölçme Problemleri",
+     "sayfa": 353,
+     "test": "KT-56 · KT-57 · Ünite 6 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Türkçe",
+     "baslik": "Pekiştirme: Tema Değ. / Beceri Temelli Sorular",
+     "detay": "Türkçe konularını tekrar et, eksik testleri çöz.",
+     "altin": 39
+    },
+    {
+     "ders": "Sosyal Bilgiler",
+     "baslik": "Ülkeleri Tanıyalım + Komşular + Farklı Kültürler",
+     "sayfa": 188,
+     "test": "KT-27 · KT-28 · KT-29 · Ünite 7 Değ.",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugünkü bölümü tek cümleyle özetle.",
+     "altin": 39
+    },
+    {
+     "ders": "STEM",
+     "baslik": "STEM: Basit Devre",
+     "detay": "Pil-kablo-ampulle ışık yak.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bugün için küçük bir hedef belirle.",
+     "altin": 39
+    }
+   ],
+   "tip": "calisma"
+  },
+  {
+   "gun": 57,
+   "tarih": "2026-08-26",
+   "haftaGunu": "Çarşamba",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Genel Tekrar",
+     "baslik": "Eksik kazanım testlerini ve telafileri bitir",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Bugün okuduğun en ilginç karakteri anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Aileden birine bugün öğrendiğini öğret.",
+     "altin": 39
+    }
+   ],
+   "tip": "tampon"
+  },
+  {
+   "gun": 58,
+   "tarih": "2026-08-27",
+   "haftaGunu": "Perşembe",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Genel Tekrar",
+     "baslik": "Eksik kazanım testlerini ve telafileri bitir",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir bulut çiz ve ona isim ver.",
+     "altin": 39
+    }
+   ],
+   "tip": "tampon"
+  },
+  {
+   "gun": 59,
+   "tarih": "2026-08-28",
+   "haftaGunu": "Cuma",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Genel Tekrar",
+     "baslik": "Eksik kazanım testlerini ve telafileri bitir",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "En heyecanlı/komik bölümü babana anlat.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Bir teşekkür kartı hazırla.",
+     "altin": 39
+    }
+   ],
+   "tip": "tampon"
+  },
+  {
+   "gun": 60,
+   "tarih": "2026-08-29",
+   "haftaGunu": "Cumartesi",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Telafi",
+     "baslik": "Telafi Havuzu",
+     "detay": "Hafta içi eksik kalanları tamamla. Boşsa tatil!"
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Okuduğun bölümün bir resmini çiz.",
+     "altin": 39
+    }
+   ],
+   "tip": "telafi"
+  },
+  {
+   "gun": 61,
+   "tarih": "2026-08-30",
+   "haftaGunu": "Pazar",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk serbest okuma",
+     "detay": "O ana kadarki sonunu kendi hayalinle değiştir.",
+     "altin": 39
+    },
+    {
+     "ders": "Keşif",
+     "baslik": "Pazar Keşfi: Geri Dönüşüm Sanatı",
+     "detay": "Atık kutudan oyuncak/robot yap.",
+     "altin": 39
+    }
+   ],
+   "tip": "serbest"
+  },
+  {
+   "gun": 62,
+   "tarih": "2026-08-31",
+   "haftaGunu": "Pazartesi",
+   "hafta": 9,
+   "gorevler": [
+    {
+     "ders": "Genel Tekrar",
+     "baslik": "Eksik kazanım testlerini ve telafileri bitir",
+     "altin": 39
+    },
+    {
+     "ders": "Kitap Okuma",
+     "baslik": "20 dk okuma",
+     "detay": "Kitaba 5 üzerinden puan ver, nedenini söyle.",
+     "altin": 39
+    },
+    {
+     "ders": "Günün Görevi",
+     "baslik": "Yeni bir kelimeyi cümle içinde kullan.",
+     "altin": 39
+    }
+   ],
+   "tip": "tampon"
+  }
+ ]
+}

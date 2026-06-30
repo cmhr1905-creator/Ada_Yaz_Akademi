@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=no">
+<meta name="theme-color" content="#0E3D52">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ada Akademi">
+<title>Ada'nın Yaz Akademisi — Hazine Yolculuğu</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800&family=Pirata+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --parsomen:#F2DFB3; --parsomen-2:#E7C98C; --parsomen-koyu:#D8B673;
+  --ahsap:#5A3C24; --ahsap-2:#6E4A2C; --ahsap-koyu:#3E2817; --ahsap-acik:#8A5E38;
+  --altin:#E9B949; --altin-parlak:#FFD56B; --bronz:#B07B3E;
+  --deniz:#15617D; --deniz-koyu:#0E3D52; --deniz-derin:#0A2C3D; --turkuaz:#2BB6A8;
+  --zumrut:#2E8B57; --mercan:#E2683C; --volkan:#C0392B; --kum:#EAD6A0;
+  --mururekkep:#3A2A1A; --metin:#3A2A1A; --metin-acik:#6B5333;
+  --golge:0 6px 0 rgba(62,40,23,.35); --golge-yum:0 10px 30px rgba(10,44,61,.4);
+  --font-tac:'Pirata One',system-ui,cursive; --font-baslik:'Baloo 2',system-ui,sans-serif; --font-govde:'Nunito',system-ui,sans-serif;
+  --doku:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:var(--font-govde);color:var(--metin);background:var(--deniz-derin);overflow:hidden;-webkit-font-smoothing:antialiased;font-weight:700}
+h1,h2,h3,.baslik{font-family:var(--font-baslik);margin:0}
+.tac{font-family:var(--font-tac);letter-spacing:.5px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.gizli{display:none!important}
+
+/* deniz arka plan */
+#deniz-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#1C6E8C 0%,#15617D 40%,#0E3D52 100%)}
+#deniz-bg::before,#deniz-bg::after{content:"";position:absolute;left:-20%;right:-20%;height:60px;background:radial-gradient(ellipse at center,rgba(255,255,255,.10),transparent 60%);opacity:.5}
+#deniz-bg::before{top:30%;animation:dalga 9s ease-in-out infinite}
+#deniz-bg::after{top:60%;animation:dalga 11s ease-in-out infinite reverse}
+@keyframes dalga{0%,100%{transform:translateX(-4%) scaleY(1)}50%{transform:translateX(4%) scaleY(1.3)}}
+
+#app{position:relative;z-index:1;max-width:600px;margin:0 auto;height:100%;height:100dvh;overflow:hidden}
+.ekran{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:calc(12px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom));animation:bel .4s ease both;scroll-behavior:smooth}
+@keyframes bel{from{opacity:0}to{opacity:1}}
+.ekran.harita-ekran{padding:0}
+
+/* parşömen panel */
+.parsomen{position:relative;background:linear-gradient(160deg,var(--parsomen),var(--parsomen-2));border-radius:18px;padding:16px 18px;color:var(--metin);
+  box-shadow:var(--golge),inset 0 0 30px rgba(176,123,62,.25);border:2px solid var(--parsomen-koyu);background-image:var(--doku),linear-gradient(160deg,var(--parsomen),var(--parsomen-2));margin-bottom:14px}
+.parsomen::before,.parsomen::after{content:"";position:absolute;width:14px;height:14px;background:radial-gradient(circle,var(--ahsap-koyu) 40%,transparent 45%);opacity:.5}
+.parsomen::before{top:8px;left:8px}.parsomen::after{top:8px;right:8px}
+.panel-baslik{font-family:var(--font-baslik);font-weight:800;font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:10px;color:var(--ahsap-koyu)}
+
+/* ahşap tabela */
+.ahsap{background:repeating-linear-gradient(95deg,#6E4A2C 0 18px,#5A3C24 18px 36px);border-radius:16px;border:3px solid var(--ahsap-koyu);box-shadow:var(--golge);color:#F4E4C1;position:relative;background-image:var(--doku),repeating-linear-gradient(95deg,#6E4A2C 0 18px,#5A3C24 18px 36px)}
+
+/* buton */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:62px;border-radius:16px;
+  background:linear-gradient(180deg,var(--altin-parlak),var(--altin));color:#5A3C24;font-family:var(--font-baslik);font-weight:800;font-size:18px;
+  border:2px solid #b88a2e;box-shadow:0 5px 0 #a9781f,0 8px 14px rgba(0,0,0,.25);transition:transform .1s,box-shadow .1s;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #a9781f}
+.btn.deniz{background:linear-gradient(180deg,#3FC7D6,#1C8FA6);color:#04323d;border-color:#147a8e;box-shadow:0 5px 0 #126676,0 8px 14px rgba(0,0,0,.25)}
+.btn.yaprak{background:linear-gradient(180deg,#52C97E,#2E8B57);color:#063019;border-color:#247447;box-shadow:0 5px 0 #1f6b41,0 8px 14px rgba(0,0,0,.25)}
+.btn.mercan{background:linear-gradient(180deg,#F1885E,#E2683C);color:#3a1405;border-color:#c1551f;box-shadow:0 5px 0 #b34d1d,0 8px 14px rgba(0,0,0,.25)}
+.btn.ahsapbtn{background:linear-gradient(180deg,#7A5230,#5A3C24);color:#F4E4C1;border-color:#3E2817;box-shadow:0 5px 0 #2e1d10,0 8px 14px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(0,0,0,.3)}
+.btn.kucuk{min-height:50px;font-size:15px;border-radius:13px}
+
+/* ÜST HUD */
+.hud{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.hud .kese{display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-family:var(--font-baslik);font-weight:800;font-size:15px;
+  background:linear-gradient(180deg,#7A5230,#5A3C24);color:#FFD56B;border:2px solid var(--ahsap-koyu);box-shadow:var(--golge)}
+.hud .kese.kristal{color:#9FE8E0}
+.hud .sag{margin-left:auto;display:flex;gap:8px}
+.yuvarlak{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#7A5230,#5A3C24);border:2px solid var(--ahsap-koyu);box-shadow:var(--golge);overflow:hidden}
+.yuvarlak:active{transform:translateY(2px)}
+
+/* ===== ALT NAV (halat + tahta) ===== */
+.altnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:600px;z-index:30;display:flex;justify-content:space-around;
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#6E4A2C,#3E2817);border-top:4px solid #2a1a0e;box-shadow:0 -6px 20px rgba(0,0,0,.4)}
+.altnav::before{content:"";position:absolute;top:-3px;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#C9A24B 0 14px,#8A6A2E 14px 22px);opacity:.8}
+.navbtn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:12px;color:#C9B08C;font-size:10px;font-weight:800;flex:1;transition:transform .15s,color .15s}
+.navbtn svg{width:26px;height:26px;fill:currentColor;transition:transform .2s}
+.navbtn.aktif{color:var(--altin-parlak)}
+.navbtn.aktif svg{transform:translateY(-3px) scale(1.15);filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+
+/* ===== HARİTA ===== */
+#harita-kaydir{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+#harita-ic{position:relative;width:100%;}
+.harita-deniz{position:absolute;inset:0;background:linear-gradient(180deg,#1E7A98,#10516B 60%,#0A3346);z-index:0}
+.bolge-banti{position:absolute;left:0;right:0;z-index:1;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.bolge-ribbon{font-family:var(--font-tac);font-size:21px;color:#F4E4C1;background:linear-gradient(180deg,rgba(58,40,23,.92),rgba(42,26,14,.92));
+  padding:6px 26px;border-radius:8px;border:2px solid var(--altin);box-shadow:0 4px 12px rgba(0,0,0,.4);text-shadow:0 2px 3px rgba(0,0,0,.5);position:relative}
+.bolge-ribbon::before,.bolge-ribbon::after{content:"";position:absolute;top:50%;width:18px;height:18px;background:var(--altin);transform:translateY(-50%) rotate(45deg);border-radius:3px}
+.bolge-ribbon::before{left:-9px}.bolge-ribbon::after{right:-9px}
+#harita-yol{position:absolute;inset:0;z-index:2;pointer-events:none}
+.ada-nokta{position:absolute;z-index:3;transform:translate(-50%,-50%);width:76px;height:76px;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
+.ada-nokta:active{transform:translate(-50%,-50%) scale(.9)}
+.ada-nokta .rakam{position:absolute;font-family:var(--font-baslik);font-weight:800;font-size:15px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);z-index:4;pointer-events:none}
+.ada-nokta.kilitli{filter:grayscale(.7) brightness(.7);opacity:.82}
+.ada-nokta.kilitli .rakam{opacity:.5}
+.ada-nokta.bugun{animation:nabiz 1.8s ease-in-out infinite}
+@keyframes nabiz{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.12)}}
+.bugun-halka{position:absolute;width:90px;height:90px;border-radius:50%;border:3px solid var(--altin-parlak);z-index:2;transform:translate(-50%,-50%);animation:dalgalan 1.8s ease-out infinite;pointer-events:none}
+@keyframes dalgalan{0%{opacity:.9;width:60px;height:60px}100%{opacity:0;width:130px;height:130px}}
+.bayrak{position:absolute;top:-2px;right:8px;width:16px;height:14px;z-index:5;transform-origin:left;animation:salla 1.4s ease-in-out infinite}
+@keyframes salla{0%,100%{transform:skewX(0) scaleX(1)}50%{transform:skewX(-12deg) scaleX(.9)}}
+.bulut{position:absolute;z-index:6;opacity:.85;pointer-events:none;animation:suzul linear infinite}
+@keyframes suzul{from{transform:translateX(-120px)}to{transform:translateX(120vw)}}
+.harita-props{position:absolute;z-index:2;pointer-events:none}
+.duman{transform-origin:bottom;animation:duman 3s ease-in-out infinite}
+@keyframes duman{0%,100%{opacity:.3;transform:translateY(0) scale(1)}50%{opacity:.6;transform:translateY(-10px) scale(1.15)}}
+.gemi-bob{animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+
+/* harita üst başlık */
+.harita-ust{position:absolute;top:0;left:0;right:0;z-index:15;display:flex;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;background:linear-gradient(180deg,rgba(10,44,61,.85),transparent)}
+
+/* ===== KAMP (ANASAYFA) ===== */
+.kamp-sahne{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;box-shadow:var(--golge-yum);border:3px solid var(--ahsap-koyu)}
+.kamp-gun{position:absolute;top:12px;left:14px;z-index:3;color:#FCEFCB}
+.kamp-gun .g{font-family:var(--font-tac);font-size:30px;line-height:1;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.kamp-gun .t{font-weight:800;font-size:13px;opacity:.92}
+.atesisik{animation:ates .4s ease-in-out infinite alternate;transform-origin:bottom}
+@keyframes ates{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.12) scaleX(.92)}}
+
+/* hazine çubuğu */
+.hazine-bar{background:linear-gradient(180deg,#7A5230,#4A3018);border-radius:14px;padding:12px 14px;border:2px solid var(--ahsap-koyu);box-shadow:var(--golge);margin-bottom:14px;color:#FCEFCB}
+.hazine-bar .ust{display:flex;align-items:center;gap:8px;font-family:var(--font-baslik);font-weight:800;font-size:15px;color:var(--altin-parlak)}
+.hazine-bar .sayi{margin-left:auto}
+.cubuk{height:18px;border-radius:999px;background:rgba(0,0,0,.35);overflow:hidden;margin-top:9px;border:2px solid #2e1d10}
+.cubuk .dolu{height:100%;border-radius:999px;background:linear-gradient(90deg,#E9B949,#FFD56B);transition:width .7s cubic-bezier(.2,.8,.2,1);background-size:20px 20px;background-image:linear-gradient(90deg,#E9B949,#FFD56B),repeating-linear-gradient(45deg,rgba(255,255,255,.15) 0 6px,transparent 6px 12px)}
+.hazine-bar .alt{font-size:12px;opacity:.85;margin-top:6px;font-weight:700}
+
+/* dörtlü istatistik */
+.dort{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.dort .k{background:linear-gradient(180deg,var(--parsomen),var(--parsomen-2));border:2px solid var(--parsomen-koyu);border-radius:13px;padding:8px 4px;text-align:center;box-shadow:var(--golge)}
+.dort .k .b{font-family:var(--font-baslik);font-weight:800;font-size:18px;color:var(--ahsap-koyu);display:flex;align-items:center;justify-content:center;gap:3px}
+.dort .k .e{font-size:9.5px;color:var(--metin-acik);font-weight:800;margin-top:1px}
+
+/* ===== PARŞÖMEN GÖREV ===== */
+.gun-secici{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.gun-secici .ok{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(180deg,#7A5230,#5A3C24);border:2px solid var(--ahsap-koyu);box-shadow:var(--golge);color:#FCEFCB;font-size:22px;font-weight:800}
+.gun-baslik{text-align:center;color:#FCEFCB}
+.gun-baslik .g{font-family:var(--font-tac);font-size:22px;line-height:1}
+.gun-baslik .rozet{display:inline-block;font-size:11px;font-weight:800;padding:3px 11px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--altin);color:var(--altin-parlak);margin-top:3px}
+
+.scroll{position:relative;background:linear-gradient(170deg,var(--parsomen),var(--parsomen-2));border-radius:8px;padding:14px 16px 14px 14px;margin-bottom:12px;
+  border-left:7px solid var(--ders,#999);box-shadow:var(--golge),inset 0 0 24px rgba(176,123,62,.22);background-image:var(--doku),linear-gradient(170deg,var(--parsomen),var(--parsomen-2));
+  display:flex;align-items:center;gap:12px;transition:opacity .4s,transform .15s}
+.scroll::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--ders,#999);border-radius:8px 0 0 8px;box-shadow:inset -2px 0 4px rgba(0,0,0,.2)}
+.scroll:active{transform:scale(.99)}
+.scroll .muhur{width:48px;height:48px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ders) 60%,#fff),var(--ders));border:2px solid rgba(0,0,0,.18);box-shadow:0 2px 5px rgba(0,0,0,.25)}
+.scroll .muhur svg{width:26px;height:26px;fill:#fff;opacity:.95}
+.scroll .icerik{flex:1;min-width:0}
+.scroll .ders-ad{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--ders)}
+.scroll .gorev-ad{font-family:var(--font-baslik);font-weight:700;font-size:15px;line-height:1.2;color:var(--mururekkep);margin-top:1px}
+.scroll .meta{font-size:11.5px;color:var(--metin-acik);font-weight:700;margin-top:3px}
+.scroll .altin-et{position:absolute;right:62px;top:10px;font-size:11px;font-weight:800;color:#8a5a00}
+.scroll .tik{width:42px;height:42px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;border:3px dashed var(--bronz);color:transparent;font-size:22px;transition:all .25s;background:rgba(255,255,255,.3)}
+.scroll.tamam{opacity:.7}
+.scroll.tamam .gorev-ad{text-decoration:line-through;opacity:.8}
+.scroll.tamam .tik{border:3px solid var(--zumrut);background:var(--zumrut);color:#fff;transform:rotate(0)}
+.muhur-bas{animation:muhurbas .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes muhurbas{0%{transform:scale(2) rotate(-25deg);opacity:0}60%{transform:scale(.9) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+
+/* ===== AVATAR ===== */
+.avatar-cerceve{width:150px;height:150px;border-radius:50%;margin:0 auto;display:grid;place-items:center;position:relative;
+  background:radial-gradient(circle at 50% 35%,#BFE9F0,#7FC4D6);border:5px solid var(--altin);box-shadow:var(--golge-yum),inset 0 -10px 20px rgba(0,0,0,.15)}
+.dukkan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dukkan .it{background:linear-gradient(180deg,var(--parsomen),var(--parsomen-2));border:2px solid var(--parsomen-koyu);border-radius:14px;padding:10px;text-align:center;box-shadow:var(--golge)}
+.dukkan .it .ikon{width:46px;height:46px;margin:0 auto 4px}
+.dukkan .it .ad{font-size:12px;font-weight:800;color:var(--ahsap-koyu)}
+.dukkan .it .fy{font-size:11px;font-weight:800;color:#1C8FA6;margin:2px 0 6px}
+
+/* ===== GANİMET (ROZET) ===== */
+.ganimet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ganimet{background:radial-gradient(circle at 50% 30%,#7A5230,#3E2817);border:2px solid var(--ahsap-koyu);border-radius:14px;padding:12px 6px;text-align:center;box-shadow:var(--golge),inset 0 0 18px rgba(0,0,0,.4);position:relative}
+.ganimet .em{width:52px;height:52px;margin:0 auto 5px;display:grid;place-items:center}
+.ganimet .ad{font-size:10.5px;font-weight:800;color:#F4E4C1;line-height:1.15}
+.ganimet.kilitli{filter:grayscale(.8) brightness(.5)}
+.ganimet.kilitli .ad{opacity:.6}
+
+/* ===== SEYİR DEFTERİ (İSTATİSTİK) ===== */
+.defter-satir{margin-bottom:13px}
+.defter-satir .tep{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:5px;color:var(--mururekkep)}
+.defter-bar{height:15px;border-radius:8px;background:rgba(62,40,23,.18);overflow:hidden;border:1px solid var(--parsomen-koyu)}
+.defter-bar .d{height:100%;transition:width .7s}
+
+/* ===== MODAL ===== */
+.modal-bg{position:fixed;inset:0;background:rgba(10,30,40,.7);z-index:100;display:grid;place-items:center;padding:24px;animation:bel .25s both;backdrop-filter:blur(4px)}
+.modal{position:relative;background:linear-gradient(160deg,var(--parsomen),var(--parsomen-2));border-radius:18px;padding:26px 22px;max-width:380px;width:100%;text-align:center;
+  border:3px solid var(--ahsap-koyu);box-shadow:var(--golge-yum),inset 0 0 30px rgba(176,123,62,.3);background-image:var(--doku),linear-gradient(160deg,var(--parsomen),var(--parsomen-2));animation:pop .45s cubic-bezier(.2,1.4,.5,1) both}
+@keyframes pop{from{transform:scale(.6) rotate(-4deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.modal .big{font-size:64px;animation:zipla .7s ease}
+.modal .bigsvg{width:90px;height:90px;margin:0 auto;animation:zipla .7s ease}
+@keyframes zipla{0%{transform:translateY(-30px) scale(.5);opacity:0}60%{transform:translateY(6px) scale(1.1)}100%{transform:translateY(0) scale(1)}}
+.modal h2{font-family:var(--font-tac);font-size:26px;margin:8px 0 6px;color:var(--ahsap-koyu)}
+.modal p{color:var(--metin-acik);font-weight:700;margin:0 0 18px}
+input.giris,textarea.giris{width:100%;padding:13px;border-radius:12px;border:2px solid var(--parsomen-koyu);background:rgba(255,255,255,.45);color:var(--mururekkep);font-family:inherit;font-size:16px;font-weight:700;margin-bottom:12px}
+input.giris:focus,textarea.giris:focus{outline:none;border-color:var(--altin)}
+textarea.giris{min-height:78px;resize:vertical}
+
+#konfeti{position:fixed;inset:0;pointer-events:none;z-index:110}
+.kp{position:absolute;width:12px;height:12px;will-change:transform}
+.satir{display:flex;align-items:center;gap:10px}
+.bilgi{font-size:13px;color:var(--metin-acik);font-weight:700;line-height:1.5}
+.et{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:rgba(62,40,23,.14);color:var(--ahsap-koyu);white-space:nowrap}
+.minitoast{position:fixed;bottom:104px;left:50%;transform:translateX(-50%);background:var(--ahsap-koyu);color:#FCEFCB;padding:11px 20px;border-radius:999px;font-weight:800;z-index:120;box-shadow:var(--golge-yum);border:2px solid var(--altin);animation:bel .25s}
+.geri{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.25);color:#FCEFCB;padding:8px 14px;border-radius:999px;font-weight:800;font-size:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,.15)}
+</style>
+</head>
+<body>
+<div id="deniz-bg"></div>
+<div id="app"></div>
+<nav class="altnav gizli" id="altnav"></nav>
+<div id="konfeti"></div>
+<script>
+const CURRICULUM = /*CURRICULUM_DATA*/{"meta":{"baslangic":"2026-07-01","bitis":"2026-08-31","toplamGun":62,"hazineHedefi":10000,"tabanAltin":39,"toplamGorev":255,"yapi":"8 hafta öğretim + 1 hafta tampon"},"gunler":[{"gun":1,"tarih":"2026-07-01","haftaGunu":"Çarşamba","hafta":1,"gorevler":[{"ders":"Matematik","baslik":"Büyük Doğal Sayılar + Yüzer/Biner Sayma","sayfa":12,"test":"KT-1 · KT-2","altin":40},{"ders":"Türkçe","baslik":"Eş Anlamlı Kelimeler","sayfa":14,"test":"KT-1","altin":40},{"ders":"Fen Bilimleri","baslik":"Kayaçlar","sayfa":10,"test":"KT-1","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":40},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":40}],"tip":"calisma"},{"gun":2,"tarih":"2026-07-02","haftaGunu":"Perşembe","hafta":1,"gorevler":[{"ders":"Matematik","baslik":"Bölük, Basamak Adları ve Basamak Değerleri","sayfa":28,"test":"KT-3","altin":40},{"ders":"Türkçe","baslik":"Zıt Anlamlı + Eş/Zıt Birlikte","sayfa":16,"test":"KT-1","altin":40},{"ders":"Sosyal Bilgiler","baslik":"Herkesin Bir Kimliği Var","sayfa":10,"test":"KT-1","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":40},{"ders":"STEM","baslik":"STEM: Su Yoğunluğu","detay":"Tuzlu/tatlı suda yumurta yüzdürme.","altin":40},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":40}],"tip":"calisma"},{"gun":3,"tarih":"2026-07-03","haftaGunu":"Cuma","hafta":1,"gorevler":[{"ders":"Matematik","baslik":"Doğal Sayıları Yuvarlama ve Sıralama","sayfa":36,"test":"KT-4 · KT-5","altin":40},{"ders":"Türkçe","baslik":"Eş Sesli (Sesteş) Kelimeler","sayfa":22,"test":"KT-2","altin":40},{"ders":"Fen Bilimleri","baslik":"Madenler","sayfa":15,"test":"KT-2","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":40},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":40}],"tip":"calisma"},{"gun":4,"tarih":"2026-07-04","haftaGunu":"Cumartesi","hafta":1,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":40}],"tip":"telafi"},{"gun":5,"tarih":"2026-07-05","haftaGunu":"Pazar","hafta":1,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":40},{"ders":"Keşif","baslik":"Pazar Keşfi: Mıknatıs Avı","detay":"Evdeki eşyaları mıknatısla test et.","altin":40}],"tip":"serbest"},{"gun":6,"tarih":"2026-07-06","haftaGunu":"Pazartesi","hafta":1,"gorevler":[{"ders":"Matematik","baslik":"Sayı Örüntüleri","sayfa":48,"test":"KT-6","altin":40},{"ders":"Türkçe","baslik":"Kelimeler Arası Anlam İlişkisi","sayfa":26,"test":"—","altin":40},{"ders":"Sosyal Bilgiler","baslik":"Herkesin Bir Öyküsü Var","sayfa":16,"test":"KT-2","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":40},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":40}],"tip":"calisma"},{"gun":7,"tarih":"2026-07-07","haftaGunu":"Salı","hafta":1,"gorevler":[{"ders":"Matematik","baslik":"Doğal Sayılarla Toplama İşlemi","sayfa":54,"test":"KT-7","altin":40},{"ders":"Türkçe","baslik":"Gerçek ve Mecaz Anlamlı Kelimeler","sayfa":30,"test":"KT-3","altin":40},{"ders":"Fen Bilimleri","baslik":"Fosiller","sayfa":21,"test":"KT-3","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":40},{"ders":"STEM","baslik":"STEM: Gölge Saati","detay":"Güneşte çubukla gölgeyi saat saat işaretle.","altin":40},{"ders":"Günün Görevi","baslik":"Pencereden gördüğün 3 canlıyı say.","altin":40}],"tip":"calisma"},{"gun":8,"tarih":"2026-07-08","haftaGunu":"Çarşamba","hafta":2,"gorevler":[{"ders":"Matematik","baslik":"Doğal Sayılarla Çıkarma + Zihinden Çıkarma","sayfa":60,"test":"KT-8 · KT-9 · Ünite 1 Değ.","altin":40},{"ders":"Türkçe","baslik":"Terim Anlam + Gerçek/Mecaz/Terim","sayfa":35,"test":"KT-4","altin":40},{"ders":"Sosyal Bilgiler","baslik":"Nelerden Hoşlanıyorum? Neler Yapabilirim?","sayfa":22,"test":"KT-3","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":40},{"ders":"Günün Görevi","baslik":"Sevdiğin şarkının bir dizesini yaz.","altin":40}],"tip":"calisma"},{"gun":9,"tarih":"2026-07-09","haftaGunu":"Perşembe","hafta":2,"gorevler":[{"ders":"Matematik","baslik":"Toplama Tahmin + Zihinden Toplama İşlemi","sayfa":74,"test":"KT-10 · KT-11","altin":40},{"ders":"Türkçe","baslik":"Çok Anlamlılık","sayfa":44,"test":"—","altin":40},{"ders":"Fen Bilimleri","baslik":"Dünya'mızın Hareketleri","sayfa":27,"test":"KT-4 · Ünite 1 Değ.","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":40},{"ders":"STEM","baslik":"STEM: Basit Devre","detay":"Pil-kablo-ampulle ışık yak.","altin":40},{"ders":"Günün Görevi","baslik":"Bir bilmece bul, babana sor.","altin":40}],"tip":"calisma"},{"gun":10,"tarih":"2026-07-10","haftaGunu":"Cuma","hafta":2,"gorevler":[{"ders":"Matematik","baslik":"Toplama İşlemi Problemleri","sayfa":83,"test":"KT-12","altin":40},{"ders":"Türkçe","baslik":"Dilimize Yerleşen Yabancı Kelimeler","sayfa":46,"test":"KT-5","altin":40},{"ders":"Sosyal Bilgiler","baslik":"Onun Yerinde Olsaydım + Farklılıklara Saygı","sayfa":27,"test":"KT-4 · Ünite 1 Değ.","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":40},{"ders":"Günün Görevi","baslik":"Bugün için küçük bir hedef belirle.","altin":40}],"tip":"calisma"},{"gun":11,"tarih":"2026-07-11","haftaGunu":"Cumartesi","hafta":2,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":40}],"tip":"telafi"},{"gun":12,"tarih":"2026-07-12","haftaGunu":"Pazar","hafta":2,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":40},{"ders":"Keşif","baslik":"Pazar Keşfi: Geri Dönüşüm Sanatı","detay":"Atık kutudan oyuncak/robot yap.","altin":40}],"tip":"serbest"},{"gun":13,"tarih":"2026-07-13","haftaGunu":"Pazartesi","hafta":2,"gorevler":[{"ders":"Matematik","baslik":"Farkı Tahmin + Toplama ve Çıkarma Problemleri","sayfa":89,"test":"KT-13 · KT-14 · Ünite 2 Değ.","altin":40},{"ders":"Türkçe","baslik":"Deyimler","sayfa":52,"test":"—","altin":40},{"ders":"Fen Bilimleri","baslik":"Besinler ve Özellikleri","sayfa":37,"test":"KT-5","altin":40},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":40},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":40}],"tip":"calisma"},{"gun":14,"tarih":"2026-07-14","haftaGunu":"Salı","hafta":2,"gorevler":[{"ders":"Matematik","baslik":"Doğal Sayılarla Çarpma İşlemi","sayfa":106,"test":"KT-15","altin":40},{"ders":"Türkçe","baslik":"Atasözleri + Atasözleri ve Deyimler","sayfa":54,"test":"KT-6 · Tema 1 Değ.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Ailemin Tarihi","sayfa":36,"test":"KT-5","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"STEM","baslik":"STEM: Kâğıt Köprü","detay":"Tek A4 ile en güçlü köprüyü tasarla.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":39}],"tip":"calisma"},{"gun":15,"tarih":"2026-07-15","haftaGunu":"Çarşamba","hafta":3,"gorevler":[{"ders":"Matematik","baslik":"Kısa Yoldan + Zihinden Çarpma + Tahmin","sayfa":114,"test":"KT-16 · KT-17 · KT-18","altin":39},{"ders":"Türkçe","baslik":"Cümle Oluşturma + Olumlu/Olumsuz Cümle","sayfa":66,"test":"KT-7","altin":39},{"ders":"Fen Bilimleri","baslik":"Canlı Yaşamı ve Besin İçerikleri","sayfa":42,"test":"KT-6","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":39}],"tip":"calisma"},{"gun":16,"tarih":"2026-07-16","haftaGunu":"Perşembe","hafta":3,"gorevler":[{"ders":"Matematik","baslik":"Çarpma İşlemi ile İlgili Problemler","sayfa":126,"test":"KT-19","altin":39},{"ders":"Türkçe","baslik":"Cümlede 5N1K + Geçiş/Bağlantı İfadeleri","sayfa":74,"test":"KT-8","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Millî Kültür Ögelerimiz","sayfa":42,"test":"KT-6","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39},{"ders":"STEM","baslik":"STEM: Kristal Büyütme","detay":"Tuzlu suda kristal oluşumunu gözlemle.","altin":39},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":39}],"tip":"calisma"},{"gun":17,"tarih":"2026-07-17","haftaGunu":"Cuma","hafta":3,"gorevler":[{"ders":"Matematik","baslik":"Bölme İşlemi Yapalım","sayfa":134,"test":"KT-20","altin":39},{"ders":"Türkçe","baslik":"Cümle Konusu + Soru ve Ünlem Cümleleri","sayfa":82,"test":"KT-9","altin":39},{"ders":"Fen Bilimleri","baslik":"Su-Mineraller + Besinlerin Tazeliği","sayfa":47,"test":"KT-7","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Pencereden gördüğün 3 canlıyı say.","altin":39}],"tip":"calisma"},{"gun":18,"tarih":"2026-07-18","haftaGunu":"Cumartesi","hafta":3,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39}],"tip":"telafi"},{"gun":19,"tarih":"2026-07-19","haftaGunu":"Pazar","hafta":3,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Mancınık","detay":"Çubuk ve lastikle mini mancınık yap.","altin":39}],"tip":"serbest"},{"gun":20,"tarih":"2026-07-20","haftaGunu":"Pazartesi","hafta":3,"gorevler":[{"ders":"Matematik","baslik":"Dört Basamaklı Doğal Sayılarla Bölme","sayfa":140,"test":"KT-21","altin":39},{"ders":"Türkçe","baslik":"Karşılaştırma ve Benzetme Cümleleri","sayfa":90,"test":"KT-10","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Geçmişten Bugüne Çocuk Oyunları","sayfa":48,"test":"KT-7","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39},{"ders":"Günün Görevi","baslik":"Sevdiğin şarkının bir dizesini yaz.","altin":39}],"tip":"calisma"},{"gun":21,"tarih":"2026-07-21","haftaGunu":"Salı","hafta":3,"gorevler":[{"ders":"Matematik","baslik":"Zihinden Bölme + Çarpma-Bölme İlişkisi","sayfa":144,"test":"KT-22 · KT-23","altin":39},{"ders":"Türkçe","baslik":"Örneklendirme/Tanım + Cümlede Anlam Özellikleri","sayfa":98,"test":"KT-11","altin":39},{"ders":"Fen Bilimleri","baslik":"İnsan Sağlığı ve Dengeli Beslenme","sayfa":56,"test":"KT-8","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39},{"ders":"STEM","baslik":"STEM: Yön Bulma","detay":"Pusula çiz, evdeki yönleri bul.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bilmece bul, babana sor.","altin":39}],"tip":"calisma"},{"gun":22,"tarih":"2026-07-22","haftaGunu":"Çarşamba","hafta":4,"gorevler":[{"ders":"Matematik","baslik":"Bölme İşlemi ile İlgili Problemler","sayfa":157,"test":"KT-24","altin":39},{"ders":"Türkçe","baslik":"Neden-Sonuç Cümleleri","sayfa":108,"test":"KT-12 · Tema 2 Değ.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Kahramanlık Destanı: Millî Mücadele","sayfa":54,"test":"KT-8","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Bugün için küçük bir hedef belirle.","altin":39}],"tip":"calisma"},{"gun":23,"tarih":"2026-07-23","haftaGunu":"Perşembe","hafta":4,"gorevler":[{"ders":"Matematik","baslik":"İfadelerin Eşitlik Durumu","sayfa":163,"test":"KT-25 · Ünite 3 Değ.","altin":39},{"ders":"Türkçe","baslik":"Büyük Harfler + Sayıların Yazılışı","sayfa":122,"test":"KT-13","altin":39},{"ders":"Fen Bilimleri","baslik":"Alkol ve Sigaranın Zararları","sayfa":62,"test":"KT-9 · Ünite 2 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39},{"ders":"STEM","baslik":"STEM: Hava İstasyonu","detay":"3 gün hava durumunu kaydet.","altin":39},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":39}],"tip":"calisma"},{"gun":24,"tarih":"2026-07-24","haftaGunu":"Cuma","hafta":4,"gorevler":[{"ders":"Matematik","baslik":"Kesir Çeşitleri","sayfa":172,"test":"KT-26","altin":39},{"ders":"Türkçe","baslik":"Kısaltmaların + Pekiştirmelerin Yazımı","sayfa":129,"test":"KT-14","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Millî Mücadele Cepheleri (Doğu/Güney/Batı)","sayfa":59,"test":"KT-9 · Ünite 2 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":39}],"tip":"calisma"},{"gun":25,"tarih":"2026-07-25","haftaGunu":"Cumartesi","hafta":4,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39}],"tip":"telafi"},{"gun":26,"tarih":"2026-07-26","haftaGunu":"Pazar","hafta":4,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Su Yoğunluğu","detay":"Tuzlu/tatlı suda yumurta yüzdürme.","altin":39}],"tip":"serbest"},{"gun":27,"tarih":"2026-07-27","haftaGunu":"Pazartesi","hafta":4,"gorevler":[{"ders":"Matematik","baslik":"Kesirleri Karşılaştırma + Basit Kesir Kadarı","sayfa":178,"test":"KT-27 · KT-28","altin":39},{"ders":"Türkçe","baslik":"'Mİ' / 'DE-DE' / 'Kİ-Kİ' Yazımı","sayfa":136,"test":"KT-15","altin":39},{"ders":"Fen Bilimleri","baslik":"Kuvvetin Cisimler Üzerindeki Etkileri","sayfa":72,"test":"KT-10","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":39}],"tip":"calisma"},{"gun":28,"tarih":"2026-07-28","haftaGunu":"Salı","hafta":4,"gorevler":[{"ders":"Matematik","baslik":"Kesirlerle Toplama ve Çıkarma İşlemi","sayfa":189,"test":"KT-29","altin":39},{"ders":"Türkçe","baslik":"Eklerin + Yazımı Karıştırılan Kelimeler","sayfa":143,"test":"KT-16 · Tema 3 Değ.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Yönlerimiz","sayfa":74,"test":"KT-10","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39},{"ders":"STEM","baslik":"STEM: Mıknatıs Avı","detay":"Evdeki eşyaları mıknatısla test et.","altin":39},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":39}],"tip":"calisma"},{"gun":29,"tarih":"2026-07-29","haftaGunu":"Çarşamba","hafta":5,"gorevler":[{"ders":"Matematik","baslik":"Kesir Problemleri","sayfa":195,"test":"KT-30","altin":39},{"ders":"Türkçe","baslik":"Noktalama İşaretleri","sayfa":162,"test":"KT-17","altin":39},{"ders":"Fen Bilimleri","baslik":"Mıknatıslar: Özellikleri ve Kullanımı","sayfa":80,"test":"KT-11 · KT-12 · Ünite 3 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39},{"ders":"Günün Görevi","baslik":"Pencereden gördüğün 3 canlıyı say.","altin":39}],"tip":"calisma"},{"gun":30,"tarih":"2026-07-30","haftaGunu":"Perşembe","hafta":5,"gorevler":[{"ders":"Matematik","baslik":"Zaman Ölçüsü Dönüşümleri ve Problemleri","sayfa":201,"test":"KT-31 · KT-32","altin":39},{"ders":"Türkçe","baslik":"Kısa Çizgi, İki Nokta, Kesme, Uzun Çizgi","sayfa":170,"test":"KT-18","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Yer Tarifi Yapalım","sayfa":80,"test":"KT-11","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"STEM","baslik":"STEM: Gölge Saati","detay":"Güneşte çubukla gölgeyi saat saat işaretle.","altin":39},{"ders":"Günün Görevi","baslik":"Sevdiğin şarkının bir dizesini yaz.","altin":39}],"tip":"calisma"},{"gun":31,"tarih":"2026-07-31","haftaGunu":"Cuma","hafta":5,"gorevler":[{"ders":"Matematik","baslik":"Sütun Grafiğini Yorumlama ve Oluşturma","sayfa":213,"test":"KT-33 · KT-34","altin":39},{"ders":"Türkçe","baslik":"Eğik Çizgi, Üç Nokta, Yay Ayraç","sayfa":178,"test":"KT-19 · KT-20 · Tema 4 Değ.","altin":39},{"ders":"Fen Bilimleri","baslik":"Maddeyi Niteleyen + Ölçülebilir Özellikler (Kütle/Hacim)","sayfa":98,"test":"KT-13 · KT-14 · KT-15","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39},{"ders":"Günün Görevi","baslik":"Bir bilmece bul, babana sor.","altin":39}],"tip":"calisma"},{"gun":32,"tarih":"2026-08-01","haftaGunu":"Cumartesi","hafta":5,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39}],"tip":"telafi"},{"gun":33,"tarih":"2026-08-02","haftaGunu":"Pazar","hafta":5,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Basit Devre","detay":"Pil-kablo-ampulle ışık yak.","altin":39}],"tip":"serbest"},{"gun":34,"tarih":"2026-08-03","haftaGunu":"Pazartesi","hafta":5,"gorevler":[{"ders":"Matematik","baslik":"Verilerin Gösterimi + Veri Toplama/Analiz","sayfa":224,"test":"KT-35 · KT-36 · Ünite 4 Değ.","altin":39},{"ders":"Türkçe","baslik":"Metin Bölümleri + Oluş Sırası","sayfa":198,"test":"KT-21","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Çevremizde Neler Var? + Hava Durumu","sayfa":84,"test":"KT-12 · KT-13","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Bugün için küçük bir hedef belirle.","altin":39}],"tip":"calisma"},{"gun":35,"tarih":"2026-08-04","haftaGunu":"Salı","hafta":5,"gorevler":[{"ders":"Matematik","baslik":"Üçgen, Kare, Dikdörtgenin Kenar/Köşeleri","sayfa":238,"test":"KT-37","altin":39},{"ders":"Türkçe","baslik":"Metinde 5N1K","sayfa":208,"test":"KT-22","altin":39},{"ders":"Fen Bilimleri","baslik":"Maddenin Hâlleri","sayfa":116,"test":"KT-16","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"STEM","baslik":"STEM: Geri Dönüşüm Sanatı","detay":"Atık kutudan oyuncak/robot yap.","altin":39},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":39}],"tip":"calisma"},{"gun":36,"tarih":"2026-08-05","haftaGunu":"Çarşamba","hafta":6,"gorevler":[{"ders":"Matematik","baslik":"Kare-Dikdörtgen Özellikleri + Üçgen Çeşitleri","sayfa":243,"test":"KT-38","altin":39},{"ders":"Türkçe","baslik":"Metnin Konusu + Başlık Belirleme","sayfa":214,"test":"KT-23","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Yaşadığım Yer","sayfa":94,"test":"KT-14","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":39}],"tip":"calisma"},{"gun":37,"tarih":"2026-08-06","haftaGunu":"Perşembe","hafta":6,"gorevler":[{"ders":"Matematik","baslik":"Küp ve Geometrik Cisimler","sayfa":249,"test":"KT-39","altin":39},{"ders":"Türkçe","baslik":"Ana Fikir","sayfa":224,"test":"KT-24","altin":39},{"ders":"Fen Bilimleri","baslik":"Maddenin Isı Etkisiyle Değişimi","sayfa":122,"test":"KT-17 · KT-18","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39},{"ders":"STEM","baslik":"STEM: Kâğıt Köprü","detay":"Tek A4 ile en güçlü köprüyü tasarla.","altin":39},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":39}],"tip":"calisma"},{"gun":38,"tarih":"2026-08-07","haftaGunu":"Cuma","hafta":6,"gorevler":[{"ders":"Matematik","baslik":"Düzlem + Açıların İsimlendirilmesi","sayfa":255,"test":"KT-40","altin":39},{"ders":"Türkçe","baslik":"Şiirde Konu - Ana Duygu","sayfa":230,"test":"KT-25 · Tema 5 Değ.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Doğal Afetlere Hazır Olalım","sayfa":99,"test":"KT-15 · Ünite 3 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":39}],"tip":"calisma"},{"gun":39,"tarih":"2026-08-08","haftaGunu":"Cumartesi","hafta":6,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39}],"tip":"telafi"},{"gun":40,"tarih":"2026-08-09","haftaGunu":"Pazar","hafta":6,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Kristal Büyütme","detay":"Tuzlu suda kristal oluşumunu gözlemle.","altin":39}],"tip":"serbest"},{"gun":41,"tarih":"2026-08-10","haftaGunu":"Pazartesi","hafta":6,"gorevler":[{"ders":"Matematik","baslik":"Açı Çeşitleri + Standart Olmayan Açı Ölçme","sayfa":260,"test":"KT-41","altin":39},{"ders":"Türkçe","baslik":"Hayali Unsur + Anlatım Biçimleri","sayfa":244,"test":"KT-26","altin":39},{"ders":"Fen Bilimleri","baslik":"Saf Madde ve Karışım + Ayrılması","sayfa":134,"test":"KT-19 · KT-20 · KT-21 · Ünite 4 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Pencereden gördüğün 3 canlıyı say.","altin":39}],"tip":"calisma"},{"gun":42,"tarih":"2026-08-11","haftaGunu":"Salı","hafta":6,"gorevler":[{"ders":"Matematik","baslik":"Ölçüsü Verilen Açıyı Ölçme","sayfa":266,"test":"KT-42","altin":39},{"ders":"Türkçe","baslik":"Hikâye Unsurları + Paragraf Tamamlama","sayfa":252,"test":"KT-27 · KT-28","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Teknolojik Ürünler + Geçmişten Bugüne Teknoloji","sayfa":114,"test":"KT-16 · KT-17","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39},{"ders":"STEM","baslik":"STEM: Mancınık","detay":"Çubuk ve lastikle mini mancınık yap.","altin":39},{"ders":"Günün Görevi","baslik":"Sevdiğin şarkının bir dizesini yaz.","altin":39}],"tip":"calisma"},{"gun":43,"tarih":"2026-08-12","haftaGunu":"Çarşamba","hafta":7,"gorevler":[{"ders":"Matematik","baslik":"Simetri","sayfa":270,"test":"KT-43","altin":39},{"ders":"Türkçe","baslik":"Metinden Çıkarım Yapma","sayfa":266,"test":"KT-29","altin":39},{"ders":"Fen Bilimleri","baslik":"Aydınlatma Teknolojileri + Işık Kirliliği","sayfa":154,"test":"KT-22 · KT-23 · KT-24 · KT-25","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bilmece bul, babana sor.","altin":39}],"tip":"calisma"},{"gun":44,"tarih":"2026-08-13","haftaGunu":"Perşembe","hafta":7,"gorevler":[{"ders":"Matematik","baslik":"Uzunluk Ölçü Birimleri + Milimetre","sayfa":276,"test":"KT-44","altin":39},{"ders":"Türkçe","baslik":"Anlam Akışını Bozan Cümle","sayfa":272,"test":"KT-30 · Tema 6 Değ.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"İcat Çıkaralım - Zarar Vermeden Kullanalım","sayfa":122,"test":"KT-18 · Ünite 4 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39},{"ders":"STEM","baslik":"STEM: Yön Bulma","detay":"Pusula çiz, evdeki yönleri bul.","altin":39},{"ders":"Günün Görevi","baslik":"Bugün için küçük bir hedef belirle.","altin":39}],"tip":"calisma"},{"gun":45,"tarih":"2026-08-14","haftaGunu":"Cuma","hafta":7,"gorevler":[{"ders":"Matematik","baslik":"Uzunluğu Tahmin + Uzunluk Ölçme Problemleri","sayfa":282,"test":"KT-45 · Ünite 5 Değ.","altin":39},{"ders":"Türkçe","baslik":"İsim Türleri","sayfa":286,"test":"KT-31","altin":39},{"ders":"Fen Bilimleri","baslik":"Ses Teknolojileri + Şiddetli Ses","sayfa":174,"test":"KT-26 · KT-27","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":39}],"tip":"calisma"},{"gun":46,"tarih":"2026-08-15","haftaGunu":"Cumartesi","hafta":7,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39}],"tip":"telafi"},{"gun":47,"tarih":"2026-08-16","haftaGunu":"Pazar","hafta":7,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Hava İstasyonu","detay":"3 gün hava durumunu kaydet.","altin":39}],"tip":"serbest"},{"gun":48,"tarih":"2026-08-17","haftaGunu":"Pazartesi","hafta":7,"gorevler":[{"ders":"Matematik","baslik":"Kare ve Dikdörtgenin Çevresi","sayfa":294,"test":"KT-46","altin":39},{"ders":"Türkçe","baslik":"Ön Adlar + Adıllar","sayfa":298,"test":"KT-32","altin":39},{"ders":"Sosyal Bilgiler","baslik":"İstek/İhtiyaçlar + Ekonomik Faaliyetler","sayfa":136,"test":"KT-19 · KT-20","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":39}],"tip":"calisma"},{"gun":49,"tarih":"2026-08-18","haftaGunu":"Salı","hafta":7,"gorevler":[{"ders":"Matematik","baslik":"Çevre Problemleri","sayfa":306,"test":"KT-47 · KT-48","altin":39},{"ders":"Türkçe","baslik":"Eylemler + Ön Ad, Adıl ve Eylem","sayfa":308,"test":"KT-33 · Tema 7 Değ.","altin":39},{"ders":"Fen Bilimleri","baslik":"Ses Kirliliği ve Çözümleri","sayfa":184,"test":"KT-28 · KT-29 · Ünite 5 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39},{"ders":"STEM","baslik":"STEM: Su Yoğunluğu","detay":"Tuzlu/tatlı suda yumurta yüzdürme.","altin":39},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":39}],"tip":"calisma"},{"gun":50,"tarih":"2026-08-19","haftaGunu":"Çarşamba","hafta":8,"gorevler":[{"ders":"Matematik","baslik":"Alan: Birimkare + Dikdörtgen/Kare Alanı","sayfa":312,"test":"KT-49 · KT-50","altin":39},{"ders":"Türkçe","baslik":"Pekiştirme: Tema Değ. / Beceri Temelli Sorular","detay":"Türkçe konularını tekrar et, eksik testleri çöz.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Bilinçli Tüketici + İsrafa Hayır","sayfa":147,"test":"KT-21 · KT-22 · Ünite 5 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":39}],"tip":"calisma"},{"gun":51,"tarih":"2026-08-20","haftaGunu":"Perşembe","hafta":8,"gorevler":[{"ders":"Matematik","baslik":"Kilogramdan Grama + Tartma","sayfa":322,"test":"KT-51 · KT-52","altin":39},{"ders":"Türkçe","baslik":"Pekiştirme: Tema Değ. / Beceri Temelli Sorular","detay":"Türkçe konularını tekrar et, eksik testleri çöz.","altin":39},{"ders":"Fen Bilimleri","baslik":"Bilinçli Tüketici + Geri Dönüşüm","sayfa":198,"test":"KT-30 · KT-31 · Ünite 6 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"STEM","baslik":"STEM: Mıknatıs Avı","detay":"Evdeki eşyaları mıknatısla test et.","altin":39},{"ders":"Günün Görevi","baslik":"Pencereden gördüğün 3 canlıyı say.","altin":39}],"tip":"calisma"},{"gun":52,"tarih":"2026-08-21","haftaGunu":"Cuma","hafta":8,"gorevler":[{"ders":"Matematik","baslik":"Ton-Kg-Gram-Mg + Tartma Problemleri","sayfa":330,"test":"KT-53 · KT-54","altin":39},{"ders":"Türkçe","baslik":"Pekiştirme: Tema Değ. / Beceri Temelli Sorular","detay":"Türkçe konularını tekrar et, eksik testleri çöz.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Çocuk Hakları + Sorumluluk + Özgürlük","sayfa":164,"test":"KT-23 · KT-24 · KT-25 · KT-26 · Ünite 6 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39},{"ders":"Günün Görevi","baslik":"Sevdiğin şarkının bir dizesini yaz.","altin":39}],"tip":"calisma"},{"gun":53,"tarih":"2026-08-22","haftaGunu":"Cumartesi","hafta":8,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39}],"tip":"telafi"},{"gun":54,"tarih":"2026-08-23","haftaGunu":"Pazar","hafta":8,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Gölge Saati","detay":"Güneşte çubukla gölgeyi saat saat işaretle.","altin":39}],"tip":"serbest"},{"gun":55,"tarih":"2026-08-24","haftaGunu":"Pazartesi","hafta":8,"gorevler":[{"ders":"Matematik","baslik":"Mililitre + Litre-Mililitre İlişkisi","sayfa":342,"test":"KT-55","altin":39},{"ders":"Türkçe","baslik":"Pekiştirme: Tema Değ. / Beceri Temelli Sorular","detay":"Türkçe konularını tekrar et, eksik testleri çöz.","altin":39},{"ders":"Fen Bilimleri","baslik":"Basit Elektrik Devreleri + Devre Elemanları","sayfa":214,"test":"KT-32 · KT-33 · KT-34 · Ünite 7 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Karaktere bir soru sorabilseydin ne sorardın?","altin":39},{"ders":"Günün Görevi","baslik":"Bir bilmece bul, babana sor.","altin":39}],"tip":"calisma"},{"gun":56,"tarih":"2026-08-25","haftaGunu":"Salı","hafta":8,"gorevler":[{"ders":"Matematik","baslik":"Sıvı Ölçme Problemleri","sayfa":353,"test":"KT-56 · KT-57 · Ünite 6 Değ.","altin":39},{"ders":"Türkçe","baslik":"Pekiştirme: Tema Değ. / Beceri Temelli Sorular","detay":"Türkçe konularını tekrar et, eksik testleri çöz.","altin":39},{"ders":"Sosyal Bilgiler","baslik":"Ülkeleri Tanıyalım + Komşular + Farklı Kültürler","sayfa":188,"test":"KT-27 · KT-28 · KT-29 · Ünite 7 Değ.","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugünkü bölümü tek cümleyle özetle.","altin":39},{"ders":"STEM","baslik":"STEM: Basit Devre","detay":"Pil-kablo-ampulle ışık yak.","altin":39},{"ders":"Günün Görevi","baslik":"Bugün için küçük bir hedef belirle.","altin":39}],"tip":"calisma"},{"gun":57,"tarih":"2026-08-26","haftaGunu":"Çarşamba","hafta":9,"gorevler":[{"ders":"Genel Tekrar","baslik":"Eksik kazanım testlerini ve telafileri bitir","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Bugün okuduğun en ilginç karakteri anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Aileden birine bugün öğrendiğini öğret.","altin":39}],"tip":"tampon"},{"gun":58,"tarih":"2026-08-27","haftaGunu":"Perşembe","hafta":9,"gorevler":[{"ders":"Genel Tekrar","baslik":"Eksik kazanım testlerini ve telafileri bitir","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Yeni öğrendiğin 3 kelimeyi yaz, anlamlarını söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Bir bulut çiz ve ona isim ver.","altin":39}],"tip":"tampon"},{"gun":59,"tarih":"2026-08-28","haftaGunu":"Cuma","hafta":9,"gorevler":[{"ders":"Genel Tekrar","baslik":"Eksik kazanım testlerini ve telafileri bitir","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"En heyecanlı/komik bölümü babana anlat.","altin":39},{"ders":"Günün Görevi","baslik":"Bir teşekkür kartı hazırla.","altin":39}],"tip":"tampon"},{"gun":60,"tarih":"2026-08-29","haftaGunu":"Cumartesi","hafta":9,"gorevler":[{"ders":"Telafi","baslik":"Telafi Havuzu","detay":"Hafta içi eksik kalanları tamamla. Boşsa tatil!"},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Okuduğun bölümün bir resmini çiz.","altin":39}],"tip":"telafi"},{"gun":61,"tarih":"2026-08-30","haftaGunu":"Pazar","hafta":9,"gorevler":[{"ders":"Kitap Okuma","baslik":"20 dk serbest okuma","detay":"O ana kadarki sonunu kendi hayalinle değiştir.","altin":39},{"ders":"Keşif","baslik":"Pazar Keşfi: Geri Dönüşüm Sanatı","detay":"Atık kutudan oyuncak/robot yap.","altin":39}],"tip":"serbest"},{"gun":62,"tarih":"2026-08-31","haftaGunu":"Pazartesi","hafta":9,"gorevler":[{"ders":"Genel Tekrar","baslik":"Eksik kazanım testlerini ve telafileri bitir","altin":39},{"ders":"Kitap Okuma","baslik":"20 dk okuma","detay":"Kitaba 5 üzerinden puan ver, nedenini söyle.","altin":39},{"ders":"Günün Görevi","baslik":"Yeni bir kelimeyi cümle içinde kullan.","altin":39}],"tip":"tampon"}]};
+
+/* ===== SVG İKON SETİ (emoji yok) ===== */
+const ICON={
+ mat:'<path d="M4 4h16v4H4zM4 10h7v10H4zM13 10h7v10h-7z"/><path d="M6 13h3M6 16h3M15 12l3 3M18 12l-3 3" stroke="#fff" stroke-width="1.6" fill="none"/>',
+ tur:'<path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5" fill="rgba(0,0,0,.2)"/><path d="M8 12h8M8 15h8M8 18h5" stroke="#fff" stroke-width="1.5"/>',
+ fen:'<path d="M9 3h6v2l-1 1v4l5 9a2 2 0 0 1-2 3H7a2 2 0 0 1-2-3l5-9V6L9 5z"/><circle cx="10" cy="16" r="1.1" fill="#fff"/><circle cx="13" cy="18" r="1.1" fill="#fff"/>',
+ sos:'<circle cx="12" cy="12" r="9"/><path d="M12 12l4-6-6 4-2 6 6-4z" fill="#fff"/>',
+ oku:'<path d="M3 5c3-1.5 6-1.5 9 0 3-1.5 6-1.5 9 0v13c-3-1.5-6-1.5-9 0-3-1.5-6-1.5-9 0z"/><path d="M12 5v13" stroke="rgba(0,0,0,.25)" stroke-width="1.4"/>',
+ stem:'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0-6l1.5 2.5h-3zM12 22l-1.5-2.5h3zM2 12l2.5-1.5v3zM22 12l-2.5 1.5v-3zM5 5l2.8.8-2 2zM19 19l-2.8-.8 2-2zM19 5l-.8 2.8-2-2zM5 19l.8-2.8 2 2z"/>',
+ gorev:'<path d="M12 2l2.6 6.3 6.8.5-5.2 4.4 1.7 6.6L12 16.8 6.1 20.3l1.7-6.6L2.6 9.3l6.8-.5z"/>',
+ telafi:'<path d="M2 14c2-2 4-2 6 0s4 2 6 0 4-2 6 0v4c-2 2-4 2-6 0s-4-2-6 0-4 2-6 0z"/><path d="M2 8c2-2 4-2 6 0s4 2 6 0 4-2 6 0" stroke="#fff" stroke-width="1.6" fill="none"/>',
+ tekrar:'<path d="M12 4a8 8 0 1 1-7.5 5.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M4 3v5h5z" fill="#fff"/>',
+ harita:'<path d="M9 3L3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16" stroke="rgba(0,0,0,.25)" stroke-width="1.3"/>',
+ kamp:'<path d="M12 3L3 20h18z"/><path d="M12 9l-5 11h10z" fill="rgba(0,0,0,.2)"/>',
+ pusula:'<circle cx="12" cy="12" r="9"/><path d="M12 12l5-5-3 7-7 3 3-7z" fill="#fff"/>',
+ sandik:'<path d="M3 9h18v11H3z"/><path d="M3 9a9 5 0 0 1 18 0" fill="rgba(0,0,0,.15)"/><rect x="10" y="11" width="4" height="5" fill="#fff"/>',
+ defter:'<path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z"/><path d="M5 3v18M9 7h7M9 11h7M9 15h5" stroke="#fff" stroke-width="1.3" fill="none"/>'
+};
+function svg(p,extra){return `<svg viewBox="0 0 24 24" ${extra||''}>${p}</svg>`;}
+
+const DERS={
+ "Matematik":{r:"#1C8FA6",ic:ICON.mat},"Türkçe":{r:"#C0392B",ic:ICON.tur},
+ "Fen Bilimleri":{r:"#2E8B57",ic:ICON.fen},"Sosyal Bilgiler":{r:"#E2683C",ic:ICON.sos},
+ "Kitap Okuma":{r:"#8E5BB5",ic:ICON.oku},"STEM":{r:"#2BB6A8",ic:ICON.stem},
+ "Günün Görevi":{r:"#E9B949",ic:ICON.gorev},"Telafi":{r:"#5E89A0",ic:ICON.telafi},
+ "Keşif":{r:"#8E5BB5",ic:ICON.pusula},"Genel Tekrar":{r:"#5E89A0",ic:ICON.tekrar}
+};
+const XP_MAP={"Matematik":20,"Türkçe":20,"Fen Bilimleri":20,"Sosyal Bilgiler":20,"Kitap Okuma":30,"STEM":35,"Günün Görevi":15,"Keşif":20,"Genel Tekrar":15,"Telafi":15};
+const KRISTAL_MAP={"Matematik":1,"Türkçe":1,"Fen Bilimleri":1,"Sosyal Bilgiler":1,"Kitap Okuma":2,"STEM":3,"Günün Görevi":1,"Keşif":2,"Genel Tekrar":1,"Telafi":1};
+
+/* ===== 6 BÖLGE ===== */
+const BOLGELER=[
+ {ad:"Sahil Adaları",bas:1,bit:10,renk:"#3FB6C9",renk2:"#1C8FA6",prop:"sahil"},
+ {ad:"Orman Adaları",bas:11,bit:20,renk:"#3FA86A",renk2:"#22713F",prop:"orman"},
+ {ad:"Antik Tapınaklar",bas:21,bit:30,renk:"#C9A24B",renk2:"#8A6A2E",prop:"tapinak"},
+ {ad:"Volkan Adaları",bas:31,bit:40,renk:"#D85A3C",renk2:"#A23218",prop:"volkan"},
+ {ad:"Buz Adaları",bas:41,bit:50,renk:"#7FC9E8",renk2:"#4A8FB5",prop:"buz"},
+ {ad:"Hazine Adaları",bas:51,bit:62,renk:"#E9B949",renk2:"#B07B3E",prop:"hazine"}
+];
+function bolgeFor(d){return BOLGELER.find(b=>d>=b.bas&&d<=b.bit)||BOLGELER[0];}
+
+const MOTIVASYON=["Bugün hangi adayı keşfedeceğiz, kaptan? 🧭","Hazine sandığı seni bekliyor!","Yeni bir ada, yeni bir macera!","Pusulanı kap, yelken açıyoruz! ⛵","Cesur kâşifler asla pes etmez!","Her görev, hazineye bir adım daha.","Papağanın 'devam!' diyor 🦜","Sisin ardında ne var, görmek ister misin?","En büyük ganimet, öğrenmenin kendisidir 💎","Yelkenler fora, macera başlasın!"];
+
+/* ===== STORE ===== */
+const Store={KEY:"ada_akademi_v2",s:null,
+  yeni(){return{onboarded:false,ad:"Ada",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",aksesuarlar:[],pin:"1234",
+    xp:0,seviye:1,kristal:0,altin:0,seri:0,enUzunSeri:0,sonGun:null,ilerleme:{},okumaDk:0,notlar:{},yanlislar:{},
+    rozetler:{},buyukHazineOdul:"",buyukHazineAcildi:false,ses:true,bakilanGun:1,gorulenBolge:{}};},
+  yukle(){try{this.s=JSON.parse(localStorage.getItem(this.KEY))||this.yeni();}catch(e){this.s=this.yeni();}const v=this.yeni();for(const k in v)if(!(k in this.s))this.s[k]=v[k];},
+  kaydet(){try{localStorage.setItem(this.KEY,JSON.stringify(this.s));}catch(e){}}};
+
+const $=(s,e=document)=>e.querySelector(s);
+const el=(t,c,h)=>{const x=document.createElement(t);if(c)x.className=c;if(h!=null)x.innerHTML=h;return x;};
+function bugununGunu(){const bas=new Date(2026,6,1);const now=new Date();const f=Math.floor((now-bas)/86400000)+1;return Math.max(1,Math.min(62,f));}
+function gunVeri(no){return CURRICULUM.gunler.find(g=>g.gun===no);}
+function gorevId(gun,i){return gun+"-"+i;}
+
+/* ===== OYUN ===== */
+const Oyun={
+  seviyeEsigi(n){return Math.round(100*n*Math.pow(1.25,n-1));},
+  seviyeHesapla(){let lvl=1,xp=Store.s.xp;while(xp>=this.seviyeEsigi(lvl)){xp-=this.seviyeEsigi(lvl);lvl++;}return{seviye:lvl,kalanXp:xp,sonraki:this.seviyeEsigi(lvl)};},
+  gorevTamamla(gunNo,i){const g=gunVeri(gunNo);const gorev=g.gorevler[i];const id=gorevId(gunNo,i);if(Store.s.ilerleme[id]==="done")return;
+    Store.s.ilerleme[id]="done";Store.s.altin=Math.min(10000,Store.s.altin+(gorev.altin||0));Store.s.xp+=XP_MAP[gorev.ders]||10;Store.s.kristal+=KRISTAL_MAP[gorev.ders]||1;
+    if(gorev.ders==="Kitap Okuma")Store.s.okumaDk+=20;const eski=Store.s.seviye;const yeni=this.seviyeHesapla().seviye;Store.s.seviye=yeni;this.seriGuncelle(gunNo);Store.kaydet();
+    Ses.altin();Konfeti.patlat();if(yeni>eski)setTimeout(()=>Modal.seviye(yeni),700);
+    const yr=Rozet.kontrol();if(yr)setTimeout(()=>Modal.rozet(yr),yeni>eski?1500:700);
+    if(Store.s.altin>=10000&&!Store.s.buyukHazineAcildi){Store.s.buyukHazineAcildi=true;Store.kaydet();setTimeout(()=>Modal.buyukHazine(),950);}},
+  geriAl(gunNo,i){const id=gorevId(gunNo,i);if(Store.s.ilerleme[id]==="done"){const g=gunVeri(gunNo).gorevler[i];
+    Store.s.altin=Math.max(0,Store.s.altin-(g.altin||0));Store.s.xp=Math.max(0,Store.s.xp-(XP_MAP[g.ders]||10));Store.s.kristal=Math.max(0,Store.s.kristal-(KRISTAL_MAP[g.ders]||1));
+    if(g.ders==="Kitap Okuma")Store.s.okumaDk=Math.max(0,Store.s.okumaDk-20);Store.s.seviye=this.seviyeHesapla().seviye;delete Store.s.ilerleme[id];Store.kaydet();}},
+  seriGuncelle(gunNo){const t=gunVeri(gunNo).tarih;if(Store.s.sonGun!==t){Store.s.seri+=1;Store.s.sonGun=t;if(Store.s.seri>Store.s.enUzunSeri)Store.s.enUzunSeri=Store.s.seri;}}
+};
+
+/* ===== İLERLEME ===== */
+const Ilerleme={
+  gunDurumu(no){const g=gunVeri(no);const aktif=bugununGunu();const altinG=g.gorevler.map((x,i)=>({x,i})).filter(o=>o.x.ders!=="Telafi");
+    const yapilan=altinG.filter(o=>Store.s.ilerleme[gorevId(no,o.i)]==="done").length;let durum;
+    if(g.tip==="telafi")durum="telafi";else if(g.tip==="serbest")durum="serbest";else if(yapilan===altinG.length&&altinG.length)durum="tamam";
+    else if(no===aktif)durum="bugun";else if(no<aktif)durum="eksik";else durum="kilitli";return{durum,yapilan,toplam:altinG.length};},
+  toplamGorev(){let t=0;CURRICULUM.gunler.forEach(g=>g.gorevler.forEach(x=>{if(x.ders!=="Telafi")t++;}));return t;},
+  yapilanGorev(){return Object.values(Store.s.ilerleme).filter(v=>v==="done").length;},
+  dersSayac(ders){let n=0;CURRICULUM.gunler.forEach(g=>g.gorevler.forEach((x,i)=>{if(x.ders===ders&&Store.s.ilerleme[gorevId(g.gun,i)]==="done")n++;}));return n;},
+  telafiHavuzu(){const aktif=bugununGunu();const liste=[];CURRICULUM.gunler.forEach(g=>{if(g.tip==="calisma"&&g.gun<aktif){g.gorevler.forEach((x,i)=>{if(x.ders!=="Telafi"&&Store.s.ilerleme[gorevId(g.gun,i)]!=="done")liste.push({gun:g.gun,i,gorev:x});});}});return liste;},
+  bitenGun(){let t=0;CURRICULUM.gunler.forEach(g=>{if(Ilerleme.gunDurumu(g.gun).durum==="tamam")t++;});return t;}
+};
+
+/* ===== GANİMETLER (ROZET) ===== */
+const ROZETLER=[
+ {id:"ilk",ad:"İlk Keşif",ic:'<path d="M12 2L2 22h20z" fill="#E9B949"/>',k:s=>Ilerleme.yapilanGorev()>=1},
+ {id:"mat10",ad:"Sayı Kâşifi",ic:ICON.mat,k:s=>Ilerleme.dersSayac("Matematik")>=10},
+ {id:"mat25",ad:"Sayı Dedektifi",ic:ICON.mat,k:s=>Ilerleme.dersSayac("Matematik")>=25},
+ {id:"mat40",ad:"Sayı Ustası",ic:ICON.mat,k:s=>Ilerleme.dersSayac("Matematik")>=40},
+ {id:"tur10",ad:"Kelime Avcısı",ic:ICON.tur,k:s=>Ilerleme.dersSayac("Türkçe")>=10},
+ {id:"tur25",ad:"Söz Kaptanı",ic:ICON.tur,k:s=>Ilerleme.dersSayac("Türkçe")>=25},
+ {id:"fen10",ad:"Fen Kâşifi",ic:ICON.fen,k:s=>Ilerleme.dersSayac("Fen Bilimleri")>=10},
+ {id:"fen20",ad:"Bilim Mucidi",ic:ICON.fen,k:s=>Ilerleme.dersSayac("Fen Bilimleri")>=20},
+ {id:"sos10",ad:"Pusula Ustası",ic:ICON.sos,k:s=>Ilerleme.dersSayac("Sosyal Bilgiler")>=10},
+ {id:"sos20",ad:"Dünya Gezgini",ic:ICON.sos,k:s=>Ilerleme.dersSayac("Sosyal Bilgiler")>=20},
+ {id:"oku5",ad:"Kitap Dostu",ic:ICON.oku,k:s=>s.okumaDk>=100},
+ {id:"oku10",ad:"Kitap Kurdu",ic:ICON.oku,k:s=>s.okumaDk>=300},
+ {id:"oku20",ad:"Hikâye Kaptanı",ic:ICON.oku,k:s=>s.okumaDk>=600},
+ {id:"stem5",ad:"Mucit Çırağı",ic:ICON.stem,k:s=>Ilerleme.dersSayac("STEM")>=5},
+ {id:"stem10",ad:"Baş Mucit",ic:ICON.stem,k:s=>Ilerleme.dersSayac("STEM")>=10},
+ {id:"seri3",ad:"3 Gün Yelken",ic:'<path d="M12 2l8 18H4z" fill="#E2683C"/>',k:s=>s.enUzunSeri>=3},
+ {id:"seri7",ad:"Haftanın Kaptanı",ic:'<path d="M12 2l8 18H4z" fill="#E2683C"/>',k:s=>s.enUzunSeri>=7},
+ {id:"seri14",ad:"Yılmaz Denizci",ic:'<path d="M12 2l8 18H4z" fill="#E2683C"/>',k:s=>s.enUzunSeri>=14},
+ {id:"lvl5",ad:"Seviye 5",ic:ICON.gorev,k:s=>s.seviye>=5},
+ {id:"lvl10",ad:"Seviye 10",ic:ICON.gorev,k:s=>s.seviye>=10},
+ {id:"a1000",ad:"İlk 1000 Altın",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>s.altin>=1000},
+ {id:"a5000",ad:"Yarım Hazine",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>s.altin>=5000},
+ {id:"a10000",ad:"BÜYÜK HAZİNE",ic:ICON.sandik,k:s=>s.altin>=10000},
+ {id:"sahil",ad:"Sahil Fatihi",ic:ICON.pusula,k:s=>{for(let d=1;d<=10;d++)if(Ilerleme.gunDurumu(d).durum!=="tamam"&&gunVeri(d).tip==="calisma")return false;return Ilerleme.dersSayac("Matematik")>=6;}},
+ {id:"krist50",ad:"Kristal Avcısı",ic:'<path d="M12 2l7 7-7 13L5 9z" fill="#2BB6A8"/>',k:s=>s.kristal>=50},
+ {id:"sik",ad:"Şık Kâşif",ic:ICON.pusula,k:s=>s.aksesuarlar.length>=1},
+ {id:"merak",ad:"Meraklı Ruh",ic:ICON.gorev,k:s=>Ilerleme.dersSayac("Günün Görevi")>=10},
+ {id:"yuz",ad:"Yüz Macera",ic:'<path d="M12 2L2 22h20z" fill="#E9B949"/>',k:s=>Ilerleme.yapilanGorev()>=100},
+ {id:"final",ad:"Hazine Efsanesi",ic:ICON.sandik,k:s=>Ilerleme.yapilanGorev()>=Ilerleme.toplamGorev()}
+];
+const Rozet={kontrol(){for(const r of ROZETLER){if(!Store.s.rozetler[r.id]&&r.k(Store.s)){Store.s.rozetler[r.id]=new Date().toISOString();Store.kaydet();return r;}}return null;}};
+
+/* ===== SES ===== */
+const Ses={ctx:null,ac(){if(!Store.s.ses)return null;if(!this.ctx)this.ctx=new (window.AudioContext||window.webkitAudioContext)();return this.ctx;},
+  ton(f,t,d=0.13,tip="sine",g=0.16){const c=this.ac();if(!c)return;const o=c.createOscillator(),ga=c.createGain();o.type=tip;o.frequency.value=f;o.connect(ga);ga.connect(c.destination);ga.gain.setValueAtTime(g,c.currentTime+t);ga.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+d);o.start(c.currentTime+t);o.stop(c.currentTime+t+d);},
+  altin(){this.ton(880,0,.08,"square",.08);this.ton(1175,.05,.12,"square",.07);this.ton(1568,.12,.18,"sine",.1);},
+  rozet(){this.ton(523,0);this.ton(659,.1);this.ton(784,.2);this.ton(1047,.3,.35);},
+  seviye(){[392,523,659,784,1047,1319].forEach((f,i)=>this.ton(f,i*.08,.28,"sine",.13));},
+  sandik(){this.ton(196,0,.3,"sawtooth",.06);this.ton(523,.15);this.ton(784,.3);this.ton(1047,.45,.5);},
+  tik(){this.ton(660,0,.05,"triangle",.08);}};
+
+/* ===== KONFETİ (altın sikke + parşömen) ===== */
+const Konfeti={patlat(n=36){const r=$("#konfeti");const renk=["#E9B949","#FFD56B","#2BB6A8","#E2683C","#2E8B57","#F2DFB3"];
+  for(let i=0;i<n;i++){const p=el("div","kp");const yuvarlak=i%2===0;p.style.background=renk[i%renk.length];p.style.borderRadius=yuvarlak?"50%":"2px";
+    if(yuvarlak)p.style.boxShadow="inset 0 0 0 2px rgba(0,0,0,.15)";p.style.left=(40+Math.random()*20)+"%";p.style.top="42%";r.appendChild(p);
+    const dx=(Math.random()-.5)*440,dy=-(200+Math.random()*280),rot=Math.random()*720;
+    p.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`,opacity:1},{transform:`translate(${dx*1.2}px,${dy+560}px) rotate(${rot*1.6}deg)`,opacity:0}],{duration:1600+Math.random()*700,easing:"cubic-bezier(.2,.7,.3,1)"}).onfinish=()=>p.remove();}}};
+
+/* ===== MODAL ===== */
+const Modal={
+  goster(html){const bg=el("div","modal-bg");bg.innerHTML=`<div class="modal">${html}</div>`;bg.addEventListener("click",e=>{if(e.target===bg)bg.remove();});document.body.appendChild(bg);return bg;},
+  kapat(){const m=$(".modal-bg");if(m)m.remove();},
+  seviye(n){Ses.seviye();this.goster(`<div class="bigsvg">${svg(ICON.gorev,'fill="#E9B949"')}</div><h2>Seviye ${n}!</h2><p>Rütben yükseldi, kaptan! Daha derin sulara yelken açıyorsun.</p><button class="btn" onclick="Modal.kapat()">Yaşasın!</button>`);},
+  rozet(r){Ses.rozet();this.goster(`<div class="ganimet" style="width:96px;margin:0 auto;border-width:3px"><div class="em">${svg(r.ic,'width="48" height="48"')}</div></div><h2 style="margin-top:14px">Yeni Ganimet!</h2><p><b>${r.ad}</b> ganimetini sandığına kattın!</p><button class="btn yaprak" onclick="Modal.kapat()">Harika!</button>`);},
+  buyukHazine(){Ses.sandik();Konfeti.patlat(80);const o=Store.s.buyukHazineOdul||"Babanla belirlediğin sürpriz ödül!";this.goster(`<div class="bigsvg">${svg(ICON.sandik,'fill="#E9B949"')}</div><h2>BÜYÜK HAZİNE!</h2><p>10.000 altın tamam! Dev sandık açıldı! 🎉<br><br><b>Ödülün:</b> ${o}</p><button class="btn mercan" onclick="Modal.kapat()">🎉</button>`);}
+};
+
+/* ===== AVATAR SVG (emoji yok) ===== */
+function avatarSVG(s,boy){const a=s.aksesuarlar.map(x=>x.id);
+  const ten=s.ten||"#F1C9A5",tis=s.tisort||"#C0392B",sac=s.sac||"#5A3C24";
+  const pelerin=a.includes("pelerin")?`<path d="M30 62 Q60 50 90 62 L96 118 Q60 108 24 118 Z" fill="#7A2230"/>`:"";
+  const papagan=a.includes("papagan")?`<g transform="translate(78,44)"><ellipse cx="0" cy="0" rx="9" ry="11" fill="#2E8B57"/><circle cx="3" cy="-4" r="4" fill="#E2683C"/><path d="M5 -4 l6 1 -6 2z" fill="#E9B949"/><path d="M-4 2 l-7 4 7 2z" fill="#1C8FA6"/></g>`:"";
+  const sapka=a.includes("sapka")?`<g><path d="M28 40 Q60 18 92 40 L92 44 Q60 30 28 44 Z" fill="#3E2817"/><path d="M44 40 Q60 16 76 40 Z" fill="#5A3C24"/><path d="M52 30 h16 v4 h-16z" fill="#E9B949"/><circle cx="60" cy="26" r="3" fill="#E9B949"/></g>`:"";
+  const durbun=a.includes("durbun")?`<g transform="translate(34,86)"><rect x="-6" y="-6" width="14" height="12" rx="3" fill="#3E2817"/><rect x="6" y="-5" width="10" height="10" rx="2" fill="#1C8FA6"/></g>`:"";
+  const kilic=a.includes("kilic")?`<g transform="rotate(40 92 96)"><rect x="89" y="60" width="4" height="40" fill="#C9D2DA"/><rect x="84" y="98" width="14" height="5" rx="2" fill="#E9B949"/></g>`:"";
+  const canta=a.includes("canta")?`<path d="M36 70 h-8 a4 4 0 0 0-4 4 v22 a4 4 0 0 0 4 4 h8z" fill="#6E4A2C"/><rect x="24" y="80" width="12" height="4" fill="#3E2817"/>`:"";
+  return `<svg viewBox="0 0 120 130" width="${boy}" height="${boy*1.08}" style="filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))">
+    ${pelerin}${kilic}${canta}
+    <ellipse cx="60" cy="124" rx="26" ry="6" fill="rgba(0,0,0,.15)"/>
+    <path d="M42 86 Q60 78 78 86 L82 118 Q60 124 38 118 Z" fill="${tis}"/>
+    <path d="M42 86 Q60 80 78 86 L80 96 Q60 90 40 96 Z" fill="rgba(255,255,255,.12)"/>
+    <rect x="40" y="100" width="40" height="6" rx="3" fill="#3E2817"/><rect x="56" y="99" width="8" height="8" rx="2" fill="#E9B949"/>
+    ${durbun}
+    <circle cx="60" cy="56" r="26" fill="${ten}"/>
+    <path d="M36 50 Q40 28 60 28 Q80 28 84 50 Q84 40 60 38 Q36 40 36 50Z" fill="${sac}"/>
+    <circle cx="51" cy="56" r="3.4" fill="#3A2A1A"/><circle cx="69" cy="56" r="3.4" fill="#3A2A1A"/>
+    <circle cx="52" cy="55" r="1" fill="#fff"/><circle cx="70" cy="55" r="1" fill="#fff"/>
+    <path d="M54 66 Q60 70 66 66" stroke="#9c5b3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="46" cy="63" r="3" fill="#E89" opacity=".4"/><circle cx="74" cy="63" r="3" fill="#E89" opacity=".4"/>
+    ${sapka}${papagan}
+  </svg>`;}
+
+/* ===== HARİTA: ada sprite ===== */
+function adaSprite(bolge,durum,gun){const b=bolge;const tamam=durum==="tamam";const bugun=durum==="bugun";
+  const ana=tamam?b.renk:b.renk2;
+  let ust="";
+  if(b.prop==="sahil")ust=`<path d="M38 28 q4 -16 8 0" stroke="#2E8B57" stroke-width="2.5" fill="none"/><path d="M38 28 q-10 -6 -16 -2 q10 -2 16 2" fill="#2E8B57"/><path d="M38 28 q10 -6 16 -2 q-10 -2 -16 2" fill="#2E8B57"/>`;
+  else if(b.prop==="orman")ust=`<circle cx="34" cy="24" r="9" fill="#2E8B57"/><circle cx="44" cy="26" r="7" fill="#3FA86A"/><circle cx="28" cy="28" r="6" fill="#22713F"/>`;
+  else if(b.prop==="tapinak")ust=`<path d="M26 32 h24 l-3 -8 h-18z" fill="#C9A24B"/><rect x="34" y="18" width="8" height="8" fill="#8A6A2E"/>`;
+  else if(b.prop==="volkan")ust=`<path d="M26 34 l10 -16 l10 16z" fill="#7A3320"/><path d="M33 22 l3 -8 l3 8z" fill="#E2683C"/><circle cx="36" cy="13" r="3" fill="#FFD56B" opacity=".8"/>`;
+  else if(b.prop==="buz")ust=`<path d="M26 34 l10 -18 l10 18z" fill="#CFF0FA"/><path d="M33 22 l3 -6 l3 6z" fill="#fff"/>`;
+  else ust=`<path d="M26 30 h20 v6 h-20z" fill="#6E4A2C"/><path d="M26 30 a10 4 0 0 1 20 0z" fill="#E9B949"/><rect x="33" y="32" width="6" height="4" fill="#E9B949"/>`;
+  return `<svg viewBox="0 0 72 56" width="72" height="56">
+    <ellipse cx="36" cy="44" rx="30" ry="11" fill="${tamam?'#D9B36A':'#C9A24B'}"/>
+    <ellipse cx="36" cy="40" rx="30" ry="11" fill="${b.prop==='buz'?'#BFE9F5':'#EAD6A0'}"/>
+    <path d="M6 40 q30 14 60 0 v3 q-30 14 -60 0z" fill="${ana}" opacity=".5"/>
+    ${ust}
+    ${tamam?'<g class="bayrak"><rect x="46" y="6" width="2" height="14" fill="#3E2817"/><path d="M48 6 l10 3 -10 3z" fill="#E9B949"/></g>':''}
+    <ellipse cx="36" cy="52" rx="34" ry="6" fill="#10516B" opacity=".4"/>
+  </svg>`;}
+
+/* ===== APP ===== */
+const App={
+  sekme:"kamp",
+  baslat(){Store.yukle();if(!Store.s.onboarded){this.onboarding();return;}Store.s.bakilanGun=bugununGunu();this.cizNav();this.git(this.sekme);},
+
+  onboarding(){$("#altnav").classList.add("gizli");const tenler=["#F6D2B3","#F1C9A5","#D9A878","#B57E54","#8A5A38"];const tisortlar=["#C0392B","#1C8FA6","#2E8B57","#8E5BB5","#E9B949"];
+    const app=$("#app");app.innerHTML=`<div class="ekran" style="display:flex;flex-direction:column;justify-content:center;min-height:100%">
+      <div style="text-align:center;margin-bottom:10px"><div class="tac" style="font-size:34px;color:#FCEFCB;text-shadow:0 3px 6px rgba(0,0,0,.5)">Ada'nın Yaz Akademisi</div>
+      <div style="color:#9FE8E0;font-weight:800;font-size:14px">⚓ Hazine Yolculuğu ⚓</div></div>
+      <div style="width:160px;margin:6px auto 10px" id="ob-avatar-onizle"></div>
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="20" height="20" fill="#5A3C24"')} Kâşifini Hazırla</div>
+        <label class="bilgi">Adın, kaptan?</label><input class="giris" id="ob-ad" value="Ada">
+        <label class="bilgi">Ten rengi:</label><div id="ob-ten" style="display:flex;gap:8px;margin:6px 0 12px"></div>
+        <label class="bilgi">Tişört rengi:</label><div id="ob-tis" style="display:flex;gap:8px;margin:6px 0 12px"></div>
+        <label class="bilgi">Ebeveyn şifresi (4 hane):</label><input class="giris" id="ob-pin" inputmode="numeric" maxlength="4" value="1234"></div>
+      <button class="btn mercan" id="ob-basla">⛵ Yelken Aç!</button></div>`;
+    let ten=tenler[1],tis=tisortlar[0];
+    const ciz=()=>{$("#ob-avatar-onizle").innerHTML=avatarSVG({ten,tisort:tis,sac:"#5A3C24",aksesuarlar:[{id:"sapka"}]},150);};
+    const ren=(box,arr,cur,set)=>{box.innerHTML=arr.map(c=>`<button data-c="${c}" style="width:38px;height:38px;border-radius:50%;background:${c};border:3px solid ${c===cur()?'#E9B949':'rgba(0,0,0,.2)'}"></button>`).join("");
+      box.querySelectorAll("button").forEach(b=>b.onclick=()=>{set(b.dataset.c);ren(box,arr,cur,set);ciz();});};
+    ren($("#ob-ten"),tenler,()=>ten,v=>ten=v);ren($("#ob-tis"),tisortlar,()=>tis,v=>tis=v);ciz();
+    $("#ob-basla").onclick=()=>{Store.s.ad=$("#ob-ad").value.trim()||"Ada";Store.s.ten=ten;Store.s.tisort=tis;Store.s.pin=($("#ob-pin").value||"1234").slice(0,4);Store.s.onboarded=true;Store.kaydet();Ses.sandik();Konfeti.patlat(60);this.baslat();};},
+
+  cizNav(){const nav=$("#altnav");nav.classList.remove("gizli");
+    const sek=[["kamp","kamp","Kamp"],["harita","harita","Harita"],["bugun","tur","Görevler"],["ganimet","sandik","Ganimet"],["defter","defter","Defter"]];
+    nav.innerHTML=sek.map(([k,ic,a])=>`<button class="navbtn ${this.sekme===k?'aktif':''}" data-k="${k}">${svg(ICON[ic])}<span>${a}</span></button>`).join("");
+    nav.querySelectorAll(".navbtn").forEach(b=>b.onclick=()=>this.git(b.dataset.k));},
+  git(k){this.sekme=k;this.cizNav();({kamp:this.kamp,harita:this.harita,bugun:this.bugun,ganimet:this.ganimet,defter:this.defter,profil:this.profil})[k].call(this);},
+
+  hud(){return `<div class="hud"><div class="kese">${svg('<circle cx="12" cy="12" r="10" fill="#FFD56B"/><circle cx="12" cy="12" r="6" fill="none" stroke="#b88a2e" stroke-width="1.5"/>','width="18" height="18"')} ${Store.s.altin}</div>
+    <div class="kese kristal">${svg('<path d="M12 2l7 7-7 13L5 9z" fill="#7FE8DE"/>','width="16" height="16"')} ${Store.s.kristal}</div>
+    <div class="sag"><button class="yuvarlak" onclick="App.git('profil')">${avatarSVG(Store.s,40)}</button></div></div>`;},
+
+  /* ---- KAMP ---- */
+  kamp(){const aktif=bugununGunu();const g=gunVeri(aktif);const d=Ilerleme.gunDurumu(aktif);const lvl=Oyun.seviyeHesapla();const hY=Math.round(Store.s.altin/10000*100);const mot=MOTIVASYON[(aktif-1)%MOTIVASYON.length];
+    $("#app").innerHTML=`<div class="ekran">${this.hud()}
+      <div class="kamp-sahne">${this.kampSVG(g)}
+        <div class="kamp-gun"><div class="g tac">Gün ${aktif}</div><div class="t">${g.haftaGunu} · ${this.tarihTR(g.tarih)} · ${bolgeFor(aktif).ad}</div></div></div>
+      <div class="parsomen" style="margin-top:-2px"><div class="satir"><div style="flex:1"><b style="font-family:var(--font-baslik);color:var(--ahsap-koyu)">Kaptan ${Store.s.ad}</b><div class="bilgi">${mot}</div></div></div></div>
+      <div class="hazine-bar"><div class="ust">${svg(ICON.sandik,'width="18" height="18" fill="#FFD56B"')} Büyük Hazine Sandığı <span class="sayi">${Store.s.altin}/10.000</span></div>
+        <div class="cubuk"><div class="dolu" style="width:${hY}%"></div></div>
+        <div class="alt">${Store.s.altin>=10000?"🎉 Dev sandık açıldı!":"Tüm görevleri bitir, dev sandığı aç!"}</div></div>
+      <div class="dort">
+        <div class="k"><div class="b">${svg(ICON.gorev,'width="15" height="15" fill="#E9B949"')}${Store.s.seviye}</div><div class="e">SEVİYE</div></div>
+        <div class="k"><div class="b">🔥${Store.s.seri}</div><div class="e">SERİ</div></div>
+        <div class="k"><div class="b">⚑${Ilerleme.bitenGun()}</div><div class="e">FETHEDİLEN</div></div>
+        <div class="k"><div class="b">🏆${Object.keys(Store.s.rozetler).length}</div><div class="e">GANİMET</div></div></div>
+      <button class="btn mercan" onclick="App.git('harita')">${svg(ICON.harita,'width="22" height="22" fill="#3a1405"')} Haritaya Git — Keşfe Çık!</button>
+      <div style="height:10px"></div>
+      <button class="btn deniz kucuk" onclick="Store.s.bakilanGun=${aktif};App.git('bugun')">📜 Bugünün Adası (${d.yapilan}/${d.toplam})</button>
+      <div style="height:8px"></div>
+      <div class="satir" style="gap:8px"><button class="btn ahsapbtn kucuk" onclick="App.ebeveynGiris()">🔒 Kaptan Kamarası</button><button class="btn ahsapbtn kucuk" onclick="App.sesDegis()">${Store.s.ses?'🔊 Ses':'🔇 Sessiz'}</button></div>
+    </div>`;},
+  kampSVG(g){return `<svg viewBox="0 0 360 190" style="width:100%;display:block" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="gok" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A7B98"/><stop offset="1" stop-color="#6FB9C9"/></linearGradient>
+    <linearGradient id="yer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2C275"/><stop offset="1" stop-color="#C99A4E"/></linearGradient></defs>
+    <rect width="360" height="190" fill="url(#gok)"/>
+    <circle cx="300" cy="40" r="22" fill="#FFE39A" opacity=".9"/>
+    <g class="bulut" style="animation-duration:38s"><ellipse cx="60" cy="36" rx="26" ry="11" fill="#fff" opacity=".75"/><ellipse cx="80" cy="30" rx="18" ry="9" fill="#fff" opacity=".75"/></g>
+    <g class="bulut" style="animation-duration:52s;animation-delay:-12s"><ellipse cx="180" cy="22" rx="22" ry="9" fill="#fff" opacity=".6"/></g>
+    <path d="M0 120 Q90 108 180 120 T360 120 V190 H0Z" fill="url(#yer)"/>
+    <path d="M0 132 Q90 122 180 132 T360 132" stroke="#B8893F" stroke-width="2" fill="none" opacity=".5"/>
+    <!-- deniz şeridi -->
+    <path d="M0 110 Q90 100 180 110 T360 110 V122 Q270 132 180 122 T0 122Z" fill="#1C8FA6" opacity=".55"/>
+    <!-- çadır -->
+    <g transform="translate(64,96)"><path d="M0 44 L34 -16 L68 44Z" fill="#C0392B"/><path d="M34 -16 L40 44 L28 44Z" fill="#9c2a1f"/><path d="M24 44 L34 18 L44 44Z" fill="#3E2817"/><rect x="-2" y="42" width="72" height="4" fill="#5A3C24"/></g>
+    <!-- kamp ateşi -->
+    <g transform="translate(190,150)"><ellipse cx="0" cy="6" rx="20" ry="5" fill="#3E2817"/><rect x="-16" y="2" width="32" height="5" rx="2" fill="#6E4A2C" transform="rotate(8)"/><rect x="-16" y="2" width="32" height="5" rx="2" fill="#5A3C24" transform="rotate(-8)"/>
+      <path class="atesisik" d="M0 2 q-10 -10 0 -24 q10 12 0 24z" fill="#E9B949"/><path class="atesisik" d="M0 0 q-6 -7 0 -16 q6 9 0 16z" fill="#E2683C"/></g>
+    <!-- pusula taşı -->
+    <g transform="translate(286,150)"><circle r="16" fill="#5A3C24"/><circle r="12" fill="#E2C275"/><path d="M0 0 L7 -7 L2 0 L0 9z" fill="#C0392B"/><path d="M0 0 L-7 7 L-2 0 L0 -9z" fill="#3E2817"/></g>
+    <!-- hazine sandığı -->
+    <g transform="translate(120,156)"><rect x="-16" y="-6" width="32" height="16" rx="2" fill="#6E4A2C"/><path d="M-16 -6 a16 8 0 0 1 32 0z" fill="#8A5E38"/><rect x="-3" y="-2" width="6" height="8" fill="#E9B949"/></g>
+    <!-- papağan tüneği -->
+    <g transform="translate(40,150)"><rect x="-1" y="-30" width="3" height="36" fill="#5A3C24"/><rect x="-10" y="-30" width="22" height="3" fill="#5A3C24"/><g transform="translate(8,-30)"><ellipse rx="6" ry="8" fill="#2E8B57"/><circle cx="2" cy="-3" r="3" fill="#E2683C"/></g></g>
+  </svg>`;},
+
+  /* ---- HARİTA (kalp) ---- */
+  harita(){const SP=150,CX=180,AMP=118,PAD=120;const N=62;const H=N*SP+PAD*2;
+    const x=d=>CX+AMP*Math.sin(d*0.62);const y=d=>(N-d)*SP+PAD;
+    // yol path
+    let yol="";for(let d=1;d<=N;d++){const px=x(d),py=y(d);yol+=(d===1?`M${px} ${py}`:` L${px} ${py}`);}
+    // bölge bantları + ribbon
+    let bantlar="";BOLGELER.forEach(b=>{const yTop=y(b.bit)-SP/2,yBot=y(b.bas)+SP/2;
+      bantlar+=`<div class="bolge-banti" style="top:${y(b.bas)-30}px;height:30px"><div class="bolge-ribbon">${b.ad}</div></div>`;});
+    // adalar
+    let adalar="";const aktif=bugununGunu();
+    for(let d=1;d<=N;d++){const g=gunVeri(d);const dur=Ilerleme.gunDurumu(d).durum;const b=bolgeFor(d);const px=x(d),py=y(d);
+      const cls=(dur==="kilitli")?"kilitli":(dur==="bugun"?"bugun":"");
+      adalar+=`${dur==="bugun"?`<div class="bugun-halka" style="left:${(px/3.6).toFixed(2)}%;top:${py}px"></div>`:""}
+        <div class="ada-nokta ${cls}" style="left:${(px/3.6).toFixed(2)}%;top:${py}px" onclick="Store.s.bakilanGun=${d};App.git('bugun')">
+          ${adaSprite(b,dur,d)}<span class="rakam">${d}</span></div>`;}
+    // bulutlar + propslar
+    let dekor=`<div class="bulut" style="top:${y(56)}px;animation-duration:48s"><svg width="90" height="34"><ellipse cx="34" cy="20" rx="26" ry="11" fill="#fff" opacity=".7"/><ellipse cx="56" cy="15" rx="18" ry="9" fill="#fff" opacity=".7"/></svg></div>
+      <div class="bulut" style="top:${y(30)}px;animation-duration:60s;animation-delay:-20s"><svg width="80" height="30"><ellipse cx="30" cy="16" rx="22" ry="9" fill="#fff" opacity=".55"/></svg></div>`;
+    // volkan dumanı (bölge 4) + buz parıltısı yok, basit
+    dekor+=`<div class="harita-props duman" style="left:calc(${(x(35)/3.6).toFixed(2)}% + 12px);top:${y(35)-44}px"><svg width="40" height="50"><ellipse cx="20" cy="30" rx="13" ry="16" fill="#9aa" opacity=".5"/><ellipse cx="14" cy="14" rx="8" ry="10" fill="#bcc" opacity=".5"/></svg></div>`;
+    // gemi (bugünkü adada)
+    const gx=x(aktif),gy=y(aktif);
+    dekor+=`<div class="harita-props gemi-bob" style="left:calc(${(gx/3.6).toFixed(2)}% - 42px);top:${gy-14}px"><svg width="40" height="44"><path d="M4 28 h28 l-5 10 h-18z" fill="#6E4A2C"/><rect x="17" y="4" width="2.5" height="24" fill="#3E2817"/><path d="M19 6 q14 4 0 16z" fill="#F2DFB3"/><path d="M19 6 l-12 6 12 4z" fill="#fff" opacity=".9"/></svg></div>`;
+
+    $("#app").innerHTML=`<div class="ekran harita-ekran"><div id="harita-kaydir"><div id="harita-ic" style="height:${H}px">
+      <div class="harita-deniz"></div>
+      ${bantlar}
+      <svg id="harita-yol" viewBox="0 0 360 ${H}" preserveAspectRatio="none" style="height:${H}px">
+        <path d="${yol}" fill="none" stroke="#0A2C3D" stroke-width="20" stroke-linecap="round" opacity=".3"/>
+        <path d="${yol}" fill="none" stroke="#E2C275" stroke-width="11" stroke-linecap="round" opacity=".9"/>
+        <path d="${yol}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 16" opacity=".8"/>
+      </svg>
+      ${dekor}${adalar}
+    </div></div>
+    <div class="harita-ust"><div class="tac" style="font-size:22px;color:#FCEFCB;text-shadow:0 2px 4px rgba(0,0,0,.6)">🗺️ Keşif Haritası</div>
+      <div class="et" style="margin-left:auto;background:rgba(0,0,0,.4);color:#FCEFCB;border:1px solid var(--altin)">⚑ ${Ilerleme.bitenGun()}/62</div></div>
+    </div>`;
+    // bugünkü adaya odaklan
+    setTimeout(()=>{const kaydir=$("#harita-kaydir");if(kaydir)kaydir.scrollTop=Math.max(0,y(aktif)-window.innerHeight*0.5);},60);},
+
+  /* ---- BUGÜN / PARŞÖMEN GÖREVLER ---- */
+  bugun(){let no=Store.s.bakilanGun||bugununGunu();const g=gunVeri(no);const d=Ilerleme.gunDurumu(no);const b=bolgeFor(no);
+    const tipEt={calisma:"Keşif Adası",telafi:"Telafi Koyu",serbest:"Serbest Liman",tampon:"Hazine Limanı"}[g.tip];
+    let html=`<div class="ekran">${this.hud()}
+      <div class="gun-secici"><button class="ok" onclick="App.gunDegis(-1)">‹</button>
+        <div class="gun-baslik"><div class="g tac">Gün ${no} · ${b.ad}</div><span class="rozet">${tipEt} · ${g.haftaGunu} · ${this.tarihTR(g.tarih)}</span></div>
+        <button class="ok" onclick="App.gunDegis(1)">›</button></div>`;
+    if(g.tip==="telafi"){const havuz=Ilerleme.telafiHavuzu();
+      html+=`<div class="parsomen"><div class="panel-baslik">${svg(ICON.telafi,'width="20" height="20" fill="#5A3C24"')} Telafi Koyu</div><div class="bilgi">${havuz.length?`Geride ${havuz.length} ada yarım kaldı. Bugün onları tamamlayıp bayrağını dik — hiçbir ada kaybolmaz! 🏴`:"Tüm adaların fethedildi! Bugün serbest liman, dilediğin gibi dinlen. 🎉"}</div></div>`;
+      havuz.forEach(o=>{html+=this.scrollKart(o.gorev,o.gun,o.i,true);});}
+    g.gorevler.forEach((gorev,i)=>{if(gorev.ders==="Telafi")return;html+=this.scrollKart(gorev,no,i,false);});
+    if(d.toplam&&d.yapilan===d.toplam&&g.tip!=="telafi"){html+=`<div class="parsomen" style="text-align:center"><div class="bigsvg" style="animation:none">${adaSprite(b,'tamam',no)}</div><div class="tac" style="font-size:22px;color:var(--ahsap-koyu);margin:6px 0">Ada Fethedildi! 🏴</div><div class="bilgi">${no}. adaya bayrağını diktin, kaptan. Yeni rotaya hazır mısın?</div></div>`;}
+    html+=`</div>`;$("#app").innerHTML=html;},
+  scrollKart(gorev,gun,i,telafiMi){const id=gorevId(gun,i);const tamam=Store.s.ilerleme[id]==="done";const dr=DERS[gorev.ders]||{r:"#999",ic:""};
+    let meta=[];if(gorev.sayfa)meta.push("Bilfen s."+gorev.sayfa);if(gorev.test&&gorev.test!=="—")meta.push(gorev.test);
+    const dersli=["Matematik","Türkçe","Fen Bilimleri","Sosyal Bilgiler"].includes(gorev.ders);
+    return `<div class="scroll ${tamam?'tamam':''}" style="--ders:${dr.r}" id="k-${id}">
+      <div class="muhur">${svg(dr.ic)}</div>
+      <div class="icerik" ${dersli?`onclick="App.ders(${gun},${i})" style="cursor:pointer"`:""}>
+        <div class="ders-ad">${gorev.ders}${telafiMi?" · telafi":""}</div>
+        <div class="gorev-ad">${gorev.baslik}</div>
+        ${meta.length?`<div class="meta">⚓ ${meta.join(" · ")}</div>`:(gorev.detay?`<div class="meta">${gorev.detay}</div>`:"")}</div>
+      ${gorev.altin?`<span class="altin-et">+${gorev.altin}</span>`:""}
+      <button class="tik" onclick="App.tikla(${gun},${i})">✓</button></div>`;},
+  tikla(gun,i){const id=gorevId(gun,i);const kart=$("#k-"+id);if(Store.s.ilerleme[id]==="done"){Oyun.geriAl(gun,i);}else{Oyun.gorevTamamla(gun,i);if(kart){const t=$(".tik",kart);if(t)t.classList.add("muhur-bas");}}setTimeout(()=>this.bugun(),Store.s.ilerleme[id]==="done"?260:60);},
+  gunDegis(yon){let n=(Store.s.bakilanGun||1)+yon;n=Math.max(1,Math.min(62,n));Store.s.bakilanGun=n;Store.kaydet();this.bugun();},
+
+  /* ---- DERS DETAY ---- */
+  ders(gun,i){const gorev=gunVeri(gun).gorevler[i];const id=gorevId(gun,i);const tamam=Store.s.ilerleme[id]==="done";const dr=DERS[gorev.ders];const notK="not-"+id,yanK="yan-"+id;
+    $("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.git('bugun')">‹ Adaya Dön</button>
+      <div class="parsomen" style="border-left:7px solid ${dr.r}"><div class="satir"><div class="muhur" style="--ders:${dr.r};width:46px;height:46px">${svg(dr.ic)}</div>
+        <div><div class="ders-ad" style="color:${dr.r};font-size:12px;font-weight:800;text-transform:uppercase">${gorev.ders}</div>
+        <div class="tac" style="font-size:21px;color:var(--ahsap-koyu);line-height:1.05">${gorev.baslik}</div></div></div>
+        <div class="satir" style="flex-wrap:wrap;gap:7px;margin-top:10px">${gorev.sayfa?`<span class="et">📘 Bilfen · s.${gorev.sayfa}</span>`:""}${gorev.test&&gorev.test!=="—"?`<span class="et">✏️ ${gorev.test}</span>`:""}<span class="et">🪙 ${gorev.altin} altın</span></div></div>
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="18" height="18" fill="#5A3C24"')} Kaptanın Anlatımı</div>
+        <textarea class="giris" id="${notK}" placeholder="Bu adayı (konuyu) çocuğa nasıl anlatacağını, örnekleri ve ipuçlarını buraya yaz...">${(Store.s.notlar[id]||"")}</textarea>
+        <button class="btn ahsapbtn kucuk" onclick="Store.s.notlar['${id}']=document.getElementById('${notK}').value;Store.kaydet();App.toast('Not deftere işlendi ✓')">Notu Kaydet</button></div>
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.tur,'width="18" height="18" fill="#5A3C24"')} Yanlış Sular Defteri</div>
+        <textarea class="giris" id="${yanK}" placeholder="Yanlış yapılan soruları/konuları not al, sonra tekrar uğra.">${(Store.s.yanlislar[id]||"")}</textarea>
+        <button class="btn ahsapbtn kucuk" onclick="Store.s.yanlislar['${id}']=document.getElementById('${yanK}').value;Store.kaydet();App.toast('Kaydedildi ✓')">Kaydet</button></div>
+      <button class="btn ${tamam?'ahsapbtn':'yaprak'}" onclick="App.tiklaDers(${gun},${i})">${tamam?'↩ Mührü Geri Al':'🏴 Adayı Fethet (+'+gorev.altin+' 🪙)'}</button></div>`;},
+  tiklaDers(gun,i){const id=gorevId(gun,i);const tamam=Store.s.ilerleme[id]==="done";const n=$("#not-"+id),y=$("#yan-"+id);if(n)Store.s.notlar[id]=n.value;if(y)Store.s.yanlislar[id]=y.value;
+    if(tamam)Oyun.geriAl(gun,i);else Oyun.gorevTamamla(gun,i);Store.kaydet();Store.s.bakilanGun=gun;this.git('bugun');},
+
+  /* ---- GANİMET (ROZET) ---- */
+  ganimet(){let html=`<div class="ekran">${this.hud()}
+    <div class="parsomen"><div class="panel-baslik">${svg(ICON.sandik,'width="20" height="20" fill="#5A3C24"')} Ganimet Odası</div>
+      <div class="bilgi">${Object.keys(Store.s.rozetler).length} / ${ROZETLER.length} ganimet topladın. Her madeni para, bir başarının hikâyesi!</div></div>
+    <div class="ganimet-grid">`;
+    ROZETLER.forEach(r=>{const k=!!Store.s.rozetler[r.id];html+=`<div class="ganimet ${k?'':'kilitli'}"><div class="em">${k?svg(r.ic,'width="46" height="46"'):svg('<path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3z" fill="#8a7355"/>','width="40" height="40"')}</div><div class="ad">${r.ad}</div></div>`;});
+    html+=`</div></div>`;$("#app").innerHTML=html;},
+
+  /* ---- SEYİR DEFTERİ (İSTATİSTİK) ---- */
+  defter(){const dersler=[["Matematik","#1C8FA6",40],["Türkçe","#C0392B",35],["Fen Bilimleri","#2E8B57",20],["Sosyal Bilgiler","#E2683C",20]];let bar="";
+    dersler.forEach(([ad,renk,top])=>{const yp=Ilerleme.dersSayac(ad);const p=Math.round(yp/top*100);bar+=`<div class="defter-satir"><div class="tep"><span>${ad}</span><span>${yp}/${top}</span></div><div class="defter-bar"><div class="d" style="width:${p}%;background:${renk}"></div></div></div>`;});
+    const genel=Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100);
+    $("#app").innerHTML=`<div class="ekran">${this.hud()}
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.defter,'width="20" height="20" fill="#5A3C24"')} Kaptanın Seyir Defteri</div>
+        <div class="dort" style="margin-bottom:4px">
+          <div class="k"><div class="b">${Store.s.altin}</div><div class="e">ALTIN</div></div>
+          <div class="k"><div class="b">${Ilerleme.yapilanGorev()}</div><div class="e">MACERA</div></div>
+          <div class="k"><div class="b">${Store.s.okumaDk}</div><div class="e">OKUMA dk</div></div>
+          <div class="k"><div class="b">${Store.s.enUzunSeri}</div><div class="e">EN UZUN SERİ</div></div></div></div>
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="18" height="18" fill="#5A3C24"')} Genel Rota · %${genel}</div>
+        <div class="defter-bar" style="height:18px"><div class="d" style="width:${genel}%;background:linear-gradient(90deg,#1C8FA6,#2BB6A8)"></div></div>
+        <div class="bilgi" style="margin-top:8px">${Ilerleme.bitenGun()} ada fethedildi · Seviye ${Store.s.seviye} · ${Object.keys(Store.s.rozetler).length} ganimet</div></div>
+      <div class="parsomen"><div class="panel-baslik">📜 Derslere Göre Yol</div>${bar}</div></div>`;},
+
+  /* ---- PROFİL / AVATAR ---- */
+  profil(){const DUKKAN=[{id:"sapka",ad:"Kâşif Şapkası",fy:15},{id:"durbun",ad:"Dürbün",fy:14},{id:"canta",ad:"Sefer Çantası",fy:18},{id:"kilic",ad:"Tahta Kılıç",fy:24},{id:"papagan",ad:"Papağan Dost",fy:30},{id:"pelerin",ad:"Kaptan Pelerini",fy:40}];
+    let dk="";DUKKAN.forEach(it=>{const alindi=Store.s.aksesuarlar.some(a=>a.id===it.id);dk+=`<div class="it"><div class="ikon">${avatarSVG({ten:Store.s.ten,tisort:Store.s.tisort,sac:Store.s.sac,aksesuarlar:[{id:it.id}]},46)}</div><div class="ad">${it.ad}</div><div class="fy">💎 ${it.fy}</div><button class="btn ${alindi?'ahsapbtn':'deniz'} kucuk" style="min-height:40px" onclick="App.satinAl('${it.id}')">${alindi?'✓ Açık':'Aç'}</button></div>`;});
+    $("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.git('kamp')">‹ Kampa Dön</button>
+      <div class="parsomen" style="text-align:center"><div class="avatar-cerceve">${avatarSVG(Store.s,130)}</div>
+        <div class="tac" style="font-size:24px;color:var(--ahsap-koyu);margin-top:12px">Kaptan ${Store.s.ad}</div>
+        <div class="bilgi">Seviye ${Store.s.seviye} · 💎 ${Store.s.kristal} kristal · 🏆 ${Object.keys(Store.s.rozetler).length} ganimet</div></div>
+      <div class="parsomen"><div class="panel-baslik">${svg(ICON.sandik,'width="18" height="18" fill="#5A3C24"')} Donanım Sandığı</div>
+        <div class="bilgi" style="margin-bottom:10px">Görev yaptıkça kristal topla, kâşifini donat!</div><div class="dukkan">${dk}</div></div></div>`;},
+  satinAl(id){const F={sapka:15,durbun:14,canta:18,kilic:24,papagan:30,pelerin:40}[id];if(Store.s.aksesuarlar.some(a=>a.id===id))return;
+    if(Store.s.kristal<F){this.toast("Yetersiz kristal 💎 ("+F+" gerek)");return;}Store.s.kristal-=F;Store.s.aksesuarlar.push({id});Store.kaydet();Ses.rozet();Konfeti.patlat(22);Rozet.kontrol();this.profil();},
+
+  /* ---- KAPTAN KAMARASI (EBEVEYN) ---- */
+  ebeveynGiris(){Modal.goster(`<div class="bigsvg">${svg('<path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3z" fill="#5A3C24"/>')}</div><h2>Kaptan Kamarası</h2><p>Şifreni gir, kaptan.</p><input class="giris" id="pin-giris" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" onclick="App.ebeveynKontrol()">Giriş</button>`);setTimeout(()=>$("#pin-giris")&&$("#pin-giris").focus(),100);},
+  ebeveynKontrol(){const v=$("#pin-giris").value;if(v===Store.s.pin){Modal.kapat();this.ebeveynPanel();}else{$("#pin-giris").style.borderColor="#C0392B";$("#pin-giris").value="";}},
+  ebeveynPanel(){$("#altnav").classList.add("gizli");const havuz=Ilerleme.telafiHavuzu();
+    $("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.cizNav();App.git('kamp')">‹ Çıkış</button>
+      <div class="parsomen"><div class="panel-baslik">🔒 Kaptan Kamarası</div><div class="bilgi">Genel ilerleme: <b>%${Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100)}</b> · ${Ilerleme.yapilanGorev()}/${Ilerleme.toplamGorev()} görev<br>Altın: ${Store.s.altin}/10.000 · Seviye ${Store.s.seviye} · ${Object.keys(Store.s.rozetler).length} ganimet · ${Ilerleme.bitenGun()} ada</div></div>
+      <div class="parsomen"><div class="panel-baslik">🌊 Telafi Havuzu (${havuz.length})</div><div class="bilgi">${havuz.length?havuz.slice(0,12).map(o=>`Gün ${o.gun}: ${o.gorev.ders} – ${o.gorev.baslik}`).join("<br>"):"Eksik yok 🎉"}${havuz.length>12?"<br>…":""}</div></div>
+      <div class="parsomen"><div class="panel-baslik">🧰 Büyük Hazine Ödülü</div><textarea class="giris" id="bh-odul" placeholder="Örn: sinema, yeni kitap, bir günlük gezi...">${Store.s.buyukHazineOdul||""}</textarea><button class="btn ahsapbtn kucuk" onclick="Store.s.buyukHazineOdul=document.getElementById('bh-odul').value;Store.kaydet();App.toast('Ödül kaydedildi ✓')">Kaydet</button></div>
+      <div class="parsomen"><div class="panel-baslik">⚙️ Ayarlar & Veri</div>
+        <button class="btn ahsapbtn kucuk" style="margin-bottom:8px" onclick="App.pinDegis()">🔑 Şifre Değiştir</button>
+        <button class="btn ahsapbtn kucuk" style="margin-bottom:8px" onclick="App.disaAktar()">💾 Yedek Al</button>
+        <button class="btn ahsapbtn kucuk" style="margin-bottom:8px" onclick="document.getElementById('ice').click()">📥 Geri Yükle</button>
+        <input type="file" id="ice" accept="application/json" style="display:none" onchange="App.iceAktar(event)">
+        <button class="btn mercan kucuk" onclick="App.sifirla()">🗑️ Sıfırla</button></div></div>`;},
+  pinDegis(){Modal.goster(`<div class="big">🔑</div><h2>Yeni Şifre</h2><input class="giris" id="yp" inputmode="numeric" maxlength="4" placeholder="4 hane"><button class="btn" onclick="(function(){var v=document.getElementById('yp').value;if(v.length===4){Store.s.pin=v;Store.kaydet();Modal.kapat();App.toast('Şifre güncellendi ✓');}})()">Kaydet</button>`);},
+  disaAktar(){const blob=new Blob([JSON.stringify(Store.s,null,1)],{type:"application/json"});const a=el("a");a.href=URL.createObjectURL(blob);a.download="ada-akademi-yedek.json";a.click();},
+  iceAktar(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{Store.s=JSON.parse(r.result);Store.kaydet();this.toast("Geri yüklendi ✓");this.cizNav();this.git('kamp');}catch(x){this.toast("Geçersiz dosya");}};r.readAsText(f);},
+  sifirla(){Modal.goster(`<div class="big">🗑️</div><h2>Emin misin?</h2><p>Tüm yolculuk, altın ve ganimetler silinecek. Geri alınamaz.</p><button class="btn mercan" onclick="localStorage.removeItem(Store.KEY);location.reload()">Evet, Sıfırla</button><div style="height:8px"></div><button class="btn ahsapbtn" onclick="Modal.kapat()">Vazgeç</button>`);},
+
+  sesDegis(){Store.s.ses=!Store.s.ses;Store.kaydet();if(Store.s.ses)Ses.tik();this.kamp();},
+  tarihTR(s){const p=s.split("-");const ay=["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];return parseInt(p[2])+" "+ay[parseInt(p[1])-1];},
+  toast(msg){const t=el("div","minitoast",msg);document.body.appendChild(t);setTimeout(()=>t.remove(),1800);}
+};
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("service-worker.js").catch(()=>{});});}
+App.baslat();
+</script>
+</body>
+</html>
