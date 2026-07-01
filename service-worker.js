@@ -1,7 +1,7 @@
 /* Ada'nın Yaz Akademisi — Service Worker
    Çevrimdışı çalışma için app shell önbelleği (cache-first).
    Sürüm değişince eski önbellek temizlenir. */
-const CACHE = "ada-akademi-v2";
+const CACHE = "ada-akademi-v3";
 const ASSETS = [
   "./",
   "./index.html",

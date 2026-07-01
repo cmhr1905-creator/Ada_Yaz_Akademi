@@ -66,6 +66,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn.mercan{background:linear-gradient(180deg,#F1885E,#E2683C);color:#3a1405;border-color:#c1551f;box-shadow:0 5px 0 #b34d1d,0 8px 14px rgba(0,0,0,.25)}
 .btn.ahsapbtn{background:linear-gradient(180deg,#7A5230,#5A3C24);color:#F4E4C1;border-color:#3E2817;box-shadow:0 5px 0 #2e1d10,0 8px 14px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(0,0,0,.3)}
 .btn.kucuk{min-height:50px;font-size:15px;border-radius:13px}
+.btn:disabled{opacity:.75;filter:grayscale(.15)}
 
 /* ÜST HUD */
 .hud{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -168,11 +169,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ===== AVATAR ===== */
 .avatar-cerceve{width:150px;height:150px;border-radius:50%;margin:0 auto;display:grid;place-items:center;position:relative;
   background:radial-gradient(circle at 50% 35%,#BFE9F0,#7FC4D6);border:5px solid var(--altin);box-shadow:var(--golge-yum),inset 0 -10px 20px rgba(0,0,0,.15)}
-.dukkan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dukkan .it{background:linear-gradient(180deg,var(--parsomen),var(--parsomen-2));border:2px solid var(--parsomen-koyu);border-radius:14px;padding:10px;text-align:center;box-shadow:var(--golge)}
-.dukkan .it .ikon{width:46px;height:46px;margin:0 auto 4px}
-.dukkan .it .ad{font-size:12px;font-weight:800;color:var(--ahsap-koyu)}
-.dukkan .it .fy{font-size:11px;font-weight:800;color:#1C8FA6;margin:2px 0 6px}
+
+/* ===== KÂŞİF OLUŞTURUCU (renk/stil seçiciler) ===== */
+.renk-sira{display:flex;gap:9px;flex-wrap:wrap;margin:6px 0 14px}
+.renk-sira button{width:38px;height:38px;border-radius:50%;flex:0 0 auto;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .15s}
+.renk-sira button:active{transform:scale(.85)}
+.pilsira{display:flex;gap:7px;flex-wrap:wrap;margin:6px 0 14px}
+.pilbtn{padding:9px 14px;border-radius:999px;background:rgba(90,60,36,.10);border:2px solid var(--parsomen-koyu);font-weight:800;font-size:12.5px;color:var(--ahsap-koyu);transition:transform .15s}
+.pilbtn:active{transform:scale(.93)}
+.pilbtn.aktif{background:linear-gradient(180deg,var(--altin-parlak),var(--altin));border-color:#b88a2e;color:#3a1405}
+
+/* ===== DONANIM SANDIĞI (MAĞAZA) ===== */
+.magaza-kategori{font-family:var(--font-tac);font-size:19px;color:var(--altin-parlak);margin:16px 2px 9px;text-shadow:0 2px 3px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px}
+.magaza-kategori:first-of-type{margin-top:4px}
+.esya-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.esya{position:relative;background:linear-gradient(165deg,var(--parsomen),var(--parsomen-2));border:2px solid var(--parsomen-koyu);border-radius:16px;padding:13px 10px 11px;text-align:center;box-shadow:var(--golge);overflow:hidden;background-image:var(--doku),linear-gradient(165deg,var(--parsomen),var(--parsomen-2))}
+.esya.sahip{box-shadow:var(--golge),0 0 0 3px var(--zumrut)}
+.esya .tier{position:absolute;top:7px;right:7px;font-size:8px;font-weight:800;padding:3px 7px;border-radius:999px;color:#fff;letter-spacing:.4px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.esya .tier.bronz{background:linear-gradient(180deg,#C99359,#9C6A34)}
+.esya .tier.gumus{background:linear-gradient(180deg,#C7D3DA,#8FA0AC)}
+.esya .tier.altin{background:linear-gradient(180deg,#FFD56B,#C9941F)}
+.esya .ikon{width:58px;height:58px;margin:6px auto 4px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.esya .ad{font-family:var(--font-baslik);font-weight:800;font-size:12.5px;color:var(--ahsap-koyu);line-height:1.18;min-height:32px;display:flex;align-items:center;justify-content:center}
+.esya .fy{font-size:12px;font-weight:800;color:#1C8FA6;margin:4px 0 9px;display:flex;align-items:center;justify-content:center;gap:4px;min-height:16px}
 
 /* ===== GANİMET (ROZET) ===== */
 .ganimet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -263,7 +282,7 @@ const MOTIVASYON=["Bugün hangi adayı keşfedeceğiz, kaptan? 🧭","Hazine san
 
 /* ===== STORE ===== */
 const Store={KEY:"ada_akademi_v2",s:null,
-  yeni(){return{onboarded:false,ad:"Ada",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",aksesuarlar:[],pin:"1234",
+  yeni(){return{onboarded:false,ad:"Ada",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",sacStil:"kisa",goz:"#3A2A1A",aksesuarlar:[],takili:{bas:null,evcil:null},pin:"1234",
     xp:0,seviye:1,kristal:0,altin:0,seri:0,enUzunSeri:0,sonGun:null,ilerleme:{},okumaDk:0,notlar:{},yanlislar:{},
     rozetler:{},buyukHazineOdul:"",buyukHazineAcildi:false,ses:true,bakilanGun:1,gorulenBolge:{}};},
   yukle(){try{this.s=JSON.parse(localStorage.getItem(this.KEY))||this.yeni();}catch(e){this.s=this.yeni();}const v=this.yeni();for(const k in v)if(!(k in this.s))this.s[k]=v[k];},
@@ -363,29 +382,72 @@ const Modal={
   buyukHazine(){Ses.sandik();Konfeti.patlat(80);const o=Store.s.buyukHazineOdul||"Babanla belirlediğin sürpriz ödül!";this.goster(`<div class="bigsvg">${svg(ICON.sandik,'fill="#E9B949"')}</div><h2>BÜYÜK HAZİNE!</h2><p>10.000 altın tamam! Dev sandık açıldı! 🎉<br><br><b>Ödülün:</b> ${o}</p><button class="btn mercan" onclick="Modal.kapat()">🎉</button>`);}
 };
 
+/* ===== AVATAR OLUŞTURUCU SABİTLERİ ===== */
+const TENLER=["#F6D2B3","#F1C9A5","#D9A878","#B57E54","#8A5A38","#6B4226"];
+const SACLAR=["#2C1B0E","#5A3C24","#8A5E38","#B5651D","#C9A227","#7A2230","#3A3A3A","#D94BAF"];
+const GOZLER=["#3A2A1A","#1C5D8C","#2E8B57","#6B4226","#5B3A8C"];
+const TISORTLAR=["#C0392B","#1C8FA6","#2E8B57","#8E5BB5","#E9B949","#16A085","#D35400","#34495E"];
+const SAC_STILLERI=[["kisa","Kısa"],["uzun","Uzun"],["atkuyruk","Atkuyruk"],["kivircik","Kıvırcık"],["dazlak","Dazlak"]];
+const ESYA_SLOT={sapka:"bas",bandana:"bas",amiral:"bas",papagan:"evcil",maymun:"evcil"};
+const ESYA_FIYAT={sapka:15,bandana:12,amiral:50,durbun:14,canta:18,kilic:24,pelerin:40,gozbandi:8,kupe:6,altinzincir:16,yelek:20,papagan:30,maymun:35};
+const MAGAZA=[
+ {kategori:"Başlıklar",esya:[
+   {id:"bandana",ad:"Korsan Bandanası",tier:"bronz"},
+   {id:"sapka",ad:"Kâşif Şapkası",tier:"gumus"},
+   {id:"amiral",ad:"Amiral Şapkası",tier:"altin"}]},
+ {kategori:"Sırt & Takı",esya:[
+   {id:"kupe",ad:"Altın Küpe",tier:"bronz"},
+   {id:"gozbandi",ad:"Göz Bandı",tier:"bronz"},
+   {id:"durbun",ad:"Dürbün",tier:"bronz"},
+   {id:"canta",ad:"Sefer Çantası",tier:"bronz"},
+   {id:"altinzincir",ad:"Altın Kolye",tier:"gumus"},
+   {id:"yelek",ad:"Korsan Yeleği",tier:"gumus"},
+   {id:"kilic",ad:"Tahta Kılıç",tier:"gumus"},
+   {id:"pelerin",ad:"Kaptan Pelerini",tier:"altin"}]},
+ {kategori:"Evcil Hayvanlar",esya:[
+   {id:"papagan",ad:"Papağan Dost",tier:"altin"},
+   {id:"maymun",ad:"Maymun Dost",tier:"altin"}]}
+];
+function sacSVG(stil,renk){
+  const kisa=`<path d="M36 50 Q40 28 60 28 Q80 28 84 50 Q84 40 60 38 Q36 40 36 50Z" fill="${renk}"/>`;
+  if(stil==="uzun")return kisa+`<path d="M35 48 Q32 76 39 92 Q44 80 41 56Z" fill="${renk}"/><path d="M85 48 Q88 76 81 92 Q76 80 79 56Z" fill="${renk}"/>`;
+  if(stil==="atkuyruk")return kisa+`<path d="M82 40 Q102 44 99 70 Q95 86 87 78 Q97 62 79 48Z" fill="${renk}"/>`;
+  if(stil==="kivircik")return `<circle cx="40" cy="38" r="8" fill="${renk}"/><circle cx="50" cy="29" r="9" fill="${renk}"/><circle cx="62" cy="26" r="9.5" fill="${renk}"/><circle cx="74" cy="29" r="9" fill="${renk}"/><circle cx="83" cy="40" r="8" fill="${renk}"/><circle cx="35" cy="47" r="6.5" fill="${renk}"/><circle cx="87" cy="47" r="6.5" fill="${renk}"/>`;
+  if(stil==="dazlak")return `<ellipse cx="51" cy="42" rx="7" ry="4" fill="#fff" opacity=".3"/>`;
+  return kisa;
+}
 /* ===== AVATAR SVG (emoji yok) ===== */
-function avatarSVG(s,boy){const a=s.aksesuarlar.map(x=>x.id);
-  const ten=s.ten||"#F1C9A5",tis=s.tisort||"#C0392B",sac=s.sac||"#5A3C24";
+function avatarSVG(s,boy){const a=(s.aksesuarlar||[]).map(x=>x.id);const tk=s.takili||{};
+  const ten=s.ten||"#F1C9A5",tis=s.tisort||"#C0392B",sac=s.sac||"#5A3C24",sacStil=s.sacStil||"kisa",goz=s.goz||"#3A2A1A";
+  const basId=tk.bas&&a.includes(tk.bas)?tk.bas:null, evcilId=tk.evcil&&a.includes(tk.evcil)?tk.evcil:null;
   const pelerin=a.includes("pelerin")?`<path d="M30 62 Q60 50 90 62 L96 118 Q60 108 24 118 Z" fill="#7A2230"/>`:"";
-  const papagan=a.includes("papagan")?`<g transform="translate(78,44)"><ellipse cx="0" cy="0" rx="9" ry="11" fill="#2E8B57"/><circle cx="3" cy="-4" r="4" fill="#E2683C"/><path d="M5 -4 l6 1 -6 2z" fill="#E9B949"/><path d="M-4 2 l-7 4 7 2z" fill="#1C8FA6"/></g>`:"";
-  const sapka=a.includes("sapka")?`<g><path d="M28 40 Q60 18 92 40 L92 44 Q60 30 28 44 Z" fill="#3E2817"/><path d="M44 40 Q60 16 76 40 Z" fill="#5A3C24"/><path d="M52 30 h16 v4 h-16z" fill="#E9B949"/><circle cx="60" cy="26" r="3" fill="#E9B949"/></g>`:"";
+  const evcil=evcilId==="papagan"?`<g transform="translate(78,44)"><ellipse cx="0" cy="0" rx="9" ry="11" fill="#2E8B57"/><circle cx="3" cy="-4" r="4" fill="#E2683C"/><path d="M5 -4 l6 1 -6 2z" fill="#E9B949"/><path d="M-4 2 l-7 4 7 2z" fill="#1C8FA6"/></g>`
+    :evcilId==="maymun"?`<g transform="translate(38,46)"><path d="M-6 4 q-9 5 -4 14" stroke="#8A5E38" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="2" rx="8" ry="9" fill="#8A5E38"/><circle cx="0" cy="-7" r="6" fill="#C9A179"/><circle cx="-6" cy="-9" r="2.4" fill="#8A5E38"/><circle cx="6" cy="-9" r="2.4" fill="#8A5E38"/><circle cx="-2.4" cy="-7.5" r="1.1" fill="#3A2A1A"/><circle cx="2.4" cy="-7.5" r="1.1" fill="#3A2A1A"/></g>`:"";
+  const baslik=basId==="sapka"?`<g><path d="M28 40 Q60 18 92 40 L92 44 Q60 30 28 44 Z" fill="#3E2817"/><path d="M44 40 Q60 16 76 40 Z" fill="#5A3C24"/><path d="M52 30 h16 v4 h-16z" fill="#E9B949"/><circle cx="60" cy="26" r="3" fill="#E9B949"/></g>`
+    :basId==="bandana"?`<g><path d="M32 44 Q60 22 88 44 L86 50 Q60 36 34 50Z" fill="#7A2230"/><path d="M50 35 q10 -5 20 0" stroke="#F2DFB3" stroke-width="2" fill="none" opacity=".55"/><path d="M86 43 l11 7 -5 7z" fill="#7A2230"/></g>`
+    :basId==="amiral"?`<g><path d="M26 42 Q60 14 94 42 Q80 50 60 46 Q40 50 26 42Z" fill="#16213A"/><path d="M26 42 Q60 50 94 42 L94 46 Q60 56 26 46Z" fill="#0D1626"/><circle cx="60" cy="32" r="5" fill="#E9B949"/><path d="M51 31 h18" stroke="#E9B949" stroke-width="2"/></g>`:"";
   const durbun=a.includes("durbun")?`<g transform="translate(34,86)"><rect x="-6" y="-6" width="14" height="12" rx="3" fill="#3E2817"/><rect x="6" y="-5" width="10" height="10" rx="2" fill="#1C8FA6"/></g>`:"";
   const kilic=a.includes("kilic")?`<g transform="rotate(40 92 96)"><rect x="89" y="60" width="4" height="40" fill="#C9D2DA"/><rect x="84" y="98" width="14" height="5" rx="2" fill="#E9B949"/></g>`:"";
-  const canta=a.includes("canta")?`<path d="M36 70 h-8 a4 4 0 0 0-4 4 v22 a4 4 0 0 0 4 4 h8z" fill="#6E4A2C"/><rect x="24" y="80" width="12" height="4" fill="#3E2817"/>`:"";
+  const canta=a.includes("canta")?`<path d="M84 70 h8 a4 4 0 0 1 4 4 v22 a4 4 0 0 1-4 4 h-8z" fill="#6E4A2C"/><rect x="84" y="80" width="12" height="4" fill="#3E2817"/>`:"";
+  const yelek=a.includes("yelek")?`<path d="M42 86 L46 118 L54 116 L52 90Z" fill="#3E2817" opacity=".85"/><path d="M78 86 L74 118 L66 116 L68 90Z" fill="#3E2817" opacity=".85"/>`:"";
+  const altinzincir=a.includes("altinzincir")?`<path d="M48 88 Q60 96 72 88" stroke="#E9B949" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="60" cy="95" r="3" fill="#E9B949"/>`:"";
+  const kupe=a.includes("kupe")?`<circle cx="35" cy="60" r="2.4" fill="#E9B949"/><circle cx="35" cy="60" r="1" fill="#FFD56B"/>`:"";
+  const gozbandi=a.includes("gozbandi")?`<g><circle cx="69" cy="56" r="6.5" fill="#1a1a1a"/><path d="M63 52 L40 36" stroke="#1a1a1a" stroke-width="3"/><path d="M75 52 L92 40" stroke="#1a1a1a" stroke-width="3"/></g>`:"";
   return `<svg viewBox="0 0 120 130" width="${boy}" height="${boy*1.08}" style="filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))">
     ${pelerin}${kilic}${canta}
     <ellipse cx="60" cy="124" rx="26" ry="6" fill="rgba(0,0,0,.15)"/>
     <path d="M42 86 Q60 78 78 86 L82 118 Q60 124 38 118 Z" fill="${tis}"/>
     <path d="M42 86 Q60 80 78 86 L80 96 Q60 90 40 96 Z" fill="rgba(255,255,255,.12)"/>
     <rect x="40" y="100" width="40" height="6" rx="3" fill="#3E2817"/><rect x="56" y="99" width="8" height="8" rx="2" fill="#E9B949"/>
-    ${durbun}
+    ${yelek}${altinzincir}${durbun}
     <circle cx="60" cy="56" r="26" fill="${ten}"/>
-    <path d="M36 50 Q40 28 60 28 Q80 28 84 50 Q84 40 60 38 Q36 40 36 50Z" fill="${sac}"/>
-    <circle cx="51" cy="56" r="3.4" fill="#3A2A1A"/><circle cx="69" cy="56" r="3.4" fill="#3A2A1A"/>
+    ${sacSVG(sacStil,sac)}
+    <circle cx="51" cy="56" r="3.4" fill="${goz}"/><circle cx="69" cy="56" r="3.4" fill="${goz}"/>
     <circle cx="52" cy="55" r="1" fill="#fff"/><circle cx="70" cy="55" r="1" fill="#fff"/>
     <path d="M54 66 Q60 70 66 66" stroke="#9c5b3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <circle cx="46" cy="63" r="3" fill="#E89" opacity=".4"/><circle cx="74" cy="63" r="3" fill="#E89" opacity=".4"/>
-    ${sapka}${papagan}
+    ${kupe}${gozbandi}
+    ${baslik}${evcil}
   </svg>`;}
 
 /* ===== HARİTA: ada sprite ===== */
@@ -412,23 +474,41 @@ const App={
   sekme:"kamp",
   baslat(){Store.yukle();if(!Store.s.onboarded){this.onboarding();return;}Store.s.bakilanGun=bugununGunu();this.cizNav();this.git(this.sekme);},
 
-  onboarding(){$("#altnav").classList.add("gizli");const tenler=["#F6D2B3","#F1C9A5","#D9A878","#B57E54","#8A5A38"];const tisortlar=["#C0392B","#1C8FA6","#2E8B57","#8E5BB5","#E9B949"];
-    const app=$("#app");app.innerHTML=`<div class="ekran" style="display:flex;flex-direction:column;justify-content:center;min-height:100%">
-      <div style="text-align:center;margin-bottom:10px"><div class="tac" style="font-size:34px;color:#FCEFCB;text-shadow:0 3px 6px rgba(0,0,0,.5)">Ada'nın Yaz Akademisi</div>
+  /* ---- PAYLAŞILAN KÂŞİF OLUŞTURUCU (onboarding + profil düzenleme ortak) ---- */
+  avatarOlusturucuHTML(prefix){return `
+    <div style="width:170px;margin:4px auto 14px" id="${prefix}-onizle"></div>
+    <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="20" height="20" fill="#5A3C24"')} Kâşifini Tasarla</div>
+      <label class="bilgi">Ten rengi</label><div class="renk-sira" id="${prefix}-ten"></div>
+      <label class="bilgi">Saç stili</label><div class="pilsira" id="${prefix}-sacstil"></div>
+      <label class="bilgi">Saç rengi</label><div class="renk-sira" id="${prefix}-sac"></div>
+      <label class="bilgi">Göz rengi</label><div class="renk-sira" id="${prefix}-goz"></div>
+      <label class="bilgi">Tişört rengi</label><div class="renk-sira" id="${prefix}-tis"></div>
+    </div>`;},
+  avatarOlusturucuBagla(prefix,baslangic){const d={...baslangic};
+    const onizleVeri=()=>({ten:d.ten,sac:d.sac,sacStil:d.sacStil,goz:d.goz,tisort:d.tisort,aksesuarlar:Store.s.aksesuarlar,takili:Store.s.takili});
+    const ciz=()=>{const el=$("#"+prefix+"-onizle");if(el)el.innerHTML=avatarSVG(onizleVeri(),170);};
+    const renkPaneli=(anahtar,renkler)=>{const box=$("#"+prefix+"-"+(anahtar==="tisort"?"tis":anahtar));
+      const cizPanel=()=>{box.innerHTML=renkler.map(c=>`<button data-c="${c}" style="background:${c};border:3px solid ${c===d[anahtar]?'#E9B949':'rgba(0,0,0,.2)'}"></button>`).join("");
+        box.querySelectorAll("button").forEach(b=>b.onclick=()=>{d[anahtar]=b.dataset.c;cizPanel();ciz();});};
+      cizPanel();};
+    renkPaneli("ten",TENLER);renkPaneli("sac",SACLAR);renkPaneli("goz",GOZLER);renkPaneli("tisort",TISORTLAR);
+    const pil=$("#"+prefix+"-sacstil");
+    const cizPil=()=>{pil.innerHTML=SAC_STILLERI.map(([id,ad])=>`<button class="pilbtn ${d.sacStil===id?'aktif':''}" data-s="${id}">${ad}</button>`).join("");
+      pil.querySelectorAll("button").forEach(b=>b.onclick=()=>{d.sacStil=b.dataset.s;cizPil();ciz();});};
+    cizPil();ciz();
+    return ()=>({...d});},
+
+  onboarding(){$("#altnav").classList.add("gizli");const app=$("#app");
+    app.innerHTML=`<div class="ekran" style="display:flex;flex-direction:column;justify-content:center;min-height:100%">
+      <div style="text-align:center;margin-bottom:6px"><div class="tac" style="font-size:32px;color:#FCEFCB;text-shadow:0 3px 6px rgba(0,0,0,.5)">Ada'nın Yaz Akademisi</div>
       <div style="color:#9FE8E0;font-weight:800;font-size:14px">⚓ Hazine Yolculuğu ⚓</div></div>
-      <div style="width:160px;margin:6px auto 10px" id="ob-avatar-onizle"></div>
-      <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="20" height="20" fill="#5A3C24"')} Kâşifini Hazırla</div>
-        <label class="bilgi">Adın, kaptan?</label><input class="giris" id="ob-ad" value="Ada">
-        <label class="bilgi">Ten rengi:</label><div id="ob-ten" style="display:flex;gap:8px;margin:6px 0 12px"></div>
-        <label class="bilgi">Tişört rengi:</label><div id="ob-tis" style="display:flex;gap:8px;margin:6px 0 12px"></div>
+      ${this.avatarOlusturucuHTML("ob")}
+      <div class="parsomen"><label class="bilgi">Adın, kaptan?</label><input class="giris" id="ob-ad" value="Ada">
         <label class="bilgi">Ebeveyn şifresi (4 hane):</label><input class="giris" id="ob-pin" inputmode="numeric" maxlength="4" value="1234"></div>
       <button class="btn mercan" id="ob-basla">⛵ Yelken Aç!</button></div>`;
-    let ten=tenler[1],tis=tisortlar[0];
-    const ciz=()=>{$("#ob-avatar-onizle").innerHTML=avatarSVG({ten,tisort:tis,sac:"#5A3C24",aksesuarlar:[{id:"sapka"}]},150);};
-    const ren=(box,arr,cur,set)=>{box.innerHTML=arr.map(c=>`<button data-c="${c}" style="width:38px;height:38px;border-radius:50%;background:${c};border:3px solid ${c===cur()?'#E9B949':'rgba(0,0,0,.2)'}"></button>`).join("");
-      box.querySelectorAll("button").forEach(b=>b.onclick=()=>{set(b.dataset.c);ren(box,arr,cur,set);ciz();});};
-    ren($("#ob-ten"),tenler,()=>ten,v=>ten=v);ren($("#ob-tis"),tisortlar,()=>tis,v=>tis=v);ciz();
-    $("#ob-basla").onclick=()=>{Store.s.ad=$("#ob-ad").value.trim()||"Ada";Store.s.ten=ten;Store.s.tisort=tis;Store.s.pin=($("#ob-pin").value||"1234").slice(0,4);Store.s.onboarded=true;Store.kaydet();Ses.sandik();Konfeti.patlat(60);this.baslat();};},
+    const degerAl=this.avatarOlusturucuBagla("ob",{ten:TENLER[1],sac:SACLAR[1],sacStil:"kisa",goz:GOZLER[0],tisort:TISORTLAR[0]});
+    $("#ob-basla").onclick=()=>{const d=degerAl();Store.s.ad=$("#ob-ad").value.trim()||"Ada";Store.s.ten=d.ten;Store.s.sac=d.sac;Store.s.sacStil=d.sacStil;Store.s.goz=d.goz;Store.s.tisort=d.tisort;
+      Store.s.pin=($("#ob-pin").value||"1234").slice(0,4);Store.s.onboarded=true;Store.kaydet();Ses.sandik();Konfeti.patlat(60);this.baslat();};},
 
   cizNav(){const nav=$("#altnav");nav.classList.remove("gizli");
     const sek=[["kamp","kamp","Kamp"],["harita","harita","Harita"],["bugun","tur","Görevler"],["ganimet","sandik","Ganimet"],["defter","defter","Defter"]];
@@ -593,16 +673,42 @@ const App={
       <div class="parsomen"><div class="panel-baslik">📜 Derslere Göre Yol</div>${bar}</div></div>`;},
 
   /* ---- PROFİL / AVATAR ---- */
-  profil(){const DUKKAN=[{id:"sapka",ad:"Kâşif Şapkası",fy:15},{id:"durbun",ad:"Dürbün",fy:14},{id:"canta",ad:"Sefer Çantası",fy:18},{id:"kilic",ad:"Tahta Kılıç",fy:24},{id:"papagan",ad:"Papağan Dost",fy:30},{id:"pelerin",ad:"Kaptan Pelerini",fy:40}];
-    let dk="";DUKKAN.forEach(it=>{const alindi=Store.s.aksesuarlar.some(a=>a.id===it.id);dk+=`<div class="it"><div class="ikon">${avatarSVG({ten:Store.s.ten,tisort:Store.s.tisort,sac:Store.s.sac,aksesuarlar:[{id:it.id}]},46)}</div><div class="ad">${it.ad}</div><div class="fy">💎 ${it.fy}</div><button class="btn ${alindi?'ahsapbtn':'deniz'} kucuk" style="min-height:40px" onclick="App.satinAl('${it.id}')">${alindi?'✓ Açık':'Aç'}</button></div>`;});
+  profil(){
+    let magazaHtml="";
+    MAGAZA.forEach(kat=>{magazaHtml+=`<div class="magaza-kategori">${kat.kategori==="Başlıklar"?"🎩":kat.kategori==="Evcil Hayvanlar"?"🦜":"⚔️"} ${kat.kategori}</div><div class="esya-grid">`;
+      kat.esya.forEach(it=>{const sahip=Store.s.aksesuarlar.some(a=>a.id===it.id);const slot=ESYA_SLOT[it.id];const fy=ESYA_FIYAT[it.id];
+        const takiliMi=slot?Store.s.takili[slot]===it.id:sahip;
+        const onizleS={ten:Store.s.ten,tisort:Store.s.tisort,sac:Store.s.sac,sacStil:Store.s.sacStil,goz:Store.s.goz,aksesuarlar:[{id:it.id}],takili:{bas:it.id,evcil:it.id}};
+        let buton;
+        if(!sahip)buton=`<button class="btn deniz kucuk" style="min-height:38px" onclick="App.satinAl('${it.id}')">Aç</button>`;
+        else if(slot)buton=`<button class="btn ${takiliMi?'yaprak':'ahsapbtn'} kucuk" style="min-height:38px" onclick="App.takEt('${it.id}')">${takiliMi?'✓ Takılı':'Tak'}</button>`;
+        else buton=`<button class="btn ahsapbtn kucuk" style="min-height:38px" disabled>✓ Açık</button>`;
+        magazaHtml+=`<div class="esya ${sahip?'sahip':''}"><span class="tier ${it.tier}">${{bronz:'BRONZ',gumus:'GÜMÜŞ',altin:'ALTIN'}[it.tier]}</span>
+          <div class="ikon">${avatarSVG(onizleS,58)}</div><div class="ad">${it.ad}</div>
+          <div class="fy">${sahip?'':'💎 '+fy}</div>${buton}</div>`;});
+      magazaHtml+=`</div>`;});
     $("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.git('kamp')">‹ Kampa Dön</button>
       <div class="parsomen" style="text-align:center"><div class="avatar-cerceve">${avatarSVG(Store.s,130)}</div>
         <div class="tac" style="font-size:24px;color:var(--ahsap-koyu);margin-top:12px">Kaptan ${Store.s.ad}</div>
-        <div class="bilgi">Seviye ${Store.s.seviye} · 💎 ${Store.s.kristal} kristal · 🏆 ${Object.keys(Store.s.rozetler).length} ganimet</div></div>
+        <div class="bilgi">Seviye ${Store.s.seviye} · 💎 ${Store.s.kristal} kristal · 🏆 ${Object.keys(Store.s.rozetler).length} ganimet</div>
+        <button class="btn ahsapbtn kucuk" style="margin-top:12px" onclick="App.profilDuzenle()">✏️ Kâşifi Yeniden Tasarla</button></div>
       <div class="parsomen"><div class="panel-baslik">${svg(ICON.sandik,'width="18" height="18" fill="#5A3C24"')} Donanım Sandığı</div>
-        <div class="bilgi" style="margin-bottom:10px">Görev yaptıkça kristal topla, kâşifini donat!</div><div class="dukkan">${dk}</div></div></div>`;},
-  satinAl(id){const F={sapka:15,durbun:14,canta:18,kilic:24,papagan:30,pelerin:40}[id];if(Store.s.aksesuarlar.some(a=>a.id===id))return;
-    if(Store.s.kristal<F){this.toast("Yetersiz kristal 💎 ("+F+" gerek)");return;}Store.s.kristal-=F;Store.s.aksesuarlar.push({id});Store.kaydet();Ses.rozet();Konfeti.patlat(22);Rozet.kontrol();this.profil();},
+        <div class="bilgi" style="margin-bottom:4px">💎 ${Store.s.kristal} kristalin var. Görev yaptıkça topla, kâşifini donat!</div>${magazaHtml}</div></div>`;},
+
+  profilDuzenle(){$("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.git('profil')">‹ Vazgeç</button>
+      <div style="text-align:center;margin-bottom:4px"><div class="tac" style="font-size:24px;color:#FCEFCB;text-shadow:0 2px 4px rgba(0,0,0,.5)">Kâşifini Yeniden Tasarla</div></div>
+      ${this.avatarOlusturucuHTML("pd")}
+      <div class="parsomen"><label class="bilgi">Adın, kaptan?</label><input class="giris" id="pd-ad" value="${Store.s.ad}"></div>
+      <button class="btn yaprak" id="pd-kaydet">💾 Kaydet</button></div>`;
+    const degerAl=this.avatarOlusturucuBagla("pd",{ten:Store.s.ten,sac:Store.s.sac,sacStil:Store.s.sacStil,goz:Store.s.goz,tisort:Store.s.tisort});
+    $("#pd-kaydet").onclick=()=>{const d=degerAl();Store.s.ad=$("#pd-ad").value.trim()||Store.s.ad;Store.s.ten=d.ten;Store.s.sac=d.sac;Store.s.sacStil=d.sacStil;Store.s.goz=d.goz;Store.s.tisort=d.tisort;
+      Store.kaydet();Ses.rozet();Konfeti.patlat(24);this.toast("Kaptan güncellendi ✓");this.git('profil');};},
+
+  satinAl(id){const F=ESYA_FIYAT[id];if(Store.s.aksesuarlar.some(a=>a.id===id))return;
+    if(Store.s.kristal<F){this.toast("Yetersiz kristal 💎 ("+F+" gerek)");return;}
+    Store.s.kristal-=F;Store.s.aksesuarlar.push({id});const slot=ESYA_SLOT[id];if(slot)Store.s.takili[slot]=id;
+    Store.kaydet();Ses.rozet();Konfeti.patlat(22);Rozet.kontrol();this.profil();},
+  takEt(id){const slot=ESYA_SLOT[id];if(!slot)return;Store.s.takili[slot]=(Store.s.takili[slot]===id)?null:id;Store.kaydet();Ses.tik();this.profil();},
 
   /* ---- KAPTAN KAMARASI (EBEVEYN) ---- */
   ebeveynGiris(){Modal.goster(`<div class="bigsvg">${svg('<path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3z" fill="#5A3C24"/>')}</div><h2>Kaptan Kamarası</h2><p>Şifreni gir, kaptan.</p><input class="giris" id="pin-giris" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" onclick="App.ebeveynKontrol()">Giriş</button>`);setTimeout(()=>$("#pin-giris")&&$("#pin-giris").focus(),100);},
