@@ -3,7 +3,7 @@
    Sürüm değişince eski önbellek temizlenir.
    NOT: Tek bir dosya (ör. eksik bir ikon) 404 dönse bile kurulum
    ÇÖKMEZ — her dosya ayrı ayrı, hataya toleranslı önbelleğe alınır. */
-const CACHE = "ada-akademi-v4";
+const CACHE = "ada-akademi-v6";
 const ASSETS = [
   "./",
   "./index.html",

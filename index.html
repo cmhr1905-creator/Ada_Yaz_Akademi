@@ -283,7 +283,7 @@ const MOTIVASYON=["Bugün hangi adayı keşfedeceğiz, kaptan? 🧭","Hazine san
 /* ===== STORE ===== */
 const Store={KEY:"ada_akademi_v2",s:null,
   yeni(){return{onboarded:false,ad:"Ada",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",sacStil:"kisa",goz:"#3A2A1A",aksesuarlar:[],takili:{bas:null,evcil:null},pin:"1234",
-    xp:0,seviye:1,kristal:0,altin:0,seri:0,enUzunSeri:0,sonGun:null,ilerleme:{},okumaDk:0,notlar:{},yanlislar:{},
+    xp:0,seviye:1,kristal:0,altin:0,toplamKazanilan:0,bozdurmalar:[],eklemeler:[],seri:0,enUzunSeri:0,sonGun:null,ilerleme:{},okumaDk:0,notlar:{},yanlislar:{},
     rozetler:{},buyukHazineOdul:"",buyukHazineAcildi:false,ses:true,bakilanGun:1,gorulenBolge:{}};},
   yukle(){try{this.s=JSON.parse(localStorage.getItem(this.KEY))||this.yeni();}catch(e){this.s=this.yeni();}const v=this.yeni();for(const k in v)if(!(k in this.s))this.s[k]=v[k];},
   kaydet(){try{localStorage.setItem(this.KEY,JSON.stringify(this.s));}catch(e){}}};
@@ -299,15 +299,24 @@ const Oyun={
   seviyeEsigi(n){return Math.round(100*n*Math.pow(1.25,n-1));},
   seviyeHesapla(){let lvl=1,xp=Store.s.xp;while(xp>=this.seviyeEsigi(lvl)){xp-=this.seviyeEsigi(lvl);lvl++;}return{seviye:lvl,kalanXp:xp,sonraki:this.seviyeEsigi(lvl)};},
   gorevTamamla(gunNo,i){const g=gunVeri(gunNo);const gorev=g.gorevler[i];const id=gorevId(gunNo,i);if(Store.s.ilerleme[id]==="done")return;
-    Store.s.ilerleme[id]="done";Store.s.altin=Math.min(10000,Store.s.altin+(gorev.altin||0));Store.s.xp+=XP_MAP[gorev.ders]||10;Store.s.kristal+=KRISTAL_MAP[gorev.ders]||1;
+    Store.s.ilerleme[id]="done";const kazanc=gorev.altin||0;
+    Store.s.altin=Math.min(10000,Store.s.altin+kazanc);Store.s.toplamKazanilan=Math.min(10000,(Store.s.toplamKazanilan||0)+kazanc);
+    Store.s.xp+=XP_MAP[gorev.ders]||10;Store.s.kristal+=KRISTAL_MAP[gorev.ders]||1;
     if(gorev.ders==="Kitap Okuma")Store.s.okumaDk+=20;const eski=Store.s.seviye;const yeni=this.seviyeHesapla().seviye;Store.s.seviye=yeni;this.seriGuncelle(gunNo);Store.kaydet();
     Ses.altin();Konfeti.patlat();if(yeni>eski)setTimeout(()=>Modal.seviye(yeni),700);
     const yr=Rozet.kontrol();if(yr)setTimeout(()=>Modal.rozet(yr),yeni>eski?1500:700);
-    if(Store.s.altin>=10000&&!Store.s.buyukHazineAcildi){Store.s.buyukHazineAcildi=true;Store.kaydet();setTimeout(()=>Modal.buyukHazine(),950);}},
-  geriAl(gunNo,i){const id=gorevId(gunNo,i);if(Store.s.ilerleme[id]==="done"){const g=gunVeri(gunNo).gorevler[i];
-    Store.s.altin=Math.max(0,Store.s.altin-(g.altin||0));Store.s.xp=Math.max(0,Store.s.xp-(XP_MAP[g.ders]||10));Store.s.kristal=Math.max(0,Store.s.kristal-(KRISTAL_MAP[g.ders]||1));
+    if(Store.s.toplamKazanilan>=10000&&!Store.s.buyukHazineAcildi){Store.s.buyukHazineAcildi=true;Store.kaydet();setTimeout(()=>Modal.buyukHazine(),950);}},
+  geriAl(gunNo,i){const id=gorevId(gunNo,i);if(Store.s.ilerleme[id]==="done"){const g=gunVeri(gunNo).gorevler[i];const kazanc=g.altin||0;
+    Store.s.altin=Math.max(0,Store.s.altin-kazanc);Store.s.toplamKazanilan=Math.max(0,(Store.s.toplamKazanilan||0)-kazanc);Store.s.xp=Math.max(0,Store.s.xp-(XP_MAP[g.ders]||10));Store.s.kristal=Math.max(0,Store.s.kristal-(KRISTAL_MAP[g.ders]||1));
     if(g.ders==="Kitap Okuma")Store.s.okumaDk=Math.max(0,Store.s.okumaDk-20);Store.s.seviye=this.seviyeHesapla().seviye;delete Store.s.ilerleme[id];Store.kaydet();}},
-  seriGuncelle(gunNo){const t=gunVeri(gunNo).tarih;if(Store.s.sonGun!==t){Store.s.seri+=1;Store.s.sonGun=t;if(Store.s.seri>Store.s.enUzunSeri)Store.s.enUzunSeri=Store.s.seri;}}
+  seriGuncelle(gunNo){const t=gunVeri(gunNo).tarih;if(Store.s.sonGun!==t){Store.s.seri+=1;Store.s.sonGun=t;if(Store.s.seri>Store.s.enUzunSeri)Store.s.enUzunSeri=Store.s.seri;}},
+  bozdur(miktar){miktar=Math.floor(Math.max(0,Math.min(miktar,Store.s.altin)));if(miktar<=0)return false;
+    Store.s.altin-=miktar;Store.s.bozdurmalar=Store.s.bozdurmalar||[];Store.s.bozdurmalar.unshift({tarih:new Date().toISOString(),miktar});Store.kaydet();return true;},
+  ekle(miktar){miktar=Math.floor(Math.max(0,miktar));if(miktar<=0)return false;
+    Store.s.altin+=miktar;Store.s.toplamKazanilan=Math.min(10000,(Store.s.toplamKazanilan||0)+miktar);
+    Store.s.eklemeler=Store.s.eklemeler||[];Store.s.eklemeler.unshift({tarih:new Date().toISOString(),miktar});
+    let hazine=false;if(Store.s.toplamKazanilan>=10000&&!Store.s.buyukHazineAcildi){Store.s.buyukHazineAcildi=true;hazine=true;}
+    Store.kaydet();return{hazine};}
 };
 
 /* ===== İLERLEME ===== */
@@ -345,9 +354,9 @@ const ROZETLER=[
  {id:"seri14",ad:"Yılmaz Denizci",ic:'<path d="M12 2l8 18H4z" fill="#E2683C"/>',k:s=>s.enUzunSeri>=14},
  {id:"lvl5",ad:"Seviye 5",ic:ICON.gorev,k:s=>s.seviye>=5},
  {id:"lvl10",ad:"Seviye 10",ic:ICON.gorev,k:s=>s.seviye>=10},
- {id:"a1000",ad:"İlk 1000 Altın",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>s.altin>=1000},
- {id:"a5000",ad:"Yarım Hazine",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>s.altin>=5000},
- {id:"a10000",ad:"BÜYÜK HAZİNE",ic:ICON.sandik,k:s=>s.altin>=10000},
+ {id:"a1000",ad:"İlk 1000 Altın",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>(s.toplamKazanilan||0)>=1000},
+ {id:"a5000",ad:"Yarım Hazine",ic:'<circle cx="12" cy="12" r="9" fill="#E9B949"/>',k:s=>(s.toplamKazanilan||0)>=5000},
+ {id:"a10000",ad:"BÜYÜK HAZİNE",ic:ICON.sandik,k:s=>(s.toplamKazanilan||0)>=10000},
  {id:"sahil",ad:"Sahil Fatihi",ic:ICON.pusula,k:s=>{for(let d=1;d<=10;d++)if(Ilerleme.gunDurumu(d).durum!=="tamam"&&gunVeri(d).tip==="calisma")return false;return Ilerleme.dersSayac("Matematik")>=6;}},
  {id:"krist50",ad:"Kristal Avcısı",ic:'<path d="M12 2l7 7-7 13L5 9z" fill="#2BB6A8"/>',k:s=>s.kristal>=50},
  {id:"sik",ad:"Şık Kâşif",ic:ICON.pusula,k:s=>s.aksesuarlar.length>=1},
@@ -521,14 +530,15 @@ const App={
     <div class="sag"><button class="yuvarlak" onclick="App.git('profil')">${avatarSVG(Store.s,40)}</button></div></div>`;},
 
   /* ---- KAMP ---- */
-  kamp(){const aktif=bugununGunu();const g=gunVeri(aktif);const d=Ilerleme.gunDurumu(aktif);const lvl=Oyun.seviyeHesapla();const hY=Math.round(Store.s.altin/10000*100);const mot=MOTIVASYON[(aktif-1)%MOTIVASYON.length];
+  kamp(){const aktif=bugununGunu();const g=gunVeri(aktif);const d=Ilerleme.gunDurumu(aktif);const lvl=Oyun.seviyeHesapla();const tk=Store.s.toplamKazanilan||0;const hY=Math.round(tk/10000*100);const mot=MOTIVASYON[(aktif-1)%MOTIVASYON.length];
     $("#app").innerHTML=`<div class="ekran">${this.hud()}
       <div class="kamp-sahne">${this.kampSVG(g)}
         <div class="kamp-gun"><div class="g tac">Gün ${aktif}</div><div class="t">${g.haftaGunu} · ${this.tarihTR(g.tarih)} · ${bolgeFor(aktif).ad}</div></div></div>
       <div class="parsomen" style="margin-top:-2px"><div class="satir"><div style="flex:1"><b style="font-family:var(--font-baslik);color:var(--ahsap-koyu)">Kaptan ${Store.s.ad}</b><div class="bilgi">${mot}</div></div></div></div>
-      <div class="hazine-bar"><div class="ust">${svg(ICON.sandik,'width="18" height="18" fill="#FFD56B"')} Büyük Hazine Sandığı <span class="sayi">${Store.s.altin}/10.000</span></div>
+      <div class="hazine-bar"><div class="ust">${svg(ICON.sandik,'width="18" height="18" fill="#FFD56B"')} Büyük Hazine Sandığı <span class="sayi">${tk}/10.000</span></div>
         <div class="cubuk"><div class="dolu" style="width:${hY}%"></div></div>
-        <div class="alt">${Store.s.altin>=10000?"🎉 Dev sandık açıldı!":"Tüm görevleri bitir, dev sandığı aç!"}</div></div>
+        <div class="alt">${tk>=10000?"🎉 Dev sandık açıldı!":"Tüm görevleri bitir, dev sandığı aç! (ömür boyu kazanım)"}</div>
+        <div class="alt" style="margin-top:6px">💰 Cüzdanında şu an <b>${Store.s.altin} altın</b> var — istediğin an veli onayıyla bozdurulabilir</div></div>
       <div class="dort">
         <div class="k"><div class="b">${svg(ICON.gorev,'width="15" height="15" fill="#E9B949"')}${Store.s.seviye}</div><div class="e">SEVİYE</div></div>
         <div class="k"><div class="b">🔥${Store.s.seri}</div><div class="e">SERİ</div></div>
@@ -659,14 +669,16 @@ const App={
   /* ---- SEYİR DEFTERİ (İSTATİSTİK) ---- */
   defter(){const dersler=[["Matematik","#1C8FA6",40],["Türkçe","#C0392B",35],["Fen Bilimleri","#2E8B57",20],["Sosyal Bilgiler","#E2683C",20]];let bar="";
     dersler.forEach(([ad,renk,top])=>{const yp=Ilerleme.dersSayac(ad);const p=Math.round(yp/top*100);bar+=`<div class="defter-satir"><div class="tep"><span>${ad}</span><span>${yp}/${top}</span></div><div class="defter-bar"><div class="d" style="width:${p}%;background:${renk}"></div></div></div>`;});
-    const genel=Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100);
+    const genel=Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100);const tk=Store.s.toplamKazanilan||0;const bzl=Store.s.bozdurmalar||[];const bzlToplam=bzl.reduce((t,b)=>t+b.miktar,0);
     $("#app").innerHTML=`<div class="ekran">${this.hud()}
       <div class="parsomen"><div class="panel-baslik">${svg(ICON.defter,'width="20" height="20" fill="#5A3C24"')} Kaptanın Seyir Defteri</div>
         <div class="dort" style="margin-bottom:4px">
-          <div class="k"><div class="b">${Store.s.altin}</div><div class="e">ALTIN</div></div>
+          <div class="k"><div class="b">${tk}</div><div class="e">ÖMÜR BOYU ALTIN</div></div>
           <div class="k"><div class="b">${Ilerleme.yapilanGorev()}</div><div class="e">MACERA</div></div>
           <div class="k"><div class="b">${Store.s.okumaDk}</div><div class="e">OKUMA dk</div></div>
           <div class="k"><div class="b">${Store.s.enUzunSeri}</div><div class="e">EN UZUN SERİ</div></div></div></div>
+      <div class="parsomen"><div class="panel-baslik">💰 Hazine Cüzdanı</div>
+        <div class="bilgi">Cüzdanında şu an <b>${Store.s.altin} altın</b> var (gerçek hayatta veli onayıyla bozdurulabilir).<br>Bugüne kadar toplam <b>${bzlToplam} altın</b> bozduruldu.</div></div>
       <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="18" height="18" fill="#5A3C24"')} Genel Rota · %${genel}</div>
         <div class="defter-bar" style="height:18px"><div class="d" style="width:${genel}%;background:linear-gradient(90deg,#1C8FA6,#2BB6A8)"></div></div>
         <div class="bilgi" style="margin-top:8px">${Ilerleme.bitenGun()} ada fethedildi · Seviye ${Store.s.seviye} · ${Object.keys(Store.s.rozetler).length} ganimet</div></div>
@@ -713,9 +725,18 @@ const App={
   /* ---- KAPTAN KAMARASI (EBEVEYN) ---- */
   ebeveynGiris(){Modal.goster(`<div class="bigsvg">${svg('<path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3z" fill="#5A3C24"/>')}</div><h2>Kaptan Kamarası</h2><p>Şifreni gir, kaptan.</p><input class="giris" id="pin-giris" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" onclick="App.ebeveynKontrol()">Giriş</button>`);setTimeout(()=>$("#pin-giris")&&$("#pin-giris").focus(),100);},
   ebeveynKontrol(){const v=$("#pin-giris").value;if(v===Store.s.pin){Modal.kapat();this.ebeveynPanel();}else{$("#pin-giris").style.borderColor="#C0392B";$("#pin-giris").value="";}},
-  ebeveynPanel(){$("#altnav").classList.add("gizli");const havuz=Ilerleme.telafiHavuzu();
+  ebeveynPanel(){$("#altnav").classList.add("gizli");const havuz=Ilerleme.telafiHavuzu();const tk=Store.s.toplamKazanilan||0;
+    const bzl=Store.s.bozdurmalar||[],ekl=Store.s.eklemeler||[];
+    const gecmis=[...bzl.map(b=>({...b,tip:"bozdur"})),...ekl.map(e=>({...e,tip:"ekle"}))].sort((a,b)=>new Date(b.tarih)-new Date(a.tarih)).slice(0,10);
     $("#app").innerHTML=`<div class="ekran">${this.hud()}<button class="geri" onclick="App.cizNav();App.git('kamp')">‹ Çıkış</button>
-      <div class="parsomen"><div class="panel-baslik">🔒 Kaptan Kamarası</div><div class="bilgi">Genel ilerleme: <b>%${Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100)}</b> · ${Ilerleme.yapilanGorev()}/${Ilerleme.toplamGorev()} görev<br>Altın: ${Store.s.altin}/10.000 · Seviye ${Store.s.seviye} · ${Object.keys(Store.s.rozetler).length} ganimet · ${Ilerleme.bitenGun()} ada</div></div>
+      <div class="parsomen"><div class="panel-baslik">🔒 Kaptan Kamarası</div><div class="bilgi">Genel ilerleme: <b>%${Math.round(Ilerleme.yapilanGorev()/Ilerleme.toplamGorev()*100)}</b> · ${Ilerleme.yapilanGorev()}/${Ilerleme.toplamGorev()} görev<br>Ömür boyu kazanılan: ${tk}/10.000 · Seviye ${Store.s.seviye} · ${Object.keys(Store.s.rozetler).length} ganimet · ${Ilerleme.bitenGun()} ada</div></div>
+      <div class="parsomen"><div class="panel-baslik">💰 Altın Yönetimi (Cüzdan: ${Store.s.altin})</div>
+        <div class="bilgi" style="margin-bottom:10px">🎁 <b>Ekleme</b> hem cüzdana hem hazineye yolculuğa (${tk}/10.000) işler — bonus ödül gibi düşün.<br>💸 <b>Bozdurma</b> sadece cüzdandan düşer, hazine ilerlemesini etkilemez.</div>
+        <label class="bilgi">🎁 Kasaya Altın Ekle (bonus ödül)</label>
+        <div class="satir" style="gap:8px;margin-bottom:12px"><input class="giris" id="ekle-miktar" type="number" inputmode="numeric" min="1" placeholder="Miktar (altın)" style="margin-bottom:0;flex:1"><button class="btn yaprak kucuk" style="width:auto;padding:0 18px;min-height:50px" onclick="App.eklemeYap()">Ekle</button></div>
+        <label class="bilgi">💸 Bozdur (gerçek hayatta harca)</label>
+        <div class="satir" style="gap:8px;margin-bottom:12px"><input class="giris" id="bozdur-miktar" type="number" inputmode="numeric" min="1" max="${Store.s.altin}" placeholder="Miktar (altın)" style="margin-bottom:0;flex:1"><button class="btn mercan kucuk" style="width:auto;padding:0 18px;min-height:50px" onclick="App.bozdurYap()">Bozdur</button></div>
+        <div class="bilgi">${gecmis.length?`<b>Son işlemler:</b><br>${gecmis.map(g=>`${new Date(g.tarih).toLocaleDateString('tr-TR')} — ${g.tip==="ekle"?`+${g.miktar} altın (eklendi 🎁)`:`−${g.miktar} altın (bozduruldu 💸)`}`).join("<br>")}${(bzl.length+ekl.length)>10?"<br>…":""}`:"Henüz işlem yapılmadı."}</div></div>
       <div class="parsomen"><div class="panel-baslik">🌊 Telafi Havuzu (${havuz.length})</div><div class="bilgi">${havuz.length?havuz.slice(0,12).map(o=>`Gün ${o.gun}: ${o.gorev.ders} – ${o.gorev.baslik}`).join("<br>"):"Eksik yok 🎉"}${havuz.length>12?"<br>…":""}</div></div>
       <div class="parsomen"><div class="panel-baslik">🧰 Büyük Hazine Ödülü</div><textarea class="giris" id="bh-odul" placeholder="Örn: sinema, yeni kitap, bir günlük gezi...">${Store.s.buyukHazineOdul||""}</textarea><button class="btn ahsapbtn kucuk" onclick="Store.s.buyukHazineOdul=document.getElementById('bh-odul').value;Store.kaydet();App.toast('Ödül kaydedildi ✓')">Kaydet</button></div>
       <div class="parsomen"><div class="panel-baslik">⚙️ Ayarlar & Veri</div>
@@ -724,6 +745,17 @@ const App={
         <button class="btn ahsapbtn kucuk" style="margin-bottom:8px" onclick="document.getElementById('ice').click()">📥 Geri Yükle</button>
         <input type="file" id="ice" accept="application/json" style="display:none" onchange="App.iceAktar(event)">
         <button class="btn mercan kucuk" onclick="App.sifirla()">🗑️ Sıfırla</button></div></div>`;},
+  eklemeYap(){const el=$("#ekle-miktar");const miktar=parseInt(el&&el.value,10)||0;
+    if(miktar<=0){this.toast("Geçerli bir miktar gir");return;}
+    const sonuc=Oyun.ekle(miktar);
+    if(sonuc){Ses.altin();Konfeti.patlat();this.toast(miktar+" altın kasaya eklendi ✓");
+      const yr=Rozet.kontrol();
+      if(sonuc.hazine)setTimeout(()=>Modal.buyukHazine(),500);else if(yr)setTimeout(()=>Modal.rozet(yr),500);
+      this.ebeveynPanel();}},
+  bozdurYap(){const el=$("#bozdur-miktar");const miktar=parseInt(el&&el.value,10)||0;
+    if(miktar<=0){this.toast("Geçerli bir miktar gir");return;}
+    if(miktar>Store.s.altin){this.toast("Cüzdanda yeterli altın yok");return;}
+    if(Oyun.bozdur(miktar)){Ses.sandik();this.toast(miktar+" altın bozduruldu ✓");this.ebeveynPanel();}},
   pinDegis(){Modal.goster(`<div class="big">🔑</div><h2>Yeni Şifre</h2><input class="giris" id="yp" inputmode="numeric" maxlength="4" placeholder="4 hane"><button class="btn" onclick="(function(){var v=document.getElementById('yp').value;if(v.length===4){Store.s.pin=v;Store.kaydet();Modal.kapat();App.toast('Şifre güncellendi ✓');}})()">Kaydet</button>`);},
   disaAktar(){const blob=new Blob([JSON.stringify(Store.s,null,1)],{type:"application/json"});const a=el("a");a.href=URL.createObjectURL(blob);a.download="ada-akademi-yedek.json";a.click();},
   iceAktar(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{Store.s=JSON.parse(r.result);Store.kaydet();this.toast("Geri yüklendi ✓");this.cizNav();this.git('kamp');}catch(x){this.toast("Geçersiz dosya");}};r.readAsText(f);},
