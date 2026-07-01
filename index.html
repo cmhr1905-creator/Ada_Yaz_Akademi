@@ -568,14 +568,14 @@ function susSVG(tip){
 const SUS_BOLGE={sahil:["kaya","yunus","kabuk"],orman:["kaya","kus","kus"],tapinak:["kaya","kabuk","kaya"],volkan:["kaya","kayadumanli","kayadumanli"],buz:["buzdagi","kartanesi","buzdagi"],hazine:["parilti","altin","parilti"]};
 
 /* ===== GERÇEK GÖRSELLER (AI ile üretilmiş ada görselleri) ===== */
-const BOLGE_GORSEL={sahil:"gorseller/ada-sahil.webp",orman:"gorseller/ada-orman.webp",tapinak:"gorseller/ada-tapinak.webp",volkan:"gorseller/ada-volkan.webp",buz:"gorseller/ada-buz.webp",hazine:"gorseller/ada-hazine.webp"};
-const DURUM_GORSEL={tamam:"gorseller/durum-tamam.webp",bugun:"gorseller/durum-bugun.webp"};
+const BOLGE_GORSEL={sahil:"ada-sahil.webp",orman:"ada-orman.webp",tapinak:"ada-tapinak.webp",volkan:"ada-volkan.webp",buz:"ada-buz.webp",hazine:"ada-hazine.webp"};
+const DURUM_GORSEL={tamam:"durum-tamam.webp",bugun:"durum-bugun.webp"};
 function bolgeYapiGorsel(prop){ // gerçek görsel varsa onu, yoksa (buz gibi) çizilmiş SVG'yi döndürür
   const src=BOLGE_GORSEL[prop];
   return src?`<img src="${src}" class="bolge-yapi-img" alt="" loading="lazy">`:bolgeYapiSVG(prop);
 }
 function adaDurumGorsel(durum){ // tamam/bugün gerçek görsel; diğer tüm durumlar (kilitli/eksik/telafi/serbest) ortak "bekliyor" görseli
-  const src=DURUM_GORSEL[durum]||"gorseller/durum-kilitli.webp";
+  const src=DURUM_GORSEL[durum]||"durum-kilitli.webp";
   return `<img src="${src}" class="ada-img" alt="" loading="lazy">`;
 }
 
@@ -711,7 +711,7 @@ const App={
     dekor+=`<div class="harita-props gemi-bob" style="left:calc(${(gx/3.6).toFixed(2)}% - 42px);top:${gy-14}px"><svg width="40" height="44"><path d="M4 28 h28 l-5 10 h-18z" fill="#6E4A2C"/><rect x="17" y="4" width="2.5" height="24" fill="#3E2817"/><path d="M19 6 q14 4 0 16z" fill="#F2DFB3"/><path d="M19 6 l-12 6 12 4z" fill="#fff" opacity=".9"/></svg></div>`;
 
     $("#app").innerHTML=`<div class="ekran harita-ekran"><div id="harita-kaydir">
-      <div class="harita-banner"><img src="gorseller/harita-genel.webp" alt="Hazine Dünyası"><span class="harita-banner-et">🗺️ Senin Hazine Dünyan</span></div>
+      <div class="harita-banner"><img src="harita-genel.webp" alt="Hazine Dünyası"><span class="harita-banner-et">🗺️ Senin Hazine Dünyan</span></div>
       <div id="harita-ic" style="height:${H}px">
       <div class="harita-deniz"></div>
       ${dalgalar}
