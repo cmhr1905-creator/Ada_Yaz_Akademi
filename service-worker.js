@@ -3,7 +3,7 @@
    Sürüm değişince eski önbellek temizlenir.
    NOT: Tek bir dosya (ör. eksik bir ikon) 404 dönse bile kurulum
    ÇÖKMEZ — her dosya ayrı ayrı, hataya toleranslı önbelleğe alınır. */
-const CACHE = "ada-akademi-v9";
+const CACHE = "ada-akademi-v10";
 const ASSETS = [
   "./",
   "./index.html",
@@ -13,16 +13,16 @@ const ASSETS = [
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
   "./favicon.png",
-  "./gorseller/ada-sahil.webp",
-  "./gorseller/ada-orman.webp",
-  "./gorseller/ada-tapinak.webp",
-  "./gorseller/ada-volkan.webp",
-  "./gorseller/ada-buz.webp",
-  "./gorseller/ada-hazine.webp",
-  "./gorseller/durum-tamam.webp",
-  "./gorseller/durum-bugun.webp",
-  "./gorseller/durum-kilitli.webp",
-  "./gorseller/harita-genel.webp"
+  "./ada-sahil.webp",
+  "./ada-orman.webp",
+  "./ada-tapinak.webp",
+  "./ada-volkan.webp",
+  "./ada-buz.webp",
+  "./ada-hazine.webp",
+  "./durum-tamam.webp",
+  "./durum-bugun.webp",
+  "./durum-kilitli.webp",
+  "./harita-genel.webp"
 ];
 
 // Kurulum: kabuğu önbelleğe al (dosya bazlı, hataya toleranslı)
