@@ -89,10 +89,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ===== HARİTA ===== */
 #harita-kaydir{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 #harita-ic{position:relative;width:100%;}
-.harita-deniz{position:absolute;inset:0;background:linear-gradient(180deg,#1E7A98,#10516B 60%,#0A3346);z-index:0}
+.harita-deniz{position:absolute;inset:0;z-index:0;
+  background:
+    linear-gradient(180deg,#2A8CAE 0%,#1E7A98 15%,#186F8C 40%,#10516B 68%,#0A3346 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='420'%20height='260'%3E%3Cpath%20d='M0%2050%20Q52%2030%20105%2050%20T210%2050%20T315%2050%20T420%2050'%20stroke='white'%20stroke-width='2.4'%20fill='none'%20opacity='0.07'/%3E%3Cpath%20d='M0%20110%20Q60%2090%20120%20110%20T240%20110%20T360%20110'%20stroke='white'%20stroke-width='1.8'%20fill='none'%20opacity='0.06'/%3E%3Cpath%20d='M0%20170%20Q45%20190%2090%20170%20T180%20170%20T270%20170%20T360%20170%20T420%20170'%20stroke='white'%20stroke-width='1.6'%20fill='none'%20opacity='0.05'/%3E%3Cpath%20d='M0%20220%20Q55%20200%20110%20220%20T220%20220%20T330%20220%20T420%20220'%20stroke='white'%20stroke-width='1.4'%20fill='none'%20opacity='0.045'/%3E%3C/svg%3E");
+  background-repeat:no-repeat, repeat-y;
+  background-size:100% 100%, 420px 260px;
+}
+.harita-deniz::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+  background:repeating-linear-gradient(115deg, transparent 0 60px, rgba(255,255,255,.055) 60px 64px, transparent 64px 140px);
+  background-size:220% 420px;animation:parilti 16s linear infinite}
+@keyframes parilti{0%{background-position:0 0}100%{background-position:-220% 4200px}}
+.bolge-etiket{position:absolute;z-index:2;pointer-events:none}
 .bolge-banti{position:absolute;left:0;right:0;z-index:1;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.bolge-ribbon{font-family:var(--font-tac);font-size:21px;color:#F4E4C1;background:linear-gradient(180deg,rgba(58,40,23,.92),rgba(42,26,14,.92));
-  padding:6px 26px;border-radius:8px;border:2px solid var(--altin);box-shadow:0 4px 12px rgba(0,0,0,.4);text-shadow:0 2px 3px rgba(0,0,0,.5);position:relative}
+.bolge-ribbon{font-family:var(--font-tac);font-size:18px;color:#F4E4C1;background:linear-gradient(180deg,rgba(58,40,23,.92),rgba(42,26,14,.92));white-space:nowrap;
+  padding:6px 22px;border-radius:8px;border:2px solid var(--altin);box-shadow:0 4px 12px rgba(0,0,0,.4);text-shadow:0 2px 3px rgba(0,0,0,.5);position:relative}
 .bolge-ribbon::before,.bolge-ribbon::after{content:"";position:absolute;top:50%;width:18px;height:18px;background:var(--altin);transform:translateY(-50%) rotate(45deg);border-radius:3px}
 .bolge-ribbon::before{left:-9px}.bolge-ribbon::after{right:-9px}
 #harita-yol{position:absolute;inset:0;z-index:2;pointer-events:none}
@@ -680,12 +691,15 @@ const App={
     const x=d=>CX+AMP*Math.sin(d*0.62);const y=d=>(N-d)*SP+PAD;
     // yol path
     let yol="";for(let d=1;d<=N;d++){const px=x(d),py=y(d);yol+=(d===1?`M${px} ${py}`:` L${px} ${py}`);}
-    // bölge renkli su dalgası (arka plan atmosferi) + bantlar + ribbon + büyük simge yapı
+    // bölge renkli su dalgası (arka plan atmosferi) + başlık etiketi (ilk adanın yanında) + büyük simge yapı
     let dalgalar="",bantlar="";
     BOLGELER.forEach((b,bi)=>{
       const yTop=y(b.bit)-SP*0.9,yH=(y(b.bas)-y(b.bit))+SP*1.8;
       dalgalar+=`<div class="bolge-dalga" style="top:${yTop}px;height:${yH}px;background:linear-gradient(180deg,transparent,${b.renk2}66 30%,${b.renk2}66 70%,transparent);filter:blur(46px)"></div>`;
-      bantlar+=`<div class="bolge-banti" style="top:${y(b.bas)-30}px;height:30px"><div class="bolge-ribbon">${b.ad}</div></div>`;
+      // başlık: bölümün ilk adasının (b.bas) tam yanına, hangi tarafta yer varsa o tarafa
+      const ilkX=x(b.bas),ilkY=y(b.bas);const solda=ilkX<CX;
+      const yatay=solda?`left:calc(${(ilkX/3.6).toFixed(2)}% + 46px)`:`right:calc(${(100-ilkX/3.6).toFixed(2)}% + 46px)`;
+      bantlar+=`<div class="bolge-etiket" style="top:${ilkY-17}px;${yatay}"><div class="bolge-ribbon">${b.ad}</div></div>`;
       const midDay=Math.round((b.bas+b.bit)/2),ly=y(midDay)-56,sag=bi%2===0;
       bantlar+=`<div class="bolge-yapi" style="top:${ly}px;${sag?'right:1%':'left:1%'}">${bolgeYapiGorsel(b.prop)}</div>`;
     });
