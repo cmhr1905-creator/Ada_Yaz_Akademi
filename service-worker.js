@@ -5,7 +5,6 @@ const CACHE = "ada-akademi-v3";
 const ASSETS = [
   "./",
   "./index.html",
-  "./curriculum.js",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
