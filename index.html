@@ -110,7 +110,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding:6px 22px;border-radius:8px;border:2px solid var(--altin);box-shadow:0 4px 12px rgba(0,0,0,.4);text-shadow:0 2px 3px rgba(0,0,0,.5);position:relative}
 .bolge-ribbon::before,.bolge-ribbon::after{content:"";position:absolute;top:50%;width:18px;height:18px;background:var(--altin);transform:translateY(-50%) rotate(45deg);border-radius:3px}
 .bolge-ribbon::before{left:-9px}.bolge-ribbon::after{right:-9px}
-#harita-yol{position:absolute;inset:0;z-index:2;pointer-events:none}
+#harita-yol{position:absolute;inset:0;width:100%;z-index:2;pointer-events:none}
+.yol-nokta{position:absolute;z-index:1;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 40% 35%,#ffffff,#EAF7FB 55%,#BFF0FA 78%);
+  box-shadow:0 1px 2px rgba(10,44,61,.35);pointer-events:none}
 .yol-karinca{animation:karinca 1.6s linear infinite}
 @keyframes karinca{to{stroke-dashoffset:-18}}
 .ada-nokta{position:absolute;z-index:3;transform:translate(-50%,-50%);width:104px;height:104px;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
@@ -728,6 +731,15 @@ const App={
     // yol/iz — adalarla BİREBİR aynı koordinatta olsun diye yüzde-X (viewBox 0..100) + piksel-Y kullanıyoruz
     const segment=(a,b)=>{let s="";for(let d=a;d<=b;d++){const px=(x(d)/3.6),py=y(d);s+=(d===a?`M${px.toFixed(3)} ${py}`:` L${px.toFixed(3)} ${py}`);}return s;};
     const yolGecilen=segment(1,Math.max(1,Math.min(aktif,N)));
+    // GÖRÜNÜR YOL: adalarla birebir aynı formülle (x(d)/3.6 % + y(d) px) yerleştirilen kesikli noktalar — SVG hizalama sorununu tamamen ortadan kaldırır
+    let yolNoktalari="";
+    const sonAda=Math.max(1,Math.min(aktif,N));
+    for(let d=1;d<sonAda;d++){
+      const x1=x(d)/3.6,y1=y(d),x2=x(d+1)/3.6,y2=y(d+1);
+      const adim=14; // iki ada arası nokta sıklığı
+      for(let k=0;k<adim;k++){const t=k/adim;const px=x1+(x2-x1)*t,py=y1+(y2-y1)*t;
+        yolNoktalari+=`<div class="yol-nokta" style="left:${px.toFixed(3)}%;top:${py.toFixed(1)}px"></div>`;}
+    }
     // bölge renkli su dalgası + başlık etiketi (ilk adanın yanında). Büyük ayrı landmark KALDIRILDI —
     // artık her gün noktası zaten kendi bölge görselini gösteriyor.
     let dalgalar="",bantlar="";
@@ -773,12 +785,15 @@ const App={
         izKopukler+=`<div class="iz-kopuk" style="left:${(ix/3.6).toFixed(2)}%;top:${iy}px;width:${r*2}px;height:${r*2}px;opacity:${op}"></div>`;}
     }
     // geminin yönü: bugünküden bir SONRAKİ adaya doğru olan eğim (gitmeye hazır, pruva ileri bakar)
+    const sonAdaMi=aktif>=N;
     const sonrakiGun=Math.min(N,aktif+1);
     const sonX=x(sonrakiGun),sonY=y(sonrakiGun);
-    const aci=Math.atan2(sonX-gx,-(sonY-gy))*180/Math.PI;
-    // gemi, bugünkü ada ile bir sonraki ada arasındaki rota üzerinde, adaya yakın konumda (adanın %30 ilerisinde)
-    const t=0.32;
-    const gemiX=(gx+(sonX-gx)*t)/3.6, gemiY=gy+(sonY-gy)*t;
+    const aci=sonAdaMi?0:Math.atan2(sonX-gx,-(sonY-gy))*180/Math.PI;
+    // gemi, bugünkü ada ile bir sonraki ada arasındaki rotanın TAM ORTASINDA — yolun üstünde, iki adadan da ayrı.
+    // Son adadaysa: adanın hemen sağ-altına demirlemiş.
+    const t=0.5;
+    const gemiX=sonAdaMi?((gx/3.6)+3.4):(gx+(sonX-gx)*t)/3.6;
+    const gemiY=sonAdaMi?(gy+44):(gy+(sonY-gy)*t);
     dekor+=`<div class="harita-props gemi-png" style="left:${gemiX.toFixed(2)}%;top:${gemiY.toFixed(0)}px;transform:translate(-50%,-50%) rotate(${aci.toFixed(1)}deg)">
       <img src="gemi.webp" alt="" width="58" loading="lazy"></div>`;
 
@@ -788,11 +803,7 @@ const App={
       <div class="harita-deniz"></div>
       ${dalgalar}
       ${bantlar}
-      <svg id="harita-yol" viewBox="0 0 100 ${H}" preserveAspectRatio="none" style="height:${H}px">
-        <path d="${yolGecilen}" fill="none" stroke="#0A2C3D" stroke-width="16" stroke-linecap="round" opacity=".18" vector-effect="non-scaling-stroke"/>
-        <path d="${yolGecilen}" fill="none" stroke="#BFF0FA" stroke-width="9" stroke-linecap="round" opacity=".45" vector-effect="non-scaling-stroke"/>
-        <path d="${yolGecilen}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 14" opacity=".8" class="yol-karinca" vector-effect="non-scaling-stroke"/>
-      </svg>
+      ${yolNoktalari}
       ${izKopukler}
       ${deniz}${dekor}${adalar}
     </div></div>
