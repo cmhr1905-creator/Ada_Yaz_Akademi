@@ -160,6 +160,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .duman{transform-origin:bottom;animation:duman 3s ease-in-out infinite}
 @keyframes duman{0%,100%{opacity:.3;transform:translateY(0) scale(1)}50%{opacity:.6;transform:translateY(-10px) scale(1.15)}}
 .gemi-bob{animation:bob 3s ease-in-out infinite}
+.gemi-iz{z-index:4;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.gemi-iz svg{animation:gemiSalla 3.4s ease-in-out infinite;transform-origin:50% 70%}
+@keyframes gemiSalla{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-2px)}}
+.iz-kopuk{position:absolute;z-index:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 40% 35%, #ffffff, #BFF0FA 60%, transparent 72%);pointer-events:none;animation:kopukSol 4s ease-in-out infinite}
+@keyframes kopukSol{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.25)}}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
 
 /* harita üst başlık */
@@ -722,7 +727,7 @@ const App={
     const aktif=bugununGunu();
     // yol path — geçilen kısım altın, kalan kısım gri (spec: completedColor/lockedColor)
     const segment=(a,b)=>{let s="";for(let d=a;d<=b;d++){const px=x(d),py=y(d);s+=(d===a?`M${px} ${py}`:` L${px} ${py}`);}return s;};
-    const yol=segment(1,N),yolGecilen=segment(1,Math.max(1,Math.min(aktif,N))),yolKalan=segment(Math.max(1,Math.min(aktif,N)),N);
+    const yolGecilen=segment(1,Math.max(1,Math.min(aktif,N)));
     // bölge renkli su dalgası + başlık etiketi (ilk adanın yanında). Büyük ayrı landmark KALDIRILDI —
     // artık her gün noktası zaten kendi bölge görselini gösteriyor.
     let dalgalar="",bantlar="";
@@ -760,7 +765,27 @@ const App={
       <div class="bulut" style="top:${y(45)}px;animation-duration:70s;animation-delay:-40s"><svg width="70" height="26"><ellipse cx="26" cy="14" rx="20" ry="8" fill="#fff" opacity=".5"/></svg></div>`;
     dekor+=`<div class="harita-props duman" style="left:calc(${(x(35)/3.6).toFixed(2)}% + 12px);top:${y(35)-44}px"><svg width="40" height="50"><ellipse cx="20" cy="30" rx="13" ry="16" fill="#9aa" opacity=".5"/><ellipse cx="14" cy="14" rx="8" ry="10" fill="#bcc" opacity=".5"/></svg></div>`;
     const gx=x(aktif),gy=y(aktif);
-    dekor+=`<div class="harita-props gemi-bob" style="left:calc(${(gx/3.6).toFixed(2)}% - 42px);top:${gy-14}px"><svg width="40" height="44"><path d="M4 28 h28 l-5 10 h-18z" fill="#6E4A2C"/><rect x="17" y="4" width="2.5" height="24" fill="#3E2817"/><path d="M19 6 q14 4 0 16z" fill="#F2DFB3"/><path d="M19 6 l-12 6 12 4z" fill="#fff" opacity=".9"/></svg></div>`;
+    // geminin arkasında köpük izi (geçilen rota boyunca küçük kabarcıklar)
+    let izKopukler="";
+    for(let d=1;d<aktif&&d<=N;d++){
+      const px=x(d),py=y(d);const px2=x(Math.min(N,d+1)),py2=y(Math.min(N,d+1));
+      for(let t=0.25;t<1;t+=0.5){const ix=px+(px2-px)*t,iy=py+(py2-py)*t;const r=(1.6+((d*7+t*13)%5)*0.5).toFixed(1);const op=(0.16+((d+t)%3)*0.05).toFixed(2);
+        izKopukler+=`<div class="iz-kopuk" style="left:${(ix/3.6).toFixed(2)}%;top:${iy}px;width:${r*2}px;height:${r*2}px;opacity:${op}"></div>`;}
+    }
+    // geminin yönü: bir önceki adadan bugünküne doğru olan eğim
+    const onceX=x(Math.max(1,aktif-1)),onceY=y(Math.max(1,aktif-1));
+    const aci=Math.atan2(gx-onceX,-(gy-onceY))*180/Math.PI; // dikey harita: yukarı = 0°
+    // rotanın ucunda, temaya uygun yelkenli gemi
+    dekor+=`<div class="harita-props gemi-iz" style="left:${(gx/3.6).toFixed(2)}%;top:${gy}px;transform:translate(-50%,-58%) rotate(${aci.toFixed(1)}deg)">
+      <svg width="58" height="64" viewBox="0 0 58 64">
+        <ellipse cx="29" cy="52" rx="20" ry="6" fill="#0A2C3D" opacity=".18"/>
+        <path d="M9 40 h40 l-7 13 h-26z" fill="#7A5230"/><path d="M9 40 h40 l-2 4 h-36z" fill="#5C3D22"/>
+        <rect x="27.5" y="8" width="3" height="34" fill="#3E2817"/>
+        <path d="M30.5 11 q20 6 0 22z" fill="#F4E4C1"/><path d="M30.5 11 q20 6 0 22z" fill="none" stroke="#D8C39A" stroke-width="1"/>
+        <path d="M27.5 12 l-16 7 16 5z" fill="#fff" opacity=".95"/><path d="M27.5 12 l-16 7 16 5z" fill="none" stroke="#DfeAf0" stroke-width="1"/>
+        <path d="M30.5 6 l8 3 -8 3z" fill="#C0392B"/>
+        <circle cx="29" cy="7" r="2" fill="#3E2817"/>
+      </svg></div>`;
 
     $("#app").innerHTML=`<div class="ekran harita-ekran"><div id="harita-kaydir">
       <div class="harita-banner"><img src="harita-genel.webp" alt="Hazine Dünyası"><span class="harita-banner-et">🗺️ Senin Hazine Dünyan</span></div>
@@ -769,11 +794,11 @@ const App={
       ${dalgalar}
       ${bantlar}
       <svg id="harita-yol" viewBox="0 0 360 ${H}" preserveAspectRatio="none" style="height:${H}px">
-        <path d="${yol}" fill="none" stroke="#0A2C3D" stroke-width="20" stroke-linecap="round" opacity=".28"/>
-        <path d="${yolKalan}" fill="none" stroke="#CFCFCF" stroke-width="11" stroke-linecap="round" opacity=".55"/>
-        <path d="${yolGecilen}" fill="none" stroke="#FFD95A" stroke-width="11" stroke-linecap="round" opacity=".95"/>
-        <path d="${yol}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 16" opacity=".85" class="yol-karinca"/>
+        <path d="${yolGecilen}" fill="none" stroke="#0A2C3D" stroke-width="16" stroke-linecap="round" opacity=".18"/>
+        <path d="${yolGecilen}" fill="none" stroke="#BFF0FA" stroke-width="9" stroke-linecap="round" opacity=".45"/>
+        <path d="${yolGecilen}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 14" opacity=".8" class="yol-karinca"/>
       </svg>
+      ${izKopukler}
       ${deniz}${dekor}${adalar}
     </div></div>
     <div class="harita-ust"><div class="tac" style="font-size:22px;color:#FCEFCB;text-shadow:0 2px 4px rgba(0,0,0,.6)">🗺️ Keşif Haritası</div>
