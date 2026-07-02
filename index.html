@@ -113,15 +113,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 #harita-yol{position:absolute;inset:0;z-index:2;pointer-events:none}
 .yol-karinca{animation:karinca 1.6s linear infinite}
 @keyframes karinca{to{stroke-dashoffset:-18}}
-.ada-nokta{position:absolute;z-index:3;transform:translate(-50%,-50%);width:76px;height:76px;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
+.ada-nokta{position:absolute;z-index:3;transform:translate(-50%,-50%);width:104px;height:104px;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
 .ada-nokta:active{transform:translate(-50%,-50%) scale(.9)}
-.ada-nokta .rakam{position:absolute;font-family:var(--font-baslik);font-weight:800;font-size:15px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);z-index:4;pointer-events:none}
+.ada-nokta .rakam{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-family:var(--font-baslik);font-weight:800;font-size:13px;color:#fff;background:rgba(10,44,61,.82);border:1.5px solid var(--altin);border-radius:999px;min-width:22px;height:22px;padding:0 6px;display:grid;place-items:center;text-shadow:0 1px 2px rgba(0,0,0,.6);z-index:5;pointer-events:none}
 /* — KİLİTLİ: soluk, sisli, kilit ikonlu — */
 .ada-nokta.kilitli{opacity:.7}
-.ada-nokta.kilitli .ada-img{filter:saturate(.15) contrast(.75) brightness(.9) drop-shadow(0 4px 5px rgba(0,0,0,.25))}
+.ada-nokta.kilitli .ada-img{filter:drop-shadow(0 4px 5px rgba(0,0,0,.25))}
 .ada-nokta.kilitli::after{content:"";position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(220,235,240,.34),rgba(220,235,240,.06) 68%,transparent 75%);pointer-events:none;z-index:4}
 .ada-nokta.kilitli .rakam{opacity:.55}
-.ada-kilit{position:absolute;top:2px;right:6px;z-index:5;font-size:13px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));pointer-events:none}
+.ada-kilit{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:5;font-size:20px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none}
 /* — TAMAMLANMIŞ: altın ışıma + nefes + parıltı — */
 .ada-nokta.tamam .ada-img{filter:drop-shadow(0 5px 6px rgba(0,0,0,.35)) drop-shadow(0 0 9px rgba(255,217,90,.55))}
 .ada-nokta.tamam{animation:nefes 3.4s ease-in-out infinite}
@@ -132,9 +132,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* — BUGÜN: dönen altın halka + %5 büyük + nabız — */
 .ada-nokta.bugun{animation:nabiz 1.8s ease-in-out infinite}
 @keyframes nabiz{0%,100%{transform:translate(-50%,-50%) scale(1.05)}50%{transform:translate(-50%,-50%) scale(1.16)}}
-.bugun-halka{position:absolute;width:90px;height:90px;border-radius:50%;border:3px solid var(--altin-parlak);z-index:2;transform:translate(-50%,-50%);animation:dalgalan 1.8s ease-out infinite;pointer-events:none}
-@keyframes dalgalan{0%{opacity:.9;width:60px;height:60px}100%{opacity:0;width:130px;height:130px}}
-.bugun-donen{position:absolute;width:104px;height:104px;border-radius:50%;z-index:2;transform:translate(-50%,-50%);pointer-events:none;
+.bugun-halka{position:absolute;width:118px;height:118px;border-radius:50%;border:3px solid var(--altin-parlak);z-index:2;transform:translate(-50%,-50%);animation:dalgalan 1.8s ease-out infinite;pointer-events:none}
+@keyframes dalgalan{0%{opacity:.9;width:84px;height:84px}100%{opacity:0;width:158px;height:158px}}
+.bugun-donen{position:absolute;width:130px;height:130px;border-radius:50%;z-index:2;transform:translate(-50%,-50%);pointer-events:none;
   background:conic-gradient(from 0deg, transparent 0 70%, rgba(255,217,90,.85) 82%, transparent 96%);
   -webkit-mask:radial-gradient(circle, transparent 58%, #000 60%, #000 72%, transparent 74%);
   mask:radial-gradient(circle, transparent 58%, #000 60%, #000 72%, transparent 74%);
@@ -149,7 +149,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .bolge-yapi.kilitli-bolge{opacity:.92}
 .bolge-yapi.kilitli-bolge::after{content:"";position:absolute;inset:-8%;border-radius:40%;background:radial-gradient(circle,rgba(220,236,242,.22),rgba(220,236,242,.04) 70%,transparent 78%);pointer-events:none}
 .bolge-yapi-img{width:128px;height:auto;display:block}
-.ada-img{width:74px;height:auto;display:block;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35))}
+.ada-img{width:100px;height:auto;display:block;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35))}
 .harita-banner{position:relative;padding:14px 14px 4px;z-index:1}
 .harita-banner img{width:100%;max-height:260px;object-fit:cover;object-position:50% 15%;border-radius:20px;box-shadow:var(--golge-yum);border:3px solid var(--ahsap-koyu);display:block}
 .harita-banner-et{position:absolute;bottom:14px;left:28px;background:rgba(10,44,61,.78);color:#FCEFCB;padding:7px 16px;border-radius:999px;font-family:var(--font-tac);font-size:15px;border:1px solid var(--altin);text-shadow:0 1px 2px rgba(0,0,0,.5)}
@@ -614,8 +614,9 @@ function bolgeYapiGorsel(prop,kilitli){ // kilitli bölgeler için özel soluk (
   const src=(kilitli?BOLGE_GORSEL_SOLUK[prop]:null)||BOLGE_GORSEL[prop];
   return src?`<img src="${src}" class="bolge-yapi-img" alt="" loading="lazy">`:bolgeYapiSVG(prop);
 }
-function adaDurumGorsel(durum){ // tamam/bugün gerçek görsel; diğer tüm durumlar (kilitli/eksik/telafi/serbest) ortak "bekliyor" görseli
-  const src=DURUM_GORSEL[durum]||"durum-kilitli.webp";
+function adaGunGorsel(gun,durum){ // her gün noktası kendi bölgesinin görselini kullanır: tamamlandıysa parlak, değilse soluk
+  const b=bolgeFor(gun);const parlak=(durum==="tamam");
+  const src=(parlak?BOLGE_GORSEL[b.prop]:BOLGE_GORSEL_SOLUK[b.prop])||BOLGE_GORSEL[b.prop];
   return `<img src="${src}" class="ada-img" alt="" loading="lazy">`;
 }
 
@@ -722,7 +723,8 @@ const App={
     // yol path — geçilen kısım altın, kalan kısım gri (spec: completedColor/lockedColor)
     const segment=(a,b)=>{let s="";for(let d=a;d<=b;d++){const px=x(d),py=y(d);s+=(d===a?`M${px} ${py}`:` L${px} ${py}`);}return s;};
     const yol=segment(1,N),yolGecilen=segment(1,Math.max(1,Math.min(aktif,N))),yolKalan=segment(Math.max(1,Math.min(aktif,N)),N);
-    // bölge renkli su dalgası + başlık etiketi (ilk adanın yanında) + büyük simge yapı (kilitli bölge sisli+soluk, ölçek kademeli büyür)
+    // bölge renkli su dalgası + başlık etiketi (ilk adanın yanında). Büyük ayrı landmark KALDIRILDI —
+    // artık her gün noktası zaten kendi bölge görselini gösteriyor.
     let dalgalar="",bantlar="";
     BOLGELER.forEach((b,bi)=>{
       const yTop=y(b.bit)-SP*0.9,yH=(y(b.bas)-y(b.bit))+SP*1.8;
@@ -730,11 +732,8 @@ const App={
       const ilkX=x(b.bas),ilkY=y(b.bas);const solda=ilkX<CX;
       const yatay=solda?`left:calc(${(ilkX/3.6).toFixed(2)}% + 46px)`:`right:calc(${(100-ilkX/3.6).toFixed(2)}% + 46px)`;
       bantlar+=`<div class="bolge-etiket" style="top:${ilkY-17}px;${yatay}"><div class="bolge-ribbon">${b.ad}</div></div>`;
-      const midDay=Math.round((b.bas+b.bit)/2),ly=y(midDay)-56,sag=bi%2===0;
-      const bolgeKilit=b.bas>aktif;const olcek=(1+bi*0.045).toFixed(3); // spec: scaleProgression — her sonraki bölge biraz daha büyük
-      bantlar+=`<div class="bolge-yapi${bolgeKilit?' kilitli-bolge':''}" style="top:${ly}px;${sag?'right:1%':'left:1%'};transform:scale(${olcek});transform-origin:${sag?'right':'left'} center">${bolgeYapiGorsel(b.prop,bolgeKilit)}</div>`;
     });
-    // adalar — durum efektleri: tamam=ışıma+nefes+parıltı, bugün=dönen altın halka+%5 büyük, kilitli=sisli+kilit
+    // adalar — her nokta kendi bölge görseli (tamam=parlak, değil=soluk). Durum efektleri: tamam=ışıma+nefes+parıltı, bugün=dönen altın halka+%5 büyük, kilitli=kilit ikonu
     let adalar="";
     for(let d=1;d<=N;d++){const g=gunVeri(d);const dur=Ilerleme.gunDurumu(d).durum;const px=x(d),py=y(d);const lx=(px/3.6).toFixed(2);
       const cls=(dur==="kilitli")?"kilitli":(dur==="bugun"?"bugun":(dur==="tamam"?"tamam":""));
@@ -743,7 +742,7 @@ const App={
         :dur==="tamam"?`<span class="pirilti" style="top:4px;left:8px">✦</span><span class="pirilti p2" style="bottom:12px;right:6px">✦</span>`
         :dur==="bugun"?`<span class="pirilti" style="top:0;right:2px">✦</span><span class="pirilti p2" style="bottom:8px;left:2px">✦</span>`:"";
       adalar+=`<div class="ada-nokta ${cls}" style="left:${lx}%;top:${py}px" onclick="Store.s.bakilanGun=${d};App.git('bugun')">
-          ${adaDurumGorsel(dur)}${ekstra}<span class="rakam">${d}</span></div>`;}
+          ${adaGunGorsel(d,dur)}${ekstra}<span class="rakam">${d}</span></div>`;}
     // dağınık deniz süsleri (bölgeye özgü) + serpiştirilmiş deniz canlıları gölgeleri
     let deniz="";BOLGELER.forEach(b=>{const susler=SUS_BOLGE[b.prop]||["kaya"];
       [b.bas+2,Math.round((b.bas+b.bit)/2),Math.max(b.bas+1,b.bit-2)].forEach((d,i)=>{
