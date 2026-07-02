@@ -772,13 +772,15 @@ const App={
       for(let t=0.25;t<1;t+=0.5){const ix=px+(px2-px)*t,iy=py+(py2-py)*t;const r=(1.6+((d*7+t*13)%5)*0.5).toFixed(1);const op=(0.16+((d+t)%3)*0.05).toFixed(2);
         izKopukler+=`<div class="iz-kopuk" style="left:${(ix/3.6).toFixed(2)}%;top:${iy}px;width:${r*2}px;height:${r*2}px;opacity:${op}"></div>`;}
     }
-    // geminin yönü: bir önceki adadan bugünküne doğru olan eğim (pruva yukarı = 0°)
-    const onceX=x(Math.max(1,aktif-1)),onceY=y(Math.max(1,aktif-1));
-    const aci=Math.atan2(gx-onceX,-(gy-onceY))*180/Math.PI;
-    // gemi bugünkü adanın kenarına yanaşmış: adanın merkezinden hafif sağ-aşağı ötelenir
-    const yanX=(gx/3.6),yanOfsetPx=44; // adanın sağ kenarına doğru
-    dekor+=`<div class="harita-props gemi-png" style="left:calc(${yanX.toFixed(2)}% + ${yanOfsetPx}px);top:${gy+18}px;transform:translate(-50%,-50%) rotate(${aci.toFixed(1)}deg)">
-      <img src="gemi.webp" alt="" width="64" loading="lazy"></div>`;
+    // geminin yönü: bugünküden bir SONRAKİ adaya doğru olan eğim (gitmeye hazır, pruva ileri bakar)
+    const sonrakiGun=Math.min(N,aktif+1);
+    const sonX=x(sonrakiGun),sonY=y(sonrakiGun);
+    const aci=Math.atan2(sonX-gx,-(sonY-gy))*180/Math.PI;
+    // gemi, bugünkü ada ile bir sonraki ada arasındaki rota üzerinde, adaya yakın konumda (adanın %30 ilerisinde)
+    const t=0.32;
+    const gemiX=(gx+(sonX-gx)*t)/3.6, gemiY=gy+(sonY-gy)*t;
+    dekor+=`<div class="harita-props gemi-png" style="left:${gemiX.toFixed(2)}%;top:${gemiY.toFixed(0)}px;transform:translate(-50%,-50%) rotate(${aci.toFixed(1)}deg)">
+      <img src="gemi.webp" alt="" width="58" loading="lazy"></div>`;
 
     $("#app").innerHTML=`<div class="ekran harita-ekran"><div id="harita-kaydir">
       <div class="harita-banner"><img src="harita-genel.webp" alt="Hazine Dünyası"><span class="harita-banner-et">🗺️ Senin Hazine Dünyan</span></div>
