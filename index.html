@@ -622,8 +622,8 @@ function bolgeYapiGorsel(prop,kilitli){ // kilitli bölgeler için özel soluk (
   const src=(kilitli?BOLGE_GORSEL_SOLUK[prop]:null)||BOLGE_GORSEL[prop];
   return src?`<img src="${src}" class="bolge-yapi-img" alt="" loading="lazy">`:bolgeYapiSVG(prop);
 }
-function adaGunGorsel(gun,durum){ // her gün noktası kendi bölgesinin görselini kullanır: tamamlandıysa parlak, değilse soluk
-  const b=bolgeFor(gun);const parlak=(durum==="tamam");
+function adaGunGorsel(gun,durum){ // her gün noktası kendi bölgesinin görselini kullanır: tamamlandıysa veya bugünse parlak, değilse soluk
+  const b=bolgeFor(gun);const parlak=(durum==="tamam"||durum==="bugun");
   const src=(parlak?BOLGE_GORSEL[b.prop]:BOLGE_GORSEL_SOLUK[b.prop])||BOLGE_GORSEL[b.prop];
   return `<img src="${src}" class="ada-img" alt="" loading="lazy">`;
 }
