@@ -91,10 +91,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 #harita-ic{position:relative;width:100%;}
 .harita-deniz{position:absolute;inset:0;z-index:0;
   background:
-    linear-gradient(180deg,#2A8CAE 0%,#1E7A98 15%,#186F8C 40%,#10516B 68%,#0A3346 100%),
-    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='420'%20height='260'%3E%3Cpath%20d='M0%2050%20Q52%2030%20105%2050%20T210%2050%20T315%2050%20T420%2050'%20stroke='white'%20stroke-width='2.4'%20fill='none'%20opacity='0.07'/%3E%3Cpath%20d='M0%20110%20Q60%2090%20120%20110%20T240%20110%20T360%20110'%20stroke='white'%20stroke-width='1.8'%20fill='none'%20opacity='0.06'/%3E%3Cpath%20d='M0%20170%20Q45%20190%2090%20170%20T180%20170%20T270%20170%20T360%20170%20T420%20170'%20stroke='white'%20stroke-width='1.6'%20fill='none'%20opacity='0.05'/%3E%3Cpath%20d='M0%20220%20Q55%20200%20110%20220%20T220%20220%20T330%20220%20T420%20220'%20stroke='white'%20stroke-width='1.4'%20fill='none'%20opacity='0.045'/%3E%3C/svg%3E");
-  background-repeat:no-repeat, repeat-y;
-  background-size:100% 100%, 420px 260px;
+    radial-gradient(ellipse 60% 8% at 20% 12%, rgba(255,255,255,.10), transparent 70%),
+    radial-gradient(ellipse 46% 6% at 78% 34%, #0A6E93cc, transparent 72%),
+    radial-gradient(ellipse 52% 7% at 24% 58%, #0C7FA5bb, transparent 70%),
+    radial-gradient(ellipse 42% 5% at 72% 82%, rgba(255,224,150,.13), transparent 70%),
+    linear-gradient(180deg,#44D5E8 0%,#28C6CF 22%,#159DB7 52%,#0C7FA5 78%,#0A6E93 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='420'%20height='260'%3E%3Cpath%20d='M0%2050%20Q52%2030%20105%2050%20T210%2050%20T315%2050%20T420%2050'%20stroke='white'%20stroke-width='2.4'%20fill='none'%20opacity='0.09'/%3E%3Cpath%20d='M0%20110%20Q60%2090%20120%20110%20T240%20110%20T360%20110'%20stroke='white'%20stroke-width='1.8'%20fill='none'%20opacity='0.075'/%3E%3Cpath%20d='M0%20170%20Q45%20190%2090%20170%20T180%20170%20T270%20170%20T360%20170%20T420%20170'%20stroke='white'%20stroke-width='1.6'%20fill='none'%20opacity='0.06'/%3E%3Cpath%20d='M0%20220%20Q55%20200%20110%20220%20T220%20220%20T330%20220%20T420%20220'%20stroke='white'%20stroke-width='1.4'%20fill='none'%20opacity='0.055'/%3E%3C/svg%3E");
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat-y;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,420px 260px;
 }
 .harita-deniz::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
   background:repeating-linear-gradient(115deg, transparent 0 60px, rgba(255,255,255,.055) 60px 64px, transparent 64px 140px);
@@ -107,21 +111,43 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .bolge-ribbon::before,.bolge-ribbon::after{content:"";position:absolute;top:50%;width:18px;height:18px;background:var(--altin);transform:translateY(-50%) rotate(45deg);border-radius:3px}
 .bolge-ribbon::before{left:-9px}.bolge-ribbon::after{right:-9px}
 #harita-yol{position:absolute;inset:0;z-index:2;pointer-events:none}
+.yol-karinca{animation:karinca 1.6s linear infinite}
+@keyframes karinca{to{stroke-dashoffset:-18}}
 .ada-nokta{position:absolute;z-index:3;transform:translate(-50%,-50%);width:76px;height:76px;display:grid;place-items:center;cursor:pointer;transition:transform .15s}
 .ada-nokta:active{transform:translate(-50%,-50%) scale(.9)}
 .ada-nokta .rakam{position:absolute;font-family:var(--font-baslik);font-weight:800;font-size:15px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);z-index:4;pointer-events:none}
-.ada-nokta.kilitli{filter:grayscale(.7) brightness(.7);opacity:.82}
-.ada-nokta.kilitli .rakam{opacity:.5}
+/* — KİLİTLİ: soluk, sisli, kilit ikonlu — */
+.ada-nokta.kilitli{opacity:.7}
+.ada-nokta.kilitli .ada-img{filter:saturate(.15) contrast(.75) brightness(.9) drop-shadow(0 4px 5px rgba(0,0,0,.25))}
+.ada-nokta.kilitli::after{content:"";position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(220,235,240,.34),rgba(220,235,240,.06) 68%,transparent 75%);pointer-events:none;z-index:4}
+.ada-nokta.kilitli .rakam{opacity:.55}
+.ada-kilit{position:absolute;top:2px;right:6px;z-index:5;font-size:13px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));pointer-events:none}
+/* — TAMAMLANMIŞ: altın ışıma + nefes + parıltı — */
+.ada-nokta.tamam .ada-img{filter:drop-shadow(0 5px 6px rgba(0,0,0,.35)) drop-shadow(0 0 9px rgba(255,217,90,.55))}
+.ada-nokta.tamam{animation:nefes 3.4s ease-in-out infinite}
+@keyframes nefes{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.035)}}
+.pirilti{position:absolute;font-size:11px;z-index:5;pointer-events:none;animation:piriltiYanip 2.6s ease-in-out infinite;text-shadow:0 0 6px rgba(255,217,90,.9)}
+.pirilti.p2{animation-delay:1.1s;font-size:9px}
+@keyframes piriltiYanip{0%,100%{opacity:0;transform:scale(.5)}45%{opacity:1;transform:scale(1.15)}70%{opacity:.6}}
+/* — BUGÜN: dönen altın halka + %5 büyük + nabız — */
 .ada-nokta.bugun{animation:nabiz 1.8s ease-in-out infinite}
-@keyframes nabiz{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.12)}}
+@keyframes nabiz{0%,100%{transform:translate(-50%,-50%) scale(1.05)}50%{transform:translate(-50%,-50%) scale(1.16)}}
 .bugun-halka{position:absolute;width:90px;height:90px;border-radius:50%;border:3px solid var(--altin-parlak);z-index:2;transform:translate(-50%,-50%);animation:dalgalan 1.8s ease-out infinite;pointer-events:none}
 @keyframes dalgalan{0%{opacity:.9;width:60px;height:60px}100%{opacity:0;width:130px;height:130px}}
+.bugun-donen{position:absolute;width:104px;height:104px;border-radius:50%;z-index:2;transform:translate(-50%,-50%);pointer-events:none;
+  background:conic-gradient(from 0deg, transparent 0 70%, rgba(255,217,90,.85) 82%, transparent 96%);
+  -webkit-mask:radial-gradient(circle, transparent 58%, #000 60%, #000 72%, transparent 74%);
+  mask:radial-gradient(circle, transparent 58%, #000 60%, #000 72%, transparent 74%);
+  animation:halkaDon 3.2s linear infinite}
+@keyframes halkaDon{to{transform:translate(-50%,-50%) rotate(360deg)}}
 .bayrak{position:absolute;top:-2px;right:8px;width:16px;height:14px;z-index:5;transform-origin:left;animation:salla 1.4s ease-in-out infinite}
 @keyframes salla{0%,100%{transform:skewX(0) scaleX(1)}50%{transform:skewX(-12deg) scaleX(.9)}}
 .bulut{position:absolute;z-index:6;opacity:.85;pointer-events:none;animation:suzul linear infinite}
 @keyframes suzul{from{transform:translateX(-120px)}to{transform:translateX(120vw)}}
 .harita-props{position:absolute;z-index:2;pointer-events:none}
-.bolge-yapi{position:absolute;z-index:1;pointer-events:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.bolge-yapi{position:absolute;z-index:1;pointer-events:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));transition:filter .5s}
+.bolge-yapi.kilitli-bolge{opacity:.92}
+.bolge-yapi.kilitli-bolge::after{content:"";position:absolute;inset:-8%;border-radius:40%;background:radial-gradient(circle,rgba(220,236,242,.22),rgba(220,236,242,.04) 70%,transparent 78%);pointer-events:none}
 .bolge-yapi-img{width:128px;height:auto;display:block}
 .ada-img{width:74px;height:auto;display:block;filter:drop-shadow(0 5px 6px rgba(0,0,0,.35))}
 .harita-banner{position:relative;padding:14px 14px 4px;z-index:1}
@@ -573,16 +599,19 @@ function susSVG(tip){
     kartanesi:'<svg width="14" height="14"><g stroke="#fff" stroke-width="1.4" opacity=".85"><path d="M7 0v14M0 7h14M2 2l10 10M12 2 2 12"/></g></svg>',
     parilti:'<svg width="16" height="16"><path d="M8 0 L9.6 6.4 16 8 9.6 9.6 8 16 6.4 9.6 0 8 6.4 6.4Z" fill="#FFD56B"/></svg>',
     altin:'<svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="#E9B949" stroke="#B07B3E" stroke-width="1"/><circle cx="7" cy="7" r="3" fill="#FFD56B" opacity=".7"/></svg>',
-    kayadumanli:'<svg width="22" height="16"><ellipse cx="11" cy="11" rx="10" ry="5" fill="#5c4a40"/><ellipse cx="16" cy="4" rx="5" ry="4" fill="#8a8a8a" opacity=".5"/></svg>'
+    kayadumanli:'<svg width="22" height="16"><ellipse cx="11" cy="11" rx="10" ry="5" fill="#5c4a40"/><ellipse cx="16" cy="4" rx="5" ry="4" fill="#8a8a8a" opacity=".5"/></svg>',
+    kaplumbaga:'<svg width="34" height="24"><g opacity=".8"><ellipse cx="16" cy="12" rx="10" ry="7" fill="#2E8B57"/><ellipse cx="16" cy="12" rx="7" ry="4.6" fill="#3FA86A"/><circle cx="27" cy="10" r="3.2" fill="#2E8B57"/><ellipse cx="8" cy="6.5" rx="3" ry="1.8" fill="#2E8B57"/><ellipse cx="8" cy="17.5" rx="3" ry="1.8" fill="#2E8B57"/><ellipse cx="23" cy="17.5" rx="2.6" ry="1.6" fill="#2E8B57"/></g></svg>',
+    baliklar:'<svg width="40" height="20"><g fill="#0E3D52" opacity=".45"><path d="M4 6 q4 -3 8 0 q-4 3 -8 0z"/><path d="M16 12 q4 -3 8 0 q-4 3 -8 0z"/><path d="M28 5 q4 -3 8 0 q-4 3 -8 0z"/><path d="M10 16 q3.5 -2.6 7 0 q-3.5 2.6 -7 0z"/></g></svg>'
   };return S[tip]||S.kaya;
 }
 const SUS_BOLGE={sahil:["kaya","yunus","kabuk"],orman:["kaya","kus","kus"],tapinak:["kaya","kabuk","kaya"],volkan:["kaya","kayadumanli","kayadumanli"],buz:["buzdagi","kartanesi","buzdagi"],hazine:["parilti","altin","parilti"]};
 
 /* ===== GERÇEK GÖRSELLER (AI ile üretilmiş ada görselleri) ===== */
 const BOLGE_GORSEL={sahil:"ada-sahil.webp",orman:"ada-orman.webp",tapinak:"ada-tapinak.webp",volkan:"ada-volkan.webp",buz:"ada-buz.webp",hazine:"ada-hazine.webp"};
+const BOLGE_GORSEL_SOLUK={sahil:"ada-sahil-soluk.webp",orman:"ada-orman-soluk.webp",tapinak:"ada-tapinak-soluk.webp",volkan:"ada-volkan-soluk.webp",buz:"ada-buz-soluk.webp",hazine:"ada-hazine-soluk.webp"};
 const DURUM_GORSEL={tamam:"durum-tamam.webp",bugun:"durum-bugun.webp"};
-function bolgeYapiGorsel(prop){ // gerçek görsel varsa onu, yoksa (buz gibi) çizilmiş SVG'yi döndürür
-  const src=BOLGE_GORSEL[prop];
+function bolgeYapiGorsel(prop,kilitli){ // kilitli bölgeler için özel soluk (kilitli) görsel; yoksa parlak; o da yoksa SVG
+  const src=(kilitli?BOLGE_GORSEL_SOLUK[prop]:null)||BOLGE_GORSEL[prop];
   return src?`<img src="${src}" class="bolge-yapi-img" alt="" loading="lazy">`:bolgeYapiSVG(prop);
 }
 function adaDurumGorsel(durum){ // tamam/bugün gerçek görsel; diğer tüm durumlar (kilitli/eksik/telafi/serbest) ortak "bekliyor" görseli
@@ -689,33 +718,43 @@ const App={
   /* ---- HARİTA (kalp) ---- */
   harita(){const SP=150,CX=180,AMP=118,PAD=120;const N=62;const H=N*SP+PAD*2;
     const x=d=>CX+AMP*Math.sin(d*0.62);const y=d=>(N-d)*SP+PAD;
-    // yol path
-    let yol="";for(let d=1;d<=N;d++){const px=x(d),py=y(d);yol+=(d===1?`M${px} ${py}`:` L${px} ${py}`);}
-    // bölge renkli su dalgası (arka plan atmosferi) + başlık etiketi (ilk adanın yanında) + büyük simge yapı
+    const aktif=bugununGunu();
+    // yol path — geçilen kısım altın, kalan kısım gri (spec: completedColor/lockedColor)
+    const segment=(a,b)=>{let s="";for(let d=a;d<=b;d++){const px=x(d),py=y(d);s+=(d===a?`M${px} ${py}`:` L${px} ${py}`);}return s;};
+    const yol=segment(1,N),yolGecilen=segment(1,Math.max(1,Math.min(aktif,N))),yolKalan=segment(Math.max(1,Math.min(aktif,N)),N);
+    // bölge renkli su dalgası + başlık etiketi (ilk adanın yanında) + büyük simge yapı (kilitli bölge sisli+soluk, ölçek kademeli büyür)
     let dalgalar="",bantlar="";
     BOLGELER.forEach((b,bi)=>{
       const yTop=y(b.bit)-SP*0.9,yH=(y(b.bas)-y(b.bit))+SP*1.8;
       dalgalar+=`<div class="bolge-dalga" style="top:${yTop}px;height:${yH}px;background:linear-gradient(180deg,transparent,${b.renk2}66 30%,${b.renk2}66 70%,transparent);filter:blur(46px)"></div>`;
-      // başlık: bölümün ilk adasının (b.bas) tam yanına, hangi tarafta yer varsa o tarafa
       const ilkX=x(b.bas),ilkY=y(b.bas);const solda=ilkX<CX;
       const yatay=solda?`left:calc(${(ilkX/3.6).toFixed(2)}% + 46px)`:`right:calc(${(100-ilkX/3.6).toFixed(2)}% + 46px)`;
       bantlar+=`<div class="bolge-etiket" style="top:${ilkY-17}px;${yatay}"><div class="bolge-ribbon">${b.ad}</div></div>`;
       const midDay=Math.round((b.bas+b.bit)/2),ly=y(midDay)-56,sag=bi%2===0;
-      bantlar+=`<div class="bolge-yapi" style="top:${ly}px;${sag?'right:1%':'left:1%'}">${bolgeYapiGorsel(b.prop)}</div>`;
+      const bolgeKilit=b.bas>aktif;const olcek=(1+bi*0.045).toFixed(3); // spec: scaleProgression — her sonraki bölge biraz daha büyük
+      bantlar+=`<div class="bolge-yapi${bolgeKilit?' kilitli-bolge':''}" style="top:${ly}px;${sag?'right:1%':'left:1%'};transform:scale(${olcek});transform-origin:${sag?'right':'left'} center">${bolgeYapiGorsel(b.prop,bolgeKilit)}</div>`;
     });
-    // adalar (gerçek görsel: tamam/bugün özel, diğerleri ortak "bekliyor" görseli)
-    let adalar="";const aktif=bugununGunu();
-    for(let d=1;d<=N;d++){const g=gunVeri(d);const dur=Ilerleme.gunDurumu(d).durum;const px=x(d),py=y(d);
-      const cls=(dur==="kilitli")?"kilitli":(dur==="bugun"?"bugun":"");
-      adalar+=`${dur==="bugun"?`<div class="bugun-halka" style="left:${(px/3.6).toFixed(2)}%;top:${py}px"></div>`:""}
-        <div class="ada-nokta ${cls}" style="left:${(px/3.6).toFixed(2)}%;top:${py}px" onclick="Store.s.bakilanGun=${d};App.git('bugun')">
-          ${adaDurumGorsel(dur)}<span class="rakam">${d}</span></div>`;}
-    // dağınık deniz süsleri (bölgeye özgü kaya/canlı/parıltı)
+    // adalar — durum efektleri: tamam=ışıma+nefes+parıltı, bugün=dönen altın halka+%5 büyük, kilitli=sisli+kilit
+    let adalar="";
+    for(let d=1;d<=N;d++){const g=gunVeri(d);const dur=Ilerleme.gunDurumu(d).durum;const px=x(d),py=y(d);const lx=(px/3.6).toFixed(2);
+      const cls=(dur==="kilitli")?"kilitli":(dur==="bugun"?"bugun":(dur==="tamam"?"tamam":""));
+      if(dur==="bugun")adalar+=`<div class="bugun-halka" style="left:${lx}%;top:${py}px"></div><div class="bugun-donen" style="left:${lx}%;top:${py}px"></div>`;
+      const ekstra=dur==="kilitli"?`<span class="ada-kilit">🔒</span>`
+        :dur==="tamam"?`<span class="pirilti" style="top:4px;left:8px">✦</span><span class="pirilti p2" style="bottom:12px;right:6px">✦</span>`
+        :dur==="bugun"?`<span class="pirilti" style="top:0;right:2px">✦</span><span class="pirilti p2" style="bottom:8px;left:2px">✦</span>`:"";
+      adalar+=`<div class="ada-nokta ${cls}" style="left:${lx}%;top:${py}px" onclick="Store.s.bakilanGun=${d};App.git('bugun')">
+          ${adaDurumGorsel(dur)}${ekstra}<span class="rakam">${d}</span></div>`;}
+    // dağınık deniz süsleri (bölgeye özgü) + serpiştirilmiş deniz canlıları gölgeleri
     let deniz="";BOLGELER.forEach(b=>{const susler=SUS_BOLGE[b.prop]||["kaya"];
       [b.bas+2,Math.round((b.bas+b.bit)/2),Math.max(b.bas+1,b.bit-2)].forEach((d,i)=>{
         if(d<1||d>62)return;const px=x(d),py=y(d);const yon=i%2===0?-1:1;const ofx=yon*(58+i*9);
         deniz+=`<div class="deniz-susu" style="left:calc(${(px/3.6).toFixed(2)}% + ${ofx}px);top:${py+i*5}px">${susSVG(susler[i%susler.length])}</div>`;
-      });});
+      });
+      // her bölgeye bir deniz canlısı gölgesi (kaplumbağa/balık sürüsü/yunus dönüşümlü)
+      const canliTip=["kaplumbaga","baliklar","yunus"][ (b.bas)%3 ];
+      const cd=Math.min(62,b.bas+4);const cx2=x(cd),cy2=y(cd);
+      deniz+=`<div class="deniz-susu" style="left:calc(${(cx2/3.6).toFixed(2)}% + ${((b.bas%2?1:-1)*74)}px);top:${cy2+26}px;opacity:.55">${susSVG(canliTip)}</div>`;
+    });
     // bulutlar + volkan dumanı + gemi
     let dekor=`<div class="bulut" style="top:${y(56)}px;animation-duration:48s"><svg width="90" height="34"><ellipse cx="34" cy="20" rx="26" ry="11" fill="#fff" opacity=".7"/><ellipse cx="56" cy="15" rx="18" ry="9" fill="#fff" opacity=".7"/></svg></div>
       <div class="bulut" style="top:${y(30)}px;animation-duration:60s;animation-delay:-20s"><svg width="80" height="30"><ellipse cx="30" cy="16" rx="22" ry="9" fill="#fff" opacity=".55"/></svg></div>
@@ -731,9 +770,10 @@ const App={
       ${dalgalar}
       ${bantlar}
       <svg id="harita-yol" viewBox="0 0 360 ${H}" preserveAspectRatio="none" style="height:${H}px">
-        <path d="${yol}" fill="none" stroke="#0A2C3D" stroke-width="20" stroke-linecap="round" opacity=".3"/>
-        <path d="${yol}" fill="none" stroke="#E2C275" stroke-width="11" stroke-linecap="round" opacity=".9"/>
-        <path d="${yol}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 16" opacity=".8"/>
+        <path d="${yol}" fill="none" stroke="#0A2C3D" stroke-width="20" stroke-linecap="round" opacity=".28"/>
+        <path d="${yolKalan}" fill="none" stroke="#CFCFCF" stroke-width="11" stroke-linecap="round" opacity=".55"/>
+        <path d="${yolGecilen}" fill="none" stroke="#FFD95A" stroke-width="11" stroke-linecap="round" opacity=".95"/>
+        <path d="${yol}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 16" opacity=".85" class="yol-karinca"/>
       </svg>
       ${deniz}${dekor}${adalar}
     </div></div>
@@ -752,11 +792,17 @@ const App={
       <div class="gun-secici"><button class="ok" onclick="App.gunDegis(-1)">‹</button>
         <div class="gun-baslik"><div class="g tac">Gün ${no} · ${b.ad}</div><span class="rozet">${tipEt} · ${g.haftaGunu} · ${this.tarihTR(g.tarih)}</span></div>
         <button class="ok" onclick="App.gunDegis(1)">›</button></div>`;
-    if(g.tip==="telafi"){const havuz=Ilerleme.telafiHavuzu();
-      html+=`<div class="parsomen"><div class="panel-baslik">${svg(ICON.telafi,'width="20" height="20" fill="#5A3C24"')} Telafi Koyu</div><div class="bilgi">${havuz.length?`Geride ${havuz.length} ada yarım kaldı. Bugün onları tamamlayıp bayrağını dik — hiçbir ada kaybolmaz! 🏴`:"Tüm adaların fethedildi! Bugün serbest liman, dilediğin gibi dinlen. 🎉"}</div></div>`;
+    if(g.tip==="telafi"||g.tip==="tampon"){const havuz=Ilerleme.telafiHavuzu();
+      const baslik=g.tip==="tampon"?"Son Hazine Taraması":"Telafi Koyu";
+      const mesaj=havuz.length
+        ? (g.tip==="tampon"
+            ? `Yazın son haftasındasın! Geride ${havuz.length} ada hâlâ yarım kaldı. Hazineyi tamamlamak için tam zamanı! 🏴`
+            : `Geride ${havuz.length} ada yarım kaldı. Bugün onları tamamlayıp bayrağını dik — hiçbir ada kaybolmaz! 🏴`)
+        : "Tüm adaların fethedildi! Bugün serbest liman, dilediğin gibi dinlen. 🎉";
+      html+=`<div class="parsomen"><div class="panel-baslik">${svg(ICON.telafi,'width="20" height="20" fill="#5A3C24"')} ${baslik}</div><div class="bilgi">${mesaj}</div></div>`;
       havuz.forEach(o=>{html+=this.scrollKart(o.gorev,o.gun,o.i,true);});}
     g.gorevler.forEach((gorev,i)=>{if(gorev.ders==="Telafi")return;html+=this.scrollKart(gorev,no,i,false);});
-    if(d.toplam&&d.yapilan===d.toplam&&g.tip!=="telafi"){html+=`<div class="parsomen" style="text-align:center"><div class="bigsvg" style="animation:none">${adaSprite(b,'tamam',no)}</div><div class="tac" style="font-size:22px;color:var(--ahsap-koyu);margin:6px 0">Ada Fethedildi! 🏴</div><div class="bilgi">${no}. adaya bayrağını diktin, kaptan. Yeni rotaya hazır mısın?</div></div>`;}
+    if(d.toplam&&d.yapilan===d.toplam&&g.tip!=="telafi"&&g.tip!=="tampon"){html+=`<div class="parsomen" style="text-align:center"><div class="bigsvg" style="animation:none">${adaSprite(b,'tamam',no)}</div><div class="tac" style="font-size:22px;color:var(--ahsap-koyu);margin:6px 0">Ada Fethedildi! 🏴</div><div class="bilgi">${no}. adaya bayrağını diktin, kaptan. Yeni rotaya hazır mısın?</div></div>`;}
     html+=`</div>`;$("#app").innerHTML=html;},
   scrollKart(gorev,gun,i,telafiMi){const id=gorevId(gun,i);const tamam=Store.s.ilerleme[id]==="done";const dr=DERS[gorev.ders]||{r:"#999",ic:""};
     let meta=[];if(gorev.sayfa)meta.push("Bilfen s."+gorev.sayfa);if(gorev.test&&gorev.test!=="—")meta.push(gorev.test);

@@ -5,7 +5,7 @@
    ÇÖKMEZ — her dosya ayrı ayrı, hataya toleranslı önbelleğe alınır.
    ÖNEMLİ: Sadece BAŞARILI (200 OK) yanıtlar önbelleğe alınır — bir 404
    asla önbelleğe "yapışmaz", bir sonraki istekte tekrar denenir. */
-const CACHE = "ada-akademi-v12";
+const CACHE = "ada-akademi-v15";
 const ASSETS = [
   "./",
   "./index.html",
@@ -21,6 +21,12 @@ const ASSETS = [
   "./ada-volkan.webp",
   "./ada-buz.webp",
   "./ada-hazine.webp",
+  "./ada-sahil-soluk.webp",
+  "./ada-orman-soluk.webp",
+  "./ada-tapinak-soluk.webp",
+  "./ada-volkan-soluk.webp",
+  "./ada-buz-soluk.webp",
+  "./ada-hazine-soluk.webp",
   "./durum-tamam.webp",
   "./durum-bugun.webp",
   "./durum-kilitli.webp",
