@@ -509,13 +509,15 @@ const MAGAZA=[
    {id:"papagan",ad:"Papağan Dost",tier:"altin"},
    {id:"maymun",ad:"Maymun Dost",tier:"altin"}]}
 ];
-/* ===== KONU VİDEOSU (Tonguç kanal içi arama) ===== */
-const VIDEO_KANAL="tonguc4"; // Ada 4. sınıfa geçiyor (tonguç 4. SINIF kanalı)
+/* ===== KONU VİDEOSU (Tonguç araması — mobil YouTube uygulamasıyla uyumlu) ===== */
+const VIDEO_KANAL_ADI="tonguç 4. sınıf"; // arama sorgusuna gömülür; kanal değişirse burayı güncelle
 const VIDEO_DERSLER=["Matematik","Türkçe","Fen Bilimleri","Sosyal Bilgiler","Genel Tekrar"];
 function videoURL(gorev){
   const konu=(gorev.baslik||"").replace(/[+·/]/g," ").replace(/\s+/g," ").trim();
-  const sorgu=encodeURIComponent("4. sınıf "+konu);
-  return `https://www.youtube.com/@${VIDEO_KANAL}/search?query=${sorgu}`;
+  // NOT: /@kanal/search formatını YouTube mobil uygulaması desteklemiyor (kanal ana sayfasına düşüyor).
+  // /results?search_query= formatını hem uygulama hem tarayıcı doğru açar.
+  const sorgu=encodeURIComponent(VIDEO_KANAL_ADI+" "+konu);
+  return `https://www.youtube.com/results?search_query=${sorgu}`;
 }
 /* ===== KATMANLI PNG AVATAR (AI görselleri) ===== */
 const KRKT_GORSEL={kizDalgali:"kasif-kiz-dalgali.webp",kizDuz:"kasif-kiz-duz.webp",kizAtkuyruk:"kasif-kiz-atkuyruk.webp",erkek:"kasif-erkek.webp"};
