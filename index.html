@@ -509,6 +509,14 @@ const MAGAZA=[
    {id:"papagan",ad:"Papağan Dost",tier:"altin"},
    {id:"maymun",ad:"Maymun Dost",tier:"altin"}]}
 ];
+/* ===== KONU VİDEOSU (Tonguç kanal içi arama) ===== */
+const VIDEO_KANAL="tonguc4"; // Ada 4. sınıfa geçiyor (tonguç 4. SINIF kanalı)
+const VIDEO_DERSLER=["Matematik","Türkçe","Fen Bilimleri","Sosyal Bilgiler","Genel Tekrar"];
+function videoURL(gorev){
+  const konu=(gorev.baslik||"").replace(/[+·/]/g," ").replace(/\s+/g," ").trim();
+  const sorgu=encodeURIComponent("4. sınıf "+konu);
+  return `https://www.youtube.com/@${VIDEO_KANAL}/search?query=${sorgu}`;
+}
 /* ===== KATMANLI PNG AVATAR (AI görselleri) ===== */
 const KRKT_GORSEL={kizDalgali:"kasif-kiz-dalgali.webp",kizDuz:"kasif-kiz-duz.webp",kizAtkuyruk:"kasif-kiz-atkuyruk.webp",erkek:"kasif-erkek.webp"};
 const KRKT_LISTE=[["kizDalgali","Dalgalı Saç"],["kizDuz","Düz Saç"],["kizAtkuyruk","At Kuyruğu"],["erkek","Kâşif"]];
@@ -852,6 +860,9 @@ const App={
         <div><div class="ders-ad" style="color:${dr.r};font-size:12px;font-weight:800;text-transform:uppercase">${gorev.ders}</div>
         <div class="tac" style="font-size:21px;color:var(--ahsap-koyu);line-height:1.05">${gorev.baslik}</div></div></div>
         <div class="satir" style="flex-wrap:wrap;gap:7px;margin-top:10px">${gorev.sayfa?`<span class="et">📘 Bilfen · s.${gorev.sayfa}</span>`:""}${gorev.test&&gorev.test!=="—"?`<span class="et">✏️ ${gorev.test}</span>`:""}<span class="et">🪙 ${gorev.altin} altın</span></div></div>
+      ${VIDEO_DERSLER.includes(gorev.ders)?`<div class="parsomen"><div class="panel-baslik">📺 Konu Videosu</div>
+        <div class="bilgi">Teste başlamadan önce konuyu videodan öğren! Aşağıdaki düğme, Tonguç 4. Sınıf kanalında bu konunun videolarını açar.</div>
+        <a class="btn deniz kucuk" style="display:block;text-align:center;text-decoration:none" href="${videoURL(gorev)}" target="_blank" rel="noopener">▶️ Konu Anlatım Videosunu Aç</a></div>`:""}
       <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="18" height="18" fill="#5A3C24"')} Kaptanın Anlatımı</div>
         <textarea class="giris" id="${notK}" placeholder="Bu adayı (konuyu) çocuğa nasıl anlatacağını, örnekleri ve ipuçlarını buraya yaz...">${(Store.s.notlar[id]||"")}</textarea>
         <button class="btn ahsapbtn kucuk" onclick="Store.s.notlar['${id}']=document.getElementById('${notK}').value;Store.kaydet();App.toast('Not deftere işlendi ✓')">Notu Kaydet</button></div>
