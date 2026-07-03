@@ -5,7 +5,7 @@
    ÇÖKMEZ — her dosya ayrı ayrı, hataya toleranslı önbelleğe alınır.
    ÖNEMLİ: Sadece BAŞARILI (200 OK) yanıtlar önbelleğe alınır — bir 404
    asla önbelleğe "yapışmaz", bir sonraki istekte tekrar denenir. */
-const CACHE = "ada-akademi-v22";
+const CACHE = "ada-akademi-v23";
 const ASSETS = [
   "./",
   "./index.html",
