@@ -246,6 +246,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @keyframes muhurbas{0%{transform:scale(2) rotate(-25deg);opacity:0}60%{transform:scale(.9) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0)}}
 
 /* ===== AVATAR ===== */
+.avatar-katman{position:relative;display:inline-block;vertical-align:middle}
+.avatar-katman img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.krkt-secim{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.krkt-kart{position:relative;background:#FFF7E0;border:2.5px solid #C9A24B;border-radius:14px;padding:6px 4px;cursor:pointer;text-align:center;transition:transform .12s, box-shadow .2s, border-color .2s}
+.krkt-kart:active{transform:scale(.93)}
+.krkt-kart .krkt-img{height:64px}
+.krkt-kart img{width:100%;height:100%;object-fit:contain;display:block}
+.krkt-kart span{font-size:10px;font-weight:800;color:#5A3C24;display:block;margin-top:3px;line-height:1.1}
+.krkt-kart.aktif{border-color:var(--altin-parlak);box-shadow:0 0 0 2px rgba(255,213,107,.5), 0 0 14px rgba(255,213,107,.55);background:#FFF3D2}
+.krkt-kart.aktif::after{content:"✓";position:absolute;top:-7px;right:-6px;width:20px;height:20px;background:var(--altin-parlak);color:#3A2817;border-radius:50%;font-weight:800;font-size:13px;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35)}
 .avatar-cerceve{width:150px;height:150px;border-radius:50%;margin:0 auto;display:grid;place-items:center;position:relative;
   background:radial-gradient(circle at 50% 35%,#BFE9F0,#7FC4D6);border:5px solid var(--altin);box-shadow:var(--golge-yum),inset 0 -10px 20px rgba(0,0,0,.15)}
 
@@ -361,10 +371,13 @@ const MOTIVASYON=["Bugün hangi adayı keşfedeceğiz, kaptan? 🧭","Hazine san
 
 /* ===== STORE ===== */
 const Store={KEY:"ada_akademi_v2",s:null,
-  yeni(){return{onboarded:false,ad:"Ada",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",sacStil:"kisa",goz:"#3A2A1A",aksesuarlar:[],takili:{bas:null,evcil:null},pin:"1234",
+  yeni(){return{onboarded:false,ad:"Ada",karakter:"kizDalgali",ten:"#F1C9A5",tisort:"#C0392B",sac:"#5A3C24",sacStil:"kisa",goz:"#3A2A1A",aksesuarlar:[],takili:{bas:null,yuz:null,kulak:null,govde:null,sirt:null,omuz:null},pin:"1234",
     xp:0,seviye:1,kristal:0,altin:0,toplamKazanilan:0,bozdurmalar:[],eklemeler:[],seri:0,enUzunSeri:0,sonGun:null,ilerleme:{},okumaDk:0,notlar:{},yanlislar:{},
     rozetler:{},buyukHazineOdul:"",buyukHazineAcildi:false,ses:true,bakilanGun:1,gorulenBolge:{}};},
-  yukle(){try{this.s=JSON.parse(localStorage.getItem(this.KEY))||this.yeni();}catch(e){this.s=this.yeni();}const v=this.yeni();for(const k in v)if(!(k in this.s))this.s[k]=v[k];},
+  yukle(){try{this.s=JSON.parse(localStorage.getItem(this.KEY))||this.yeni();}catch(e){this.s=this.yeni();}const v=this.yeni();for(const k in v)if(!(k in this.s))this.s[k]=v[k];
+    // eski kayıt geçişi: evcil slotu → omuz; yeni slot anahtarları eksikse ekle
+    if(this.s.takili){if("evcil" in this.s.takili){this.s.takili.omuz=this.s.takili.evcil;delete this.s.takili.evcil;}
+      for(const sl of ["bas","yuz","kulak","govde","sirt","omuz"])if(!(sl in this.s.takili))this.s.takili[sl]=null;}},
   kaydet(){try{localStorage.setItem(this.KEY,JSON.stringify(this.s));}catch(e){}}};
 
 const $=(s,e=document)=>e.querySelector(s);
@@ -476,7 +489,7 @@ const SACLAR=["#2C1B0E","#5A3C24","#8A5E38","#B5651D","#C9A227","#7A2230","#3A3A
 const GOZLER=["#3A2A1A","#1C5D8C","#2E8B57","#6B4226","#5B3A8C"];
 const TISORTLAR=["#C0392B","#1C8FA6","#2E8B57","#8E5BB5","#E9B949","#16A085","#D35400","#34495E"];
 const SAC_STILLERI=[["kisa","Kısa"],["uzun","Uzun"],["atkuyruk","Atkuyruk"],["kivircik","Kıvırcık"],["dazlak","Dazlak"]];
-const ESYA_SLOT={sapka:"bas",bandana:"bas",amiral:"bas",papagan:"evcil",maymun:"evcil"};
+const ESYA_SLOT={sapka:"bas",bandana:"bas",amiral:"bas",papagan:"omuz",maymun:"omuz",gozbandi:"yuz",kupe:"kulak",yelek:"govde",pelerin:"sirt"};
 const ESYA_FIYAT={sapka:15,bandana:12,amiral:50,durbun:14,canta:18,kilic:24,pelerin:40,gozbandi:8,kupe:6,altinzincir:16,yelek:20,papagan:30,maymun:35};
 const MAGAZA=[
  {kategori:"Başlıklar",esya:[
@@ -496,47 +509,25 @@ const MAGAZA=[
    {id:"papagan",ad:"Papağan Dost",tier:"altin"},
    {id:"maymun",ad:"Maymun Dost",tier:"altin"}]}
 ];
-function sacSVG(stil,renk){
-  const kisa=`<path d="M36 50 Q40 28 60 28 Q80 28 84 50 Q84 40 60 38 Q36 40 36 50Z" fill="${renk}"/>`;
-  if(stil==="uzun")return kisa+`<path d="M35 48 Q32 76 39 92 Q44 80 41 56Z" fill="${renk}"/><path d="M85 48 Q88 76 81 92 Q76 80 79 56Z" fill="${renk}"/>`;
-  if(stil==="atkuyruk")return kisa+`<path d="M82 40 Q102 44 99 70 Q95 86 87 78 Q97 62 79 48Z" fill="${renk}"/>`;
-  if(stil==="kivircik")return `<circle cx="40" cy="38" r="8" fill="${renk}"/><circle cx="50" cy="29" r="9" fill="${renk}"/><circle cx="62" cy="26" r="9.5" fill="${renk}"/><circle cx="74" cy="29" r="9" fill="${renk}"/><circle cx="83" cy="40" r="8" fill="${renk}"/><circle cx="35" cy="47" r="6.5" fill="${renk}"/><circle cx="87" cy="47" r="6.5" fill="${renk}"/>`;
-  if(stil==="dazlak")return `<ellipse cx="51" cy="42" rx="7" ry="4" fill="#fff" opacity=".3"/>`;
-  return kisa;
+/* ===== KATMANLI PNG AVATAR (AI görselleri) ===== */
+const KRKT_GORSEL={kizDalgali:"kasif-kiz-dalgali.webp",kizDuz:"kasif-kiz-duz.webp",kizAtkuyruk:"kasif-kiz-atkuyruk.webp",erkek:"kasif-erkek.webp"};
+const KRKT_LISTE=[["kizDalgali","Dalgalı Saç"],["kizDuz","Düz Saç"],["kizAtkuyruk","At Kuyruğu"],["erkek","Kâşif"]];
+const AKS_GORSEL={bandana:"aks-bandana.webp",sapka:"aks-kasif-sapka.webp",amiral:"aks-amiral-sapka.webp",gozbandi:"aks-goz-bandi.webp",kupe:"aks-kupe.webp",yelek:"aks-yelek.webp",pelerin:"aks-pelerin.webp",papagan:"aks-papagan.webp",maymun:"aks-maymun.webp"};
+const KAFA_SLOTLAR=["bas","yuz","kulak"];
+const KAFA_OFSET={erkek:{x:0,y:0},kizDalgali:{x:-0.59,y:-1.37},kizDuz:{x:-0.20,y:-0.39},kizAtkuyruk:{x:1.17,y:-1.95}};
+const KATMAN_SIRA=["sirt","KRKT","govde","kulak","yuz","bas","omuz"];
+function avatarSVG(s,boy){ // isim korunuyor (çağrı yerleri aynı) — artık katmanlı PNG render eder
+  const kr=s.karakter||"kizDalgali";const tk=s.takili||{};const sahip=(s.aksesuarlar||[]).map(x=>x.id);
+  const of=KAFA_OFSET[kr]||{x:0,y:0};
+  let kat="";
+  KATMAN_SIRA.forEach(sl=>{
+    if(sl==="KRKT"){kat+=`<img src="${KRKT_GORSEL[kr]||KRKT_GORSEL.kizDalgali}" alt="">`;return;}
+    const id=tk[sl];if(!id||!AKS_GORSEL[id]||!sahip.includes(id))return;
+    const o=KAFA_SLOTLAR.includes(sl)?` style="transform:translate(${of.x}%,${of.y}%)"`:"";
+    kat+=`<img src="${AKS_GORSEL[id]}"${o} alt="">`;
+  });
+  return `<div class="avatar-katman" style="width:${boy}px;height:${boy}px">${kat}</div>`;
 }
-/* ===== AVATAR SVG (emoji yok) ===== */
-function avatarSVG(s,boy){const a=(s.aksesuarlar||[]).map(x=>x.id);const tk=s.takili||{};
-  const ten=s.ten||"#F1C9A5",tis=s.tisort||"#C0392B",sac=s.sac||"#5A3C24",sacStil=s.sacStil||"kisa",goz=s.goz||"#3A2A1A";
-  const basId=tk.bas&&a.includes(tk.bas)?tk.bas:null, evcilId=tk.evcil&&a.includes(tk.evcil)?tk.evcil:null;
-  const pelerin=a.includes("pelerin")?`<path d="M30 62 Q60 50 90 62 L96 118 Q60 108 24 118 Z" fill="#7A2230"/>`:"";
-  const evcil=evcilId==="papagan"?`<g transform="translate(78,44)"><ellipse cx="0" cy="0" rx="9" ry="11" fill="#2E8B57"/><circle cx="3" cy="-4" r="4" fill="#E2683C"/><path d="M5 -4 l6 1 -6 2z" fill="#E9B949"/><path d="M-4 2 l-7 4 7 2z" fill="#1C8FA6"/></g>`
-    :evcilId==="maymun"?`<g transform="translate(38,46)"><path d="M-6 4 q-9 5 -4 14" stroke="#8A5E38" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="2" rx="8" ry="9" fill="#8A5E38"/><circle cx="0" cy="-7" r="6" fill="#C9A179"/><circle cx="-6" cy="-9" r="2.4" fill="#8A5E38"/><circle cx="6" cy="-9" r="2.4" fill="#8A5E38"/><circle cx="-2.4" cy="-7.5" r="1.1" fill="#3A2A1A"/><circle cx="2.4" cy="-7.5" r="1.1" fill="#3A2A1A"/></g>`:"";
-  const baslik=basId==="sapka"?`<g><path d="M28 40 Q60 18 92 40 L92 44 Q60 30 28 44 Z" fill="#3E2817"/><path d="M44 40 Q60 16 76 40 Z" fill="#5A3C24"/><path d="M52 30 h16 v4 h-16z" fill="#E9B949"/><circle cx="60" cy="26" r="3" fill="#E9B949"/></g>`
-    :basId==="bandana"?`<g><path d="M32 44 Q60 22 88 44 L86 50 Q60 36 34 50Z" fill="#7A2230"/><path d="M50 35 q10 -5 20 0" stroke="#F2DFB3" stroke-width="2" fill="none" opacity=".55"/><path d="M86 43 l11 7 -5 7z" fill="#7A2230"/></g>`
-    :basId==="amiral"?`<g><path d="M26 42 Q60 14 94 42 Q80 50 60 46 Q40 50 26 42Z" fill="#16213A"/><path d="M26 42 Q60 50 94 42 L94 46 Q60 56 26 46Z" fill="#0D1626"/><circle cx="60" cy="32" r="5" fill="#E9B949"/><path d="M51 31 h18" stroke="#E9B949" stroke-width="2"/></g>`:"";
-  const durbun=a.includes("durbun")?`<g transform="translate(34,86)"><rect x="-6" y="-6" width="14" height="12" rx="3" fill="#3E2817"/><rect x="6" y="-5" width="10" height="10" rx="2" fill="#1C8FA6"/></g>`:"";
-  const kilic=a.includes("kilic")?`<g transform="rotate(40 92 96)"><rect x="89" y="60" width="4" height="40" fill="#C9D2DA"/><rect x="84" y="98" width="14" height="5" rx="2" fill="#E9B949"/></g>`:"";
-  const canta=a.includes("canta")?`<path d="M84 70 h8 a4 4 0 0 1 4 4 v22 a4 4 0 0 1-4 4 h-8z" fill="#6E4A2C"/><rect x="84" y="80" width="12" height="4" fill="#3E2817"/>`:"";
-  const yelek=a.includes("yelek")?`<path d="M42 86 L46 118 L54 116 L52 90Z" fill="#3E2817" opacity=".85"/><path d="M78 86 L74 118 L66 116 L68 90Z" fill="#3E2817" opacity=".85"/>`:"";
-  const altinzincir=a.includes("altinzincir")?`<path d="M48 88 Q60 96 72 88" stroke="#E9B949" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="60" cy="95" r="3" fill="#E9B949"/>`:"";
-  const kupe=a.includes("kupe")?`<circle cx="35" cy="60" r="2.4" fill="#E9B949"/><circle cx="35" cy="60" r="1" fill="#FFD56B"/>`:"";
-  const gozbandi=a.includes("gozbandi")?`<g><circle cx="69" cy="56" r="6.5" fill="#1a1a1a"/><path d="M63 52 L40 36" stroke="#1a1a1a" stroke-width="3"/><path d="M75 52 L92 40" stroke="#1a1a1a" stroke-width="3"/></g>`:"";
-  return `<svg viewBox="0 0 120 130" width="${boy}" height="${boy*1.08}" style="filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))">
-    ${pelerin}${kilic}${canta}
-    <ellipse cx="60" cy="124" rx="26" ry="6" fill="rgba(0,0,0,.15)"/>
-    <path d="M42 86 Q60 78 78 86 L82 118 Q60 124 38 118 Z" fill="${tis}"/>
-    <path d="M42 86 Q60 80 78 86 L80 96 Q60 90 40 96 Z" fill="rgba(255,255,255,.12)"/>
-    <rect x="40" y="100" width="40" height="6" rx="3" fill="#3E2817"/><rect x="56" y="99" width="8" height="8" rx="2" fill="#E9B949"/>
-    ${yelek}${altinzincir}${durbun}
-    <circle cx="60" cy="56" r="26" fill="${ten}"/>
-    ${sacSVG(sacStil,sac)}
-    <circle cx="51" cy="56" r="3.4" fill="${goz}"/><circle cx="69" cy="56" r="3.4" fill="${goz}"/>
-    <circle cx="52" cy="55" r="1" fill="#fff"/><circle cx="70" cy="55" r="1" fill="#fff"/>
-    <path d="M54 66 Q60 70 66 66" stroke="#9c5b3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <circle cx="46" cy="63" r="3" fill="#E89" opacity=".4"/><circle cx="74" cy="63" r="3" fill="#E89" opacity=".4"/>
-    ${kupe}${gozbandi}
-    ${baslik}${evcil}
-  </svg>`;}
 
 /* ===== HARİTA: ada sprite (bölgeye özgü, katmanlı) ===== */
 function adaSprite(bolge,durum,gun){const b=bolge;const tamam=durum==="tamam";
@@ -660,26 +651,19 @@ const App={
   /* ---- PAYLAŞILAN KÂŞİF OLUŞTURUCU (onboarding + profil düzenleme ortak) ---- */
   avatarOlusturucuHTML(prefix){return `
     <div style="width:170px;margin:4px auto 14px" id="${prefix}-onizle"></div>
-    <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="20" height="20" fill="#5A3C24"')} Kâşifini Tasarla</div>
-      <label class="bilgi">Ten rengi</label><div class="renk-sira" id="${prefix}-ten"></div>
-      <label class="bilgi">Saç stili</label><div class="pilsira" id="${prefix}-sacstil"></div>
-      <label class="bilgi">Saç rengi</label><div class="renk-sira" id="${prefix}-sac"></div>
-      <label class="bilgi">Göz rengi</label><div class="renk-sira" id="${prefix}-goz"></div>
-      <label class="bilgi">Tişört rengi</label><div class="renk-sira" id="${prefix}-tis"></div>
+    <div class="parsomen"><div class="panel-baslik">${svg(ICON.pusula,'width="20" height="20" fill="#5A3C24"')} Kâşifini Seç</div>
+      <div class="krkt-secim" id="${prefix}-krkt"></div>
+      <div class="bilgi" style="margin-top:8px">Şapka, papağan ve diğer eşyaları Ganimet ekranındaki 💎 mağazadan açıp takabilirsin!</div>
     </div>`;},
   avatarOlusturucuBagla(prefix,baslangic){const d={...baslangic};
-    const onizleVeri=()=>({ten:d.ten,sac:d.sac,sacStil:d.sacStil,goz:d.goz,tisort:d.tisort,aksesuarlar:Store.s.aksesuarlar,takili:Store.s.takili});
-    const ciz=()=>{const el=$("#"+prefix+"-onizle");if(el)el.innerHTML=avatarSVG(onizleVeri(),170);};
-    const renkPaneli=(anahtar,renkler)=>{const box=$("#"+prefix+"-"+(anahtar==="tisort"?"tis":anahtar));
-      const cizPanel=()=>{box.innerHTML=renkler.map(c=>`<button data-c="${c}" style="background:${c};border:3px solid ${c===d[anahtar]?'#E9B949':'rgba(0,0,0,.2)'}"></button>`).join("");
-        box.querySelectorAll("button").forEach(b=>b.onclick=()=>{d[anahtar]=b.dataset.c;cizPanel();ciz();});};
-      cizPanel();};
-    renkPaneli("ten",TENLER);renkPaneli("sac",SACLAR);renkPaneli("goz",GOZLER);renkPaneli("tisort",TISORTLAR);
-    const pil=$("#"+prefix+"-sacstil");
-    const cizPil=()=>{pil.innerHTML=SAC_STILLERI.map(([id,ad])=>`<button class="pilbtn ${d.sacStil===id?'aktif':''}" data-s="${id}">${ad}</button>`).join("");
-      pil.querySelectorAll("button").forEach(b=>b.onclick=()=>{d.sacStil=b.dataset.s;cizPil();ciz();});};
-    cizPil();ciz();
-    return ()=>({...d});},
+    const ciz=()=>{const el=$("#"+prefix+"-onizle");if(el)el.innerHTML=avatarSVG({karakter:d.karakter,aksesuarlar:Store.s.aksesuarlar,takili:Store.s.takili},170);};
+    const kutu=$("#"+prefix+"-krkt");
+    const cizSecim=()=>{kutu.innerHTML=KRKT_LISTE.map(([id,ad])=>`
+      <div class="krkt-kart ${d.karakter===id?'aktif':''}" data-k="${id}">
+        <div class="krkt-img"><img src="${KRKT_GORSEL[id]}" alt=""></div><span>${ad}</span></div>`).join("");
+      kutu.querySelectorAll(".krkt-kart").forEach(b=>b.onclick=()=>{d.karakter=b.dataset.k;Ses.tik();cizSecim();ciz();});};
+    cizSecim();ciz();
+    return ()=>({karakter:d.karakter});},
 
   onboarding(){$("#altnav").classList.add("gizli");const app=$("#app");
     app.innerHTML=`<div class="ekran" style="display:flex;flex-direction:column;justify-content:center;min-height:100%">
@@ -689,8 +673,8 @@ const App={
       <div class="parsomen"><label class="bilgi">Adın, kaptan?</label><input class="giris" id="ob-ad" value="Ada">
         <label class="bilgi">Ebeveyn şifresi (4 hane):</label><input class="giris" id="ob-pin" inputmode="numeric" maxlength="4" value="1234"></div>
       <button class="btn mercan" id="ob-basla">⛵ Yelken Aç!</button></div>`;
-    const degerAl=this.avatarOlusturucuBagla("ob",{ten:TENLER[1],sac:SACLAR[1],sacStil:"kisa",goz:GOZLER[0],tisort:TISORTLAR[0]});
-    $("#ob-basla").onclick=()=>{const d=degerAl();Store.s.ad=$("#ob-ad").value.trim()||"Ada";Store.s.ten=d.ten;Store.s.sac=d.sac;Store.s.sacStil=d.sacStil;Store.s.goz=d.goz;Store.s.tisort=d.tisort;
+    const degerAl=this.avatarOlusturucuBagla("ob",{karakter:Store.s.karakter||"kizDalgali"});
+    $("#ob-basla").onclick=()=>{const d=degerAl();Store.s.ad=$("#ob-ad").value.trim()||"Ada";Store.s.karakter=d.karakter;
       Store.s.pin=($("#ob-pin").value||"1234").slice(0,4);Store.s.onboarded=true;Store.kaydet();Ses.sandik();Konfeti.patlat(60);this.baslat();};},
 
   cizNav(){const nav=$("#altnav");nav.classList.remove("gizli");
@@ -910,7 +894,8 @@ const App={
     MAGAZA.forEach(kat=>{magazaHtml+=`<div class="magaza-kategori">${kat.kategori==="Başlıklar"?"🎩":kat.kategori==="Evcil Hayvanlar"?"🦜":"⚔️"} ${kat.kategori}</div><div class="esya-grid">`;
       kat.esya.forEach(it=>{const sahip=Store.s.aksesuarlar.some(a=>a.id===it.id);const slot=ESYA_SLOT[it.id];const fy=ESYA_FIYAT[it.id];
         const takiliMi=slot?Store.s.takili[slot]===it.id:sahip;
-        const onizleS={ten:Store.s.ten,tisort:Store.s.tisort,sac:Store.s.sac,sacStil:Store.s.sacStil,goz:Store.s.goz,aksesuarlar:[{id:it.id}],takili:{bas:it.id,evcil:it.id}};
+        const onizleTakili={};if(slot)onizleTakili[slot]=it.id;
+        const onizleS={karakter:Store.s.karakter,aksesuarlar:[{id:it.id}],takili:onizleTakili};
         let buton;
         if(!sahip)buton=`<button class="btn deniz kucuk" style="min-height:38px" onclick="App.satinAl('${it.id}')">Aç</button>`;
         else if(slot)buton=`<button class="btn ${takiliMi?'yaprak':'ahsapbtn'} kucuk" style="min-height:38px" onclick="App.takEt('${it.id}')">${takiliMi?'✓ Takılı':'Tak'}</button>`;
@@ -932,8 +917,8 @@ const App={
       ${this.avatarOlusturucuHTML("pd")}
       <div class="parsomen"><label class="bilgi">Adın, kaptan?</label><input class="giris" id="pd-ad" value="${Store.s.ad}"></div>
       <button class="btn yaprak" id="pd-kaydet">💾 Kaydet</button></div>`;
-    const degerAl=this.avatarOlusturucuBagla("pd",{ten:Store.s.ten,sac:Store.s.sac,sacStil:Store.s.sacStil,goz:Store.s.goz,tisort:Store.s.tisort});
-    $("#pd-kaydet").onclick=()=>{const d=degerAl();Store.s.ad=$("#pd-ad").value.trim()||Store.s.ad;Store.s.ten=d.ten;Store.s.sac=d.sac;Store.s.sacStil=d.sacStil;Store.s.goz=d.goz;Store.s.tisort=d.tisort;
+    const degerAl=this.avatarOlusturucuBagla("pd",{karakter:Store.s.karakter||"kizDalgali"});
+    $("#pd-kaydet").onclick=()=>{const d=degerAl();Store.s.ad=$("#pd-ad").value.trim()||Store.s.ad;Store.s.karakter=d.karakter;
       Store.kaydet();Ses.rozet();Konfeti.patlat(24);this.toast("Kaptan güncellendi ✓");this.git('profil');};},
 
   satinAl(id){const F=ESYA_FIYAT[id];if(Store.s.aksesuarlar.some(a=>a.id===id))return;
