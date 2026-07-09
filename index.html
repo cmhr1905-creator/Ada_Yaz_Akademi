@@ -418,6 +418,11 @@ const Ilerleme={
     if(g.tip==="telafi")durum="telafi";else if(g.tip==="serbest")durum="serbest";else if(yapilan===altinG.length&&altinG.length)durum="tamam";
     else if(no===aktif)durum="bugun";else if(no<aktif)durum="eksik";else durum="kilitli";return{durum,yapilan,toplam:altinG.length};},
   toplamGorev(){let t=0;CURRICULUM.gunler.forEach(g=>g.gorevler.forEach(x=>{if(x.ders!=="Telafi")t++;}));return t;},
+  oncekilerTam(no){ // no'dan ÖNCEKİ tüm çalışma günlerinin görevleri bitti mi? (telafi/serbest adasının parlaklığı için)
+    for(const g of CURRICULUM.gunler){if(g.gun>=no)break;if(g.tip!=="calisma")continue;
+      for(let i=0;i<g.gorevler.length;i++){const x=g.gorevler[i];
+        if(x.ders!=="Telafi"&&Store.s.ilerleme[gorevId(g.gun,i)]!=="done")return false;}}
+    return true;},
   yapilanGorev(){return Object.values(Store.s.ilerleme).filter(v=>v==="done").length;},
   dersSayac(ders){let n=0;CURRICULUM.gunler.forEach(g=>g.gorevler.forEach((x,i)=>{if(x.ders===ders&&Store.s.ilerleme[gorevId(g.gun,i)]==="done")n++;}));return n;},
   telafiHavuzu(){const aktif=bugununGunu();const liste=[];CURRICULUM.gunler.forEach(g=>{if(g.tip==="calisma"&&g.gun<aktif){g.gorevler.forEach((x,i)=>{if(x.ders!=="Telafi"&&Store.s.ilerleme[gorevId(g.gun,i)]!=="done")liste.push({gun:g.gun,i,gorev:x});});}});return liste;},
@@ -647,8 +652,9 @@ function bolgeYapiGorsel(prop,kilitli){ // kilitli bölgeler için özel soluk (
   const src=(kilitli?BOLGE_GORSEL_SOLUK[prop]:null)||BOLGE_GORSEL[prop];
   return src?`<img src="${src}" class="bolge-yapi-img" alt="" loading="lazy">`:bolgeYapiSVG(prop);
 }
-function adaGunGorsel(gun,durum){ // her gün noktası kendi bölgesinin görselini kullanır: tamamlandıysa veya bugünse parlak, değilse soluk
-  const b=bolgeFor(gun);const parlak=(durum==="tamam"||durum==="bugun");
+function adaGunGorsel(gun,durum,bugunMu){ // her gün noktası kendi bölgesinin görselini kullanır
+  const b=bolgeFor(gun);
+  const parlak=(durum==="tamam")||bugunMu||((durum==="telafi"||durum==="serbest")&&Ilerleme.oncekilerTam(gun));
   const src=(parlak?BOLGE_GORSEL[b.prop]:BOLGE_GORSEL_SOLUK[b.prop])||BOLGE_GORSEL[b.prop];
   return `<img src="${src}" class="ada-img" alt="" loading="lazy">`;
 }
@@ -760,13 +766,14 @@ const App={
     // adalar — her nokta kendi bölge görseli (tamam=parlak, değil=soluk). Durum efektleri: tamam=ışıma+nefes+parıltı, bugün=dönen altın halka+%5 büyük, kilitli=kilit ikonu
     let adalar="";
     for(let d=1;d<=N;d++){const g=gunVeri(d);const dur=Ilerleme.gunDurumu(d).durum;const px=x(d),py=y(d);const lx=(px/3.6).toFixed(2);
-      const cls=(dur==="kilitli")?"kilitli":(dur==="bugun"?"bugun":(dur==="tamam"?"tamam":""));
-      if(dur==="bugun")adalar+=`<div class="bugun-halka" style="left:${lx}%;top:${py}px"></div><div class="bugun-donen" style="left:${lx}%;top:${py}px"></div>`;
-      const ekstra=dur==="kilitli"?`<span class="ada-kilit">🔒</span>`
-        :dur==="tamam"?`<span class="pirilti" style="top:4px;left:8px">✦</span><span class="pirilti p2" style="bottom:12px;right:6px">✦</span>`
-        :dur==="bugun"?`<span class="pirilti" style="top:0;right:2px">✦</span><span class="pirilti p2" style="bottom:8px;left:2px">✦</span>`:"";
+      const bugunMu=(d===aktif);
+      const cls=(dur==="kilitli")?"kilitli":(bugunMu?"bugun":(dur==="tamam"?"tamam":""));
+      if(bugunMu)adalar+=`<div class="bugun-halka" style="left:${lx}%;top:${py}px"></div><div class="bugun-donen" style="left:${lx}%;top:${py}px"></div>`;
+      const ekstra=cls==="kilitli"?`<span class="ada-kilit">🔒</span>`
+        :cls==="tamam"?`<span class="pirilti" style="top:4px;left:8px">✦</span><span class="pirilti p2" style="bottom:12px;right:6px">✦</span>`
+        :cls==="bugun"?`<span class="pirilti" style="top:0;right:2px">✦</span><span class="pirilti p2" style="bottom:8px;left:2px">✦</span>`:"";
       adalar+=`<div class="ada-nokta ${cls}" style="left:${lx}%;top:${py}px" onclick="Store.s.bakilanGun=${d};App.git('bugun')">
-          ${adaGunGorsel(d,dur)}${ekstra}<span class="rakam">${d}</span></div>`;}
+          ${adaGunGorsel(d,dur,bugunMu)}${ekstra}<span class="rakam">${d}</span></div>`;}
     // dağınık deniz süsleri (bölgeye özgü) + serpiştirilmiş deniz canlıları gölgeleri
     let deniz="";BOLGELER.forEach(b=>{const susler=SUS_BOLGE[b.prop]||["kaya"];
       [b.bas+2,Math.round((b.bas+b.bit)/2),Math.max(b.bas+1,b.bit-2)].forEach((d,i)=>{
